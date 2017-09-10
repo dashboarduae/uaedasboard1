@@ -7370,3 +7370,10 @@ display:none;
 	max-height: 200px;
     overflow-y: auto;
 }
+
+#generalInfo .param{
+	
+}
+#generalInfo .value{
+	text-align:right;
+}

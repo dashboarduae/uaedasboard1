@@ -385,7 +385,7 @@ function updateGeneralInformation(){
 		var giWrapper  = $('#generalInfo table');
 		giWrapper.html('');
 		info.data.forEach(function(el) {
-			var giEl = $('<tr><td>'+el.name+'</td><td>'+(isNaN(el.value)?el.value:Math.round((parseFloat(el.value))*10)/10)+'</td></tr>');
+			var giEl = $('<tr><td class="param">'+el.name+'</td><td class="value">'+(isNaN(el.value)?el.value:Math.round((parseFloat(el.value))*10)/10)+'</td></tr>');
 			giWrapper.append(giEl);
 		});
 	}
