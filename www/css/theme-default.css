@@ -201,6 +201,7 @@ body {
 .page-container .page-content .page-content-wrap {
   float: left;
   width: 100%;
+  position:relative;
 }
 .page-container.page-container-wide .page-content {
   margin-left: 50px;
@@ -7342,4 +7343,31 @@ display:none;
 .x-navigation > li.xn-logo > a:first-child {
 	font-size: 5.5vw;
 }
+}
+
+#loadingscreen{
+	position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: 10000;
+    background: #f5f5f5;
+	display:none;
+}
+
+#loadingscreen img{
+	display: block;
+    width: 70%;
+    max-width: 200px;
+    margin: 30px auto;
+}
+
+#country_select{
+	    margin-bottom: 10px;
+}
+
+#country_select .dropdown-menu{
+	max-height: 200px;
+    overflow-y: auto;
 }
