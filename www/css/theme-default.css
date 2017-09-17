@@ -7366,7 +7366,8 @@ display:none;
 	    margin-bottom: 10px;
 }
 
-#country_select .dropdown-menu{
+#country_select .dropdown-menu,
+#year_select  .dropdown-menu{
 	max-height: 200px;
     overflow-y: auto;
 }
@@ -7376,4 +7377,79 @@ display:none;
 }
 #generalInfo .value{
 	text-align:right;
+}
+
+.row.gi:before, .row.gi:after {display:none;}
+
+#logo{
+    display: block;
+    width: 370px;
+    margin: 0 auto 20px auto;
+}
+
+#logo img{
+	display: inline-block;
+	vertical-align:top;
+}
+
+#logo span{
+	display: inline-block;
+    font-size: 22px;
+    font-weight: bold;
+    padding: 6px 12px;
+}
+
+
+@media all and  (max-width: 500px){
+#logo{
+    width: 80vw;
+}
+
+#logo img{
+	width:13.4vw;
+}
+
+#logo span{
+    font-size: 4.2vw;
+    padding: 1.2vw 2.4vw;
+}
+}
+
+
+@media (min-width: 992px){
+.col-md-2 {
+    width: 16.66666667%;
+}
+}
+
+@media (min-width: 500px){
+.col-md-2 {
+	width: 33.33333333%;
+	float:left;
+}
+}
+
+
+.dfti .col-md-2 .btn-group,
+.btn-group>.btn:first-child,
+.open>.dropdown-menu{
+	width: 100%;
+}
+
+.FTItems .itemhead{
+	display:table;
+	width:100%;
+}
+
+.FTItems .itemhead .name, .FTItems .itemhead .value{
+	display:table-cell;
+}
+
+.FTItems .itemhead .value{
+	text-align: right;
+    width: 25%;
+}
+
+.FTItemsSummary .panel-title{
+	display:none;
 }

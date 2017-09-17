@@ -1,3 +1,75 @@
+//const baseServiceUrl = "http://localhost:8080/trs"; 
+const baseServiceUrl = "http://trservice3562.cloudapp.net:8080/trs"; 
+
+var curCountry;
+var countryList;
+var countrySelectedFromMap = true;
+var countryMap = null;
+
+function HtmlEncode(s)
+{
+  var el = document.createElement("div");
+  el.innerText = el.textContent = s;
+  s = el.innerHTML;
+  return s;
+}
+
+function getCurCurrency(){
+	var cur = window.localStorage.getItem('appCurCurrency');
+	if(cur == undefined) {
+		cur = 0;
+	}
+	return cur;
+}
+
+function setCurCurrency(currency){
+	window.localStorage.setItem('appCurCurrency', currency);
+	var title = "AED Millions ";
+	switch(currency){
+		case 0: title = "AED Millions ";
+			break;
+		case 1: title = "USD Millions ";
+			break;
+		case 2: title = "AED Billions ";
+			break;
+		case 3: title = "USD Billions ";
+			break;
+	}
+	$("#currency_select #active_value").html(HtmlEncode(title) + " <span class=\"caret\"></span>");
+	return currency;
+}
+
+function getCurYear(){
+	var year = window.localStorage.getItem('appCurYear');
+	if(year == undefined) {
+		year = "";
+	}
+	return year;
+}
+
+function setCurYear(curYear){
+	window.localStorage.setItem('appCurYear', curYear);
+	return curYear;
+}
+
+function getAppLang(){
+	
+	var lang = window.localStorage.getItem('appLang');
+	if(lang == undefined) {
+		//var lang = navigator.language.split("-");
+		//var current_lang = (lang[0]);
+		//console.log( "current_lang: " + current_lang );
+		lang = "EN";
+	}
+	return lang;
+}
+
+function switchAppLang(){
+	window.localStorage.setItem('appLang', getAppLang() == "EN"? "AR":"EN");
+}
+
+
+
 function getAllUrlParams(url) {
 
   // get query string from url (optional) or window
@@ -59,259 +131,219 @@ function getAllUrlParams(url) {
   return obj;
 }
 
-var isoCountries = {
-    'AF' : 'Afghanistan',
-    'AX' : 'Aland Islands',
-    'AL' : 'Albania',
-    'DZ' : 'Algeria',
-    'AS' : 'American Samoa',
-    'AD' : 'Andorra',
-    'AO' : 'Angola',
-    'AI' : 'Anguilla',
-    'AQ' : 'Antarctica',
-    'AG' : 'Antigua And Barbuda',
-    'AR' : 'Argentina',
-    'AM' : 'Armenia',
-    'AW' : 'Aruba',
-    'AU' : 'Australia',
-    'AT' : 'Austria',
-    'AZ' : 'Azerbaijan',
-    'BS' : 'Bahamas',
-    'BH' : 'Bahrain',
-    'BD' : 'Bangladesh',
-    'BB' : 'Barbados',
-    'BY' : 'Belarus',
-    'BE' : 'Belgium',
-    'BZ' : 'Belize',
-    'BJ' : 'Benin',
-    'BM' : 'Bermuda',
-    'BT' : 'Bhutan',
-    'BO' : 'Bolivia',
-    'BA' : 'Bosnia And Herzegovina',
-    'BW' : 'Botswana',
-    'BV' : 'Bouvet Island',
-    'BR' : 'Brazil',
-    'IO' : 'British Indian Ocean Territory',
-    'BN' : 'Brunei Darussalam',
-    'BG' : 'Bulgaria',
-    'BF' : 'Burkina Faso',
-    'BI' : 'Burundi',
-    'KH' : 'Cambodia',
-    'CM' : 'Cameroon',
-    'CA' : 'Canada',
-    'CV' : 'Cape Verde',
-    'KY' : 'Cayman Islands',
-    'CF' : 'Central African Republic',
-    'TD' : 'Chad',
-    'CL' : 'Chile',
-    'CN' : 'China',
-    'CX' : 'Christmas Island',
-    'CC' : 'Cocos (Keeling) Islands',
-    'CO' : 'Colombia',
-    'KM' : 'Comoros',
-    'CG' : 'Congo',
-    'CD' : 'Congo, Democratic Republic',
-    'CK' : 'Cook Islands',
-    'CR' : 'Costa Rica',
-    'CI' : 'Cote D\'Ivoire',
-    'HR' : 'Croatia',
-    'CU' : 'Cuba',
-    'CY' : 'Cyprus',
-    'CZ' : 'Czech Republic',
-    'DK' : 'Denmark',
-    'DJ' : 'Djibouti',
-    'DM' : 'Dominica',
-    'DO' : 'Dominican Republic',
-    'EC' : 'Ecuador',
-    'EG' : 'Egypt',
-    'SV' : 'El Salvador',
-    'GQ' : 'Equatorial Guinea',
-    'ER' : 'Eritrea',
-    'EE' : 'Estonia',
-    'ET' : 'Ethiopia',
-    'FK' : 'Falkland Islands (Malvinas)',
-    'FO' : 'Faroe Islands',
-    'FJ' : 'Fiji',
-    'FI' : 'Finland',
-    'FR' : 'France',
-    'GF' : 'French Guiana',
-    'PF' : 'French Polynesia',
-    'TF' : 'French Southern Territories',
-    'GA' : 'Gabon',
-    'GM' : 'Gambia',
-    'GE' : 'Georgia',
-    'DE' : 'Germany',
-    'GH' : 'Ghana',
-    'GI' : 'Gibraltar',
-    'GR' : 'Greece',
-    'GL' : 'Greenland',
-    'GD' : 'Grenada',
-    'GP' : 'Guadeloupe',
-    'GU' : 'Guam',
-    'GT' : 'Guatemala',
-    'GG' : 'Guernsey',
-    'GN' : 'Guinea',
-    'GW' : 'Guinea-Bissau',
-    'GY' : 'Guyana',
-    'HT' : 'Haiti',
-    'HM' : 'Heard Island & Mcdonald Islands',
-    'VA' : 'Holy See (Vatican City State)',
-    'HN' : 'Honduras',
-    'HK' : 'Hong Kong',
-    'HU' : 'Hungary',
-    'IS' : 'Iceland',
-    'IN' : 'India',
-    'ID' : 'Indonesia',
-    'IR' : 'Iran, Islamic Republic Of',
-    'IQ' : 'Iraq',
-    'IE' : 'Ireland',
-    'IM' : 'Isle Of Man',
-    'IL' : 'Israel',
-    'IT' : 'Italy',
-    'JM' : 'Jamaica',
-    'JP' : 'Japan',
-    'JE' : 'Jersey',
-    'JO' : 'Jordan',
-    'KZ' : 'Kazakhstan',
-    'KE' : 'Kenya',
-    'KI' : 'Kiribati',
-    'KR' : 'Korea',
-    'KW' : 'Kuwait',
-    'KG' : 'Kyrgyzstan',
-    'LA' : 'Lao People\'s Democratic Republic',
-    'LV' : 'Latvia',
-    'LB' : 'Lebanon',
-    'LS' : 'Lesotho',
-    'LR' : 'Liberia',
-    'LY' : 'Libyan Arab Jamahiriya',
-    'LI' : 'Liechtenstein',
-    'LT' : 'Lithuania',
-    'LU' : 'Luxembourg',
-    'MO' : 'Macao',
-    'MK' : 'Macedonia',
-    'MG' : 'Madagascar',
-    'MW' : 'Malawi',
-    'MY' : 'Malaysia',
-    'MV' : 'Maldives',
-    'ML' : 'Mali',
-    'MT' : 'Malta',
-    'MH' : 'Marshall Islands',
-    'MQ' : 'Martinique',
-    'MR' : 'Mauritania',
-    'MU' : 'Mauritius',
-    'YT' : 'Mayotte',
-    'MX' : 'Mexico',
-    'FM' : 'Micronesia, Federated States Of',
-    'MD' : 'Moldova',
-    'MC' : 'Monaco',
-    'MN' : 'Mongolia',
-    'ME' : 'Montenegro',
-    'MS' : 'Montserrat',
-    'MA' : 'Morocco',
-    'MZ' : 'Mozambique',
-    'MM' : 'Myanmar',
-    'NA' : 'Namibia',
-    'NR' : 'Nauru',
-    'NP' : 'Nepal',
-    'NL' : 'Netherlands',
-    'AN' : 'Netherlands Antilles',
-    'NC' : 'New Caledonia',
-    'NZ' : 'New Zealand',
-    'NI' : 'Nicaragua',
-    'NE' : 'Niger',
-    'NG' : 'Nigeria',
-    'NU' : 'Niue',
-    'NF' : 'Norfolk Island',
-    'MP' : 'Northern Mariana Islands',
-    'NO' : 'Norway',
-    'OM' : 'Oman',
-    'PK' : 'Pakistan',
-    'PW' : 'Palau',
-    'PS' : 'Palestinian Territory, Occupied',
-    'PA' : 'Panama',
-    'PG' : 'Papua New Guinea',
-    'PY' : 'Paraguay',
-    'PE' : 'Peru',
-    'PH' : 'Philippines',
-    'PN' : 'Pitcairn',
-    'PL' : 'Poland',
-    'PT' : 'Portugal',
-    'PR' : 'Puerto Rico',
-    'QA' : 'Qatar',
-    'RE' : 'Reunion',
-    'RO' : 'Romania',
-    'RU' : 'Russian Federation',
-    'RW' : 'Rwanda',
-    'BL' : 'Saint Barthelemy',
-    'SH' : 'Saint Helena',
-    'KN' : 'Saint Kitts And Nevis',
-    'LC' : 'Saint Lucia',
-    'MF' : 'Saint Martin',
-    'PM' : 'Saint Pierre And Miquelon',
-    'VC' : 'Saint Vincent And Grenadines',
-    'WS' : 'Samoa',
-    'SM' : 'San Marino',
-    'ST' : 'Sao Tome And Principe',
-    'SA' : 'Saudi Arabia',
-    'SN' : 'Senegal',
-    'RS' : 'Serbia',
-    'SC' : 'Seychelles',
-    'SL' : 'Sierra Leone',
-    'SG' : 'Singapore',
-    'SK' : 'Slovakia',
-    'SI' : 'Slovenia',
-    'SB' : 'Solomon Islands',
-    'SO' : 'Somalia',
-    'ZA' : 'South Africa',
-    'GS' : 'South Georgia And Sandwich Isl.',
-    'ES' : 'Spain',
-    'LK' : 'Sri Lanka',
-    'SD' : 'Sudan',
-    'SR' : 'Suriname',
-    'SJ' : 'Svalbard And Jan Mayen',
-    'SZ' : 'Swaziland',
-    'SE' : 'Sweden',
-    'CH' : 'Switzerland',
-    'SY' : 'Syrian Arab Republic',
-    'TW' : 'Taiwan',
-    'TJ' : 'Tajikistan',
-    'TZ' : 'Tanzania',
-    'TH' : 'Thailand',
-    'TL' : 'Timor-Leste',
-    'TG' : 'Togo',
-    'TK' : 'Tokelau',
-    'TO' : 'Tonga',
-    'TT' : 'Trinidad And Tobago',
-    'TN' : 'Tunisia',
-    'TR' : 'Turkey',
-    'TM' : 'Turkmenistan',
-    'TC' : 'Turks And Caicos Islands',
-    'TV' : 'Tuvalu',
-    'UG' : 'Uganda',
-    'UA' : 'Ukraine',
-    'AE' : 'United Arab Emirates',
-    'GB' : 'United Kingdom',
-    'US' : 'United States',
-    'UM' : 'United States Outlying Islands',
-    'UY' : 'Uruguay',
-    'UZ' : 'Uzbekistan',
-    'VU' : 'Vanuatu',
-    'VE' : 'Venezuela',
-    'VN' : 'Viet Nam',
-    'VG' : 'Virgin Islands, British',
-    'VI' : 'Virgin Islands, U.S.',
-    'WF' : 'Wallis And Futuna',
-    'EH' : 'Western Sahara',
-    'YE' : 'Yemen',
-    'ZM' : 'Zambia',
-    'ZW' : 'Zimbabwe'
-};
 
-function getCountryName (countryCode) {
-    if (isoCountries.hasOwnProperty(countryCode)) {
-        return isoCountries[countryCode];
-    } else {
-        return countryCode;
-    }
+function showLoadingScreen(){
+	$('#loadingscreen').show();
 }
+
+function hideLoadingScreen(){
+	$('#loadingscreen').hide();
+}
+
+
+
+function getCountryFromList(cid){
+	var res = null;
+	countryList.data.forEach(function(el) {
+			if(el.id == cid){
+				res = el;
+			}
+	});
+
+	return res;
+}
+
+function getCountryFromListISO2(ciso2){
+	var res = null;
+	countryList.data.forEach(function(el) {
+			if(el.iso2 == ciso2){
+				res = el;
+			}
+	});
+	
+	return res;
+}
+
+function setActiveCountry(id, fromMap){
+	var res = getCountryFromList(id);
+	if(res != null) {
+		curCountry = res;
+		$('#country_select #active_value').html(HtmlEncode(curCountry.name) + " <span class=\"caret\"></span>");
+		$('.inlineCountryTitle').html(HtmlEncode(curCountry.name));
+		window.localStorage.setItem("appCurCountry", curCountry);
+	}
+	
+	countrySelectedFromMap = fromMap;
+}
+
+function updateMap(){
+	if(!countrySelectedFromMap ) {
+		try{
+			countryMap.clearSelectedRegions()
+			countryMap.setSelectedRegions(curCountry.iso2);
+			$('#vector_world_map').vectorMap('set', 'focus',curCountry.iso2);
+		}catch(err){
+			
+		}
+		
+	}
+	
+	countrySelectedFromMap = true;
+	
+}
+
+function updateGeneralInformation(){
+	showLoadingScreen();
+	$.post(baseServiceUrl + "/geninf",
+    {
+        lang: getAppLang(),
+        country: curCountry.id,
+    },
+    function(data, status){
+
+		var info = data;
+		if(status == 'success' && info.status == 0){
+			var giWrapper  = $('#generalInfo table');
+			giWrapper.html('');
+			info.data.forEach(function(el) {
+				var giEl = $('<tr><td class="param">'+HtmlEncode(el.name)+'</td><td class="value">'+(el.value ==null || isNaN(el.value) ?el.value:Math.round((parseFloat(el.value))*10)/10)+'</td></tr>');
+				giWrapper.append(giEl);
+			});
+		}
+		hideLoadingScreen();
+    });
+	
+}
+
+
+
+function updateFTYearsList(){
+	showLoadingScreen();
+	$.post(baseServiceUrl + "/getftiyears",
+    {
+        lang: getAppLang(),
+        country: curCountry.id,
+    },
+    function(info, status){
+		
+		if(status == 'success' && info.status == 0){
+			var yearSelectTitle  = $('#year_select #active_value');yearSelectTitle.html("");
+			var curYear = getCurYear();
+			if($.inArray(curYear, info.data) == -1) curYear = setCurYear(info.data[0]);
+			yearSelectTitle.html(HtmlEncode(curYear) + " <span class=\"caret\"></span>");
+			var yearSelect  = $('#year_select .dropdown-menu');
+			yearSelect.html('');
+			info.data.forEach(function(el) {
+				var yearEl = $("<li><a href=\"#\" onClick=\"setCurYear($(this).text());$('#year_select #active_value').html(HtmlEncode(getCurYear()) + ' <span class=\\'caret\\'></span>');updateFTItems();\" >" + HtmlEncode(el) + "</a></li>" );
+				yearSelect.append(yearEl);
+			});
+			updateFTItems();
+		}else hideLoadingScreen();
+    });
+	
+}
+
+var FTItems;
+var donutChart;
+
+function updateFTItems(){
+	showLoadingScreen();
+	$.post(baseServiceUrl + "/gettradeitems",
+    {
+        lang: getAppLang(),
+        country: curCountry.id,
+		year:getCurYear(),
+		limit: 5,
+		currency:getCurCurrency()
+    },
+    function(info, status){
+		
+		if(status == 'success' && info.status == 0){
+			FTItems = info.data;
+			//console.log(FTItems);
+			
+			$('#donutchart').html('');
+			donutChart = Morris.Donut({
+				element: 'donutchart',
+				data: [
+					{label: "Import", value: FTItems.totalImports},
+					{label: "Export", value: FTItems.totalNonOilExports},
+					{label: "Re-Export", value: FTItems.totalReExports}
+				],
+				colors: ['#95B75D', '#1caf9a', '#FEA223'],
+				resize: true
+			});
+			donutChart.on('click', function(i, row){
+				showActiveFTData(i);
+				
+			});
+			
+			$("#donutchart text tspan").first().html("Total trade");
+			$("#donutchart text tspan").last().html(FTItems.totalFT);
+			try{
+				donutChart.select(-1);
+			}catch(err){
+				
+			}
+			
+			
+			
+		}
+		hideLoadingScreen();
+		
+		
+		showActiveFTData(-1);
+		
+    });
+	
+}
+
+function showActiveFTData(index){
+
+	$(".FTItemsSummary .panel-title").hide();
+	$(".FTItemsSummary .panel-title.title"+index).show();
+	var panelBody = $(".FTItemsSummary .panel-body");
+	panelBody.html("");
+	
+	var tiSize = FTItems.totalItems.length;
+	
+	var itemsToDisplay;
+	var totalValue;
+	
+	switch(index){
+		case -1: 
+			itemsToDisplay = FTItems.totalItems;
+			totalValue = FTItems.totalFT;
+			break;
+		case 0: ;
+			itemsToDisplay = FTItems.importsItems;
+			totalValue = FTItems.totalImports;
+			break;
+		case 1: 
+			itemsToDisplay = FTItems.nonOilExportsItems;
+			totalValue = FTItems.totalNonOilExports;
+			break;
+		case 2: 
+			itemsToDisplay = FTItems.reExportsItems;
+			totalValue = FTItems.totalReExports;
+			break;
+	}
+	
+	itemsToDisplay.forEach(function(el, ind, array) {
+			var item = $("<div class='item item1'><div class='itemhead'><span class='name'>" + HtmlEncode(el.title) + "</span><span class='value'>" + Number(el.value).toFixed(1) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
+			panelBody.append(item);
+			
+	});
+	
+	itemsToDisplay.forEach(function(el, ind, array) {
+			setTimeout(function(){
+				$(".progress-bar.value"+ind).css('width', (el.value*100/totalValue) + "%");
+			}, 300);
+				
+	});
+	
+	
+}
+
+
 
