@@ -22,7 +22,7 @@
 <!-- START PHONEGAP -->
 		 <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript">
-        //app.initialize();
+        app.initialize();
     </script>
 		<!-- END PHONEGAP -->		
     </head>
@@ -143,56 +143,40 @@
 								<h3 class="panel-title title2">Top five <span class="inlineFTType">Re-Export Items</span> to <span class="inlineCountryTitle"></span></h3> 
                             </div>
                             <div class="panel-body">
-                                <div class="item item1">
-									<div class="itemhead">
-									<span class="name"></span><span class="value"></span>
-									</div>
-									<div class="progress">
-										<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-										</div>
-										
-									</div>   
-								</div>
-								<div class="item item2">
-									<div class="itemhead">
-									<span class="name"></span><span class="value"></span>
-									</div>
-									<div class="progress">
-										<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-										</div>
-										
-									</div>   
-								</div>
-								<div class="item item3">
-									<div class="itemhead">
-									<span class="name"></span><span class="value"></span>
-									</div>
-									<div class="progress">
-										<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-										</div>
-										
-									</div>   
-								</div>
-								<div class="item  item4">
-									<div class="itemhead">
-									<span class="name"></span><span class="value"></span>
-									</div>
-									<div class="progress">
-										<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-										</div>
-										
-									</div>   
-								</div>
-								<div class="item  item5">
-									<div class="itemhead">
-									<span class="name"></span><span class="value"></span>
-									</div>
-									<div class="progress">
-										<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-										</div>
-										
-									</div>   
-								</div>
+                                
+                            </div>
+                        </div>
+					</div>
+				</div>
+				
+				<div  class="row FTItemsCategories">
+					<div class="col-md-4 Import">
+						<div class="panel panel-default FTItems">
+                            <div class="panel-heading">  
+								<h3 class="panel-title title0">Top five <span class="inlineFTType">Import Items</span> from <span class="inlineCountryTitle"></span></h3> 
+                            </div>
+                            <div class="panel-body">
+                                
+                            </div>
+                        </div>
+					</div>
+					<div class="col-md-4 Export">
+						<div class="panel panel-default FTItems">
+                            <div class="panel-heading">  
+								<h3 class="panel-title title1">Top five <span class="inlineFTType">Export Items</span> to <span class="inlineCountryTitle"></span></h3> 
+                            </div>
+                            <div class="panel-body">
+                                
+                            </div>
+                        </div>
+					</div>
+					<div class="col-md-4 ReExport">
+						<div class="panel panel-default FTItems">
+                            <div class="panel-heading">  
+								<h3 class="panel-title title2">Top five <span class="inlineFTType">Re-Export Items</span> to <span class="inlineCountryTitle"></span></h3> 
+                            </div>
+                            <div class="panel-body">
+                                
                             </div>
                         </div>
 					</div>
@@ -269,7 +253,7 @@
 		<script>
 $(document).ready(function(){
 	//showLoadingScreen();
-	$.post(baseServiceUrl + "/countrylist",
+	$.post(baseServiceUrl + "/list",
     {
         lang: getAppLang(),
     },

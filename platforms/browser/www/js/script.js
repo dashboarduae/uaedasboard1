@@ -39,6 +39,8 @@ function setCurCurrency(currency){
 	return currency;
 }
 
+$(document).ready(function(){setCurCurrency(parseInt(getCurCurrency()));});
+
 function getCurYear(){
 	var year = window.localStorage.getItem('appCurYear');
 	if(year == undefined) {
@@ -294,8 +296,52 @@ function updateFTItems(){
 		
 		showActiveFTData(-1);
 		
+		updateCategoriesData(0, ".FTItemsCategories .Import");
+		updateCategoriesData(1, ".FTItemsCategories .Export");
+		updateCategoriesData(2, ".FTItemsCategories .ReExport");
+		
     });
 	
+}
+
+function updateCategoriesData(index, selector){
+	var panelBody = $( selector + " .panel-body");
+	panelBody.html("");
+	
+	var itemsToDisplay;
+	var totalValue;
+	
+	switch(index){
+		case -1: 
+			itemsToDisplay = FTItems.totalItems;
+			totalValue = FTItems.totalFT;
+			break;
+		case 0: ;
+			itemsToDisplay = FTItems.importsItems;
+			totalValue = FTItems.totalImports;
+			break;
+		case 1: 
+			itemsToDisplay = FTItems.nonOilExportsItems;
+			totalValue = FTItems.totalNonOilExports;
+			break;
+		case 2: 
+			itemsToDisplay = FTItems.reExportsItems;
+			totalValue = FTItems.totalReExports;
+			break;
+	}
+	
+	itemsToDisplay.forEach(function(el, ind, array) {
+			var item = $("<div class='item item1'><div class='itemhead'><span class='name'>" + HtmlEncode(el.title) + "</span><span class='value'>" + Number(el.value).toFixed(1) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
+			panelBody.append(item);
+			
+	});
+	
+	itemsToDisplay.forEach(function(el, ind, array) {
+			setTimeout(function(){
+				$(selector + " .progress-bar.value"+ind).css('width', (el.value*100/totalValue) + "%");
+			}, 300);
+				
+	});
 }
 
 function showActiveFTData(index){
@@ -337,7 +383,7 @@ function showActiveFTData(index){
 	
 	itemsToDisplay.forEach(function(el, ind, array) {
 			setTimeout(function(){
-				$(".progress-bar.value"+ind).css('width', (el.value*100/totalValue) + "%");
+				$(".FTItemsSummary .progress-bar.value"+ind).css('width', (el.value*100/totalValue) + "%");
 			}, 300);
 				
 	});

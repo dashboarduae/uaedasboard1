@@ -94,7 +94,7 @@ body {
   width: 220px;
   float: left;
   position: relative;
-  z-index: 3;
+  z-index: 0;
 }
 .page-container .page-sidebar.page-sidebar-fixed {
   position: fixed;
@@ -265,7 +265,7 @@ body.page-container-boxed .page-container {
   float: left;
   list-style: none;
   display: block;
-  z-index: 3;
+  z-index: 0;
 }
 .x-navigation {
   background: #1b1e24;
@@ -7453,3 +7453,19 @@ display:none;
 .FTItemsSummary .panel-title{
 	display:none;
 }
+
+.FTItemsCategories{
+	display:none;
+}
+
+@media all and (orientation:landscape) {
+  .FTItemsCategories{
+	display:block;
+	}
+	
+   .FTItemsSummary, #donutchart {
+		display:none;
+   }
+}
+
+

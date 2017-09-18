@@ -2,7 +2,7 @@
 <widget id="ae.gov.economy.trdashboard" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>Trade Relations Dashboard</name>
     <description>
-        Hello World sample application that responds to the deviceready event.
+        Trade Relations Dashboard
     </description>
     <author email="support@phonegap.com" href="http://phonegap.com">
         PhoneGap Team
@@ -10,7 +10,7 @@
     <content src="index.html" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="android-minSdkVersion" value="14" />
-    <!--
+    
 	<plugin name="cordova-plugin-battery-status" source="npm" spec="~1.1.1" />
     <plugin name="cordova-plugin-camera" source="npm" spec="~2.1.1" />
     <plugin name="cordova-plugin-media-capture" source="npm" spec="~1.2.0" />
@@ -31,10 +31,8 @@
     <plugin name="cordova-plugin-statusbar" source="npm" spec="~2.1.2" />
     <plugin name="cordova-plugin-vibration" source="npm" spec="~2.1.0" />
     <plugin name="cordova-plugin-whitelist" source="npm" spec="~1.2.1" />
-	-->
 	
-	<plugin name="cordova-plugin-inappbrowser" source="npm" spec="~1.3.0" />
-	<plugin name="cordova-plugin-statusbar" source="npm" spec="~2.1.2" />
+	
 
 
 
