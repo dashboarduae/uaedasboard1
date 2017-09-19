@@ -7466,8 +7466,13 @@ display:none;
    .FTItemsSummary, #donutchart {
 		display:none;
    }
+   
+   .col-md-4 {
+    width: 33.33333333%;
+	float: left;
+   }
 }
 
-.page-content{
-	height:auto !important;
-}
+
+
+

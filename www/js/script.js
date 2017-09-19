@@ -272,7 +272,7 @@ function updateFTItems(){
 					{label: "Export", value: FTItems.totalNonOilExports},
 					{label: "Re-Export", value: FTItems.totalReExports}
 				],
-				colors: ['#95B75D', '#1caf9a', '#FEA223'],
+				colors: chartColors,
 				resize: true
 			});
 			donutChart.on('click', function(i, row){
@@ -299,10 +299,12 @@ function updateFTItems(){
 		updateCategoriesData(0, ".FTItemsCategories .Import");
 		updateCategoriesData(1, ".FTItemsCategories .Export");
 		updateCategoriesData(2, ".FTItemsCategories .ReExport");
-		
+		setSameHeight(".FTItemsCategories .panel-body");
     });
 	
 }
+
+var chartColors = ['#95B75D', '#1caf9a', '#FEA223'];
 
 function updateCategoriesData(index, selector){
 	var panelBody = $( selector + " .panel-body");
@@ -310,23 +312,32 @@ function updateCategoriesData(index, selector){
 	
 	var itemsToDisplay;
 	var totalValue;
+	var chartLabel;
+	var chartId;
 	
 	switch(index){
 		case -1: 
 			itemsToDisplay = FTItems.totalItems;
 			totalValue = FTItems.totalFT;
+			chartLabel = "";
 			break;
 		case 0: ;
 			itemsToDisplay = FTItems.importsItems;
 			totalValue = FTItems.totalImports;
+			chartLabel = "Import";
+			chartId = "chartImport";
 			break;
 		case 1: 
 			itemsToDisplay = FTItems.nonOilExportsItems;
 			totalValue = FTItems.totalNonOilExports;
+			chartLabel = "Export";
+			chartId = "chartExport";
 			break;
 		case 2: 
 			itemsToDisplay = FTItems.reExportsItems;
 			totalValue = FTItems.totalReExports;
+			chartLabel = "ReExport";
+			chartId = "chartReExport";
 			break;
 	}
 	
@@ -342,6 +353,85 @@ function updateCategoriesData(index, selector){
 			}, 300);
 				
 	});
+	
+	
+	
+// Create the donut pie chart and insert it onto the page
+nv.addGraph(function() {
+  var donutChart = nv.models.pieChart()
+  		.x(function(d) {
+        return d.label
+      })
+  		.y(function(d) {
+        return d.value
+      })
+  		.showLabels(true)
+  		.showLegend(false)
+  		.labelThreshold(.05)
+  		.labelType("key")
+  		.color([chartColors[index], "#ddd"])
+  		.tooltipContent(
+        function(key, y, e, graph) { return 'Custom tooltip string' }
+      ) // This is for when I turn on tooltips
+  		.tooltips(false)
+  		.donut(true)
+  		.donutRatio(0.55);
+  
+  	// Insert text into the center of the donut
+  	function centerText() {
+			return function() {
+        var svg = d3.select("#" + chartId +" svg");
+
+    		var donut = svg.selectAll("g.nv-slice").filter(
+          function (d, i) {
+            return i == 0;
+          }
+        );
+        
+        // Insert first line of text into middle of donut pie chart
+        donut.insert("text", "g")
+            .text(chartLabel)
+            .attr("class", "middle")
+            .attr("text-anchor", "middle")
+        		.attr("dy", "-.55em")
+        		.style("fill", "#000");
+        // Insert second line of text into middle of donut pie chart
+        donut.insert("text", "g")
+            .text(totalValue)
+            .attr("class", "middle")
+            .attr("text-anchor", "middle")
+        		.attr("dy", ".85em")
+        		.style("fill", "#000");
+      }
+    }
+  
+  // Put the donut pie chart together
+  d3.select("#" + chartId +" svg")
+    .datum([
+    {
+      "label": "",
+      "value": totalValue
+    },
+    {
+      "label": "",
+      "value": FTItems.totalFT - totalValue
+    }])
+    .transition().duration(300)
+    .call(donutChart)
+    .call(centerText());
+    
+  return donutChart;
+});
+
+
+}
+
+function setSameHeight(selector){
+	$(selector).css('height', 'auto');
+	var maxHeight = Math.max.apply(null, $(selector).map(function (){
+		return $(this).height();
+	}).get());
+	$(selector).height(maxHeight);
 }
 
 function showActiveFTData(index){
