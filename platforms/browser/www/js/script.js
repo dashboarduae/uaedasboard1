@@ -1,5 +1,5 @@
-//const baseServiceUrl = "http://localhost:8080/trs"; 
-const baseServiceUrl = "http://trservice3562.cloudapp.net:8080/trs"; 
+const baseServiceUrl = "http://localhost:8080/trs"; 
+//const baseServiceUrl = "http://trservice3562.cloudapp.net:8080/trs"; 
 
 var curCountry;
 var countryList;
@@ -240,7 +240,7 @@ function updateFTYearsList(){
 				yearSelect.append(yearEl);
 			});
 			updateFTItems();
-		}else hideLoadingScreen();
+		};
     });
 	
 }
@@ -482,4 +482,154 @@ function showActiveFTData(index){
 }
 
 
+
+function getActiveYearRange(){
+	var yearFrom = window.localStorage.getItem('appYearFrom');
+	if(yearFrom == undefined) {
+		yearFrom = "2000";
+	}
+	
+	var yearTo = window.localStorage.getItem('appYearTo');
+	if(yearTo == undefined) {
+		yearTo = "2016";
+	}
+	return [yearFrom, yearTo];
+}
+
+function setActiveYearRange(yearFrom, yearTo){
+	window.localStorage.setItem('appYearFrom', yearFrom);
+	window.localStorage.setItem('appYearTo', yearTo);
+}
+
+
+var yearSlider = null;
+function updateYearRange(){
+	yearSlider = document.getElementById('year_range_select');
+	
+	$.post(baseServiceUrl + "/getftiyears",
+    {
+        lang: getAppLang(),
+        country: curCountry.id,
+    },
+    function(info, status){
+		
+		if(status == 'success' && info.status == 0){
+			var activeRange = getActiveYearRange();
+			var minYear = Number.parseInt(info.data[0], 10);
+			var maxYear = Number.parseInt(info.data[info.data.length - 1], 10);
+			
+			if(yearSlider.noUiSlider == undefined){
+				noUiSlider.create(yearSlider, {
+					start: [(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)],
+					connect: true,
+					behaviour: 'tap-drag', 
+					step: 1,
+					tooltips: true,
+					format: wNumb({
+						decimals: 0
+					}),
+					range: {
+						'min': minYear,
+						'max': maxYear
+					}
+				});
+				updateFTVolumeInfo();
+			}else{
+				//yearSlider.noUiSlider.set([(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)]);
+				
+				yearSlider.noUiSlider.updateOptions({
+					start: [(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)],
+					connect: true,
+					behaviour: 'tap-drag', 
+					step: 1,
+					tooltips: true,
+					format: wNumb({
+						decimals: 0
+					}),
+					range: {
+						'min': minYear,
+						'max': maxYear
+					}
+				});
+				updateFTVolumeInfo();
+			}
+			
+		}
+    });
+
+	
+}
+
+var FTVolumeData;
+
+function updateFTVolumeInfo(){
+	var years = getActiveYearRange();
+	$.post(baseServiceUrl + "/gettradesummary",
+    {
+        lang: getAppLang(),
+        country: curCountry.id,
+		from:years[0],
+		to:years[1],
+		currency:getCurCurrency()
+    },
+    function(info, status){
+		
+		if(status == 'success' && info.status == 0){
+			console.log(info.data);
+			FTVolumeData = info.data;
+			$(".FTV .tab-pane.categoryInfo").html("");
+			
+			for(var i=0;i<3;i++) showFTCategoryInfo(i);
+			
+			hideLoadingScreen();
+		};
+    })
+}
+
+function showFTCategoryInfo(index){
+	FTVolumeData.forEach(function(el, i) {
+		
+			var value = 0;
+			var category;
+			
+			switch(index){
+				case 0:value = el.value;
+					category = el.totalTrade;
+					break;
+				case 1:value = el.derectTrade.nonOilExports + el.derectTrade.reExports + el.derectTrade.imports;
+					category = el.totalTrade;
+					break;
+				case 2:value = el.freeZonesTrade.nonOilExports + el.freeZonesTrade.reExports + el.freeZonesTrade.imports;
+					category = el.totalTrade;
+					break;
+			}
+			
+			var panelBody = '<div class="panel-body">';
+			panelBody += '<span>Import</span>';
+			panelBody += '<span class="pull-right">' + category.imports + '</span>';
+			
+			panelBody += "<div class='progress'><div class='progress-bar progress-bar-success valueImport" + index + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
+			
+			panelBody += '<span>Export</span>';
+			panelBody += '<span class="pull-right">' + category.nonOilExports + '</span>';
+			
+			panelBody += "<div class='progress'><div class='progress-bar progress-bar-success valueExport" + index + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
+			
+			panelBody += '<span>Re-Export</span>';
+			panelBody += '<span class="pull-right">' + category.reExports + '</span>';
+			
+			panelBody += "<div class='progress'><div class='progress-bar progress-bar-success valueReExport" + index + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
+			
+			panelBody += '</div>';
+			var panel = '<div class="panel panel-default"><div class="panel-heading"><span class="panel-title">'+el.year +'</span><span class="panel-title pull-right">' + value + '</span></div>' +panelBody+ '</div>';
+			
+			setTimeout(function(){
+				$(".FTV .progress-bar.valueImport"+index).css('width', (category.imports*100/value) + "%");
+				$(".FTV .progress-bar.valueExport"+index).css('width', (category.nonOilExports*100/value) + "%");
+				$(".FTV .progress-bar.valueReExport"+index).css('width', (category.reExports*100/value) + "%");
+			}, 300);
+			
+			$('.FTV .categoryInfo.cat'+index).prepend($(panel));
+	});
+}
 

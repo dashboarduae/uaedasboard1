@@ -12,6 +12,7 @@
         
         <!-- CSS INCLUDE -->        
         <link rel="stylesheet" type="text/css" id="theme" href="css/theme-default.css"/>
+		<link rel="stylesheet" type="text/css"  href="js/plugins/noUiSlider/nouislider.min.css"/>
         <!-- EOF CSS INCLUDE --> 
 		<!-- START PLUGINS -->
         <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
@@ -37,16 +38,14 @@
                 <!-- START X-NAVIGATION -->
                 <ul class="x-navigation">
                     <li class="xn-logo">
-                        <a href="index.html">Trade Relations Dashboard</a>
+                        <a href="index.html"><div id="logo"><img src="img/logo.png"><span>United Arab Emirates<br> Ministery of Finance</span></div></a>
                         <a href="#" class="x-navigation-control"></a>
                     </li>
                     <li class="xn-title">Navigation</li>
-                    <li class="active">
-                        <a href="index.html"><span class="fa fa-globe"></span> <span class="xn-text">General Information</span></a>
-						<a href="foreign_trade_volume"><span class="fa fa-globe"></span> <span class="xn-text">Foreign Trade Volume</span></a>
-						<a href="direct_foreign_trade_items"><span class="fa fa-globe"></span> <span class="xn-text">Direct Foreign Trade Items</span></a>
-						<a href="investement_facts.html"><span class="fa fa-globe"></span> <span class="xn-text">Investement Facts</span></a>                        
-                    </li>  
+                    <li><a href="index.html"><span class="fa fa-globe"></span> <span class="xn-text">General Information</span></a></li>
+					<li class="active"><a href="foreign_trade_volume.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Volume</span></a></li>
+					<li><a href="direct_foreign_trade_items.html"><span class="fa "></span> <span class="xn-text">Direct Foreign Trade Items</span></a></li>
+					<li><a href="investement_facts.html"><span class="fa "></span> <span class="xn-text">Investement Facts</span></a></li>
                     
                 </ul>
                 <!-- END X-NAVIGATION -->
@@ -57,25 +56,6 @@
             <div class="page-content">
                 
                 <!-- START X-NAVIGATION VERTICAL -->
-                <ul class="x-navigation x-navigation-horizontal x-navigation-panel">
-                    <!-- TOGGLE NAVIGATION -->
-                    <li class="xn-icon-button">
-                        <a href="#" class="x-navigation-minimize"><span class="fa fa-dedent"></span></a>
-                    </li>
-                    <!-- END TOGGLE NAVIGATION -->
-                    <!-- SEARCH 
-                    <li class="xn-search">
-                        <form role="form">
-                            <input type="text" name="search" placeholder="Search..."/>
-                        </form>
-                    </li>   
-                     END SEARCH -->
-                    <!-- SIGN OUT -->
-                    <li class="xn-icon-button pull-right">
-                        <a id="exitBtn" onClick="navigator.app.exitApp();return false;" href="#" class="mb-control" data-box="#mb-signout" ><span class="fa fa-sign-out"></span></a>                        
-                    </li> 
-                    <!-- END SIGN OUT -->
-                </ul>
                 <!-- END X-NAVIGATION VERTICAL -->                     
 
                 <!-- START BREADCRUMB -->
@@ -86,41 +66,82 @@
                 <!-- END BREADCRUMB --> 
 				<!-- PAGE TITLE -->
 				<div class="page-title">                    
-                    <h2><span class="fa "></span>General Information</h2>
+                    <h2><span class="fa "></span>Foreign Trade Volume</h2>
                 </div>
                 <!-- END PAGE TITLE -->
                 <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap">
 				<div id="loadingscreen"><img src="/img/loading.svg"></div>
 				<div class="row">
-					<div class="col-md-12"> 
+					<div class="col-md-2"> 
+						<h3>Country</h3>
 						<div id="country_select" class="btn-group">
-                                                    <a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"> <span class="caret"></span></a>
-                                                    <ul class="dropdown-menu" role="menu">
+                            <a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"> <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
                                                    
-                                                    </ul>
-                                                </div>
+                            </ul>
+                        </div>
+					</div>
+					
+					<div class="col-md-2 range_select_wrapper"> 
+						<h3>Year 
+						<div id="year_range_select">
+                            
+                        </div>
+						</h3>
+					</div>
+					
+					<div class="col-md-2"> 
+						<h3>Currency</h3>
+						<div id="currency_select" class="btn-group">
+                            <a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false">AED Millions <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+								<li><a href="#" onClick="setCurCurrency(0);updateFTItems();">AED Millions</a></li>
+								<li><a href="#" onClick="setCurCurrency(1);updateFTItems();">USD Millions</a></li>
+								<li><a href="#" onClick="setCurCurrency(2);updateFTItems();">AED Billions</a></li>
+								<li><a href="#" onClick="setCurCurrency(3);updateFTItems();">USD Billions</a></li>
+                            </ul>
+                        </div>
 					</div>
 				</div>
-				<div class="row">
-                        <div class="col-md-12">                        
-                            <!-- START jVectorMap World -->
-                            <div class="panel panel-default">
-                                <div class="panel-body panel-body-map">
-                                    <div id="vector_world_map" style="width: 100%; height: 300px"></div>
+				
+				<div class="row FTV portrait">
+						<div class="col-md-12">
+							<div class="panel panel-default tabs">
+                                <ul class="nav nav-tabs nav-justified w30">
+                                    <li class="active"><a href="#tab0" data-toggle="tab" aria-expanded="true">Total</a></li>
+                                    <li class=""><a href="#tab1" data-toggle="tab" aria-expanded="false">Direct</a></li>
+                                    <li class=""><a href="#tab2" data-toggle="tab" aria-expanded="false">Free Zone</a></li>
+                                </ul>
+                                <div class="panel-body tab-content">
+                                    <div class="tab-pane active categoryInfo cat0" id="tab0">
+                                        
+                                    </div>
+                                    <div class="tab-pane categoryInfo cat1" id="tab1">
+                                        
+                                    </div>
+                                    <div class="tab-pane categoryInfo cat2" id="tab2">
+                                       
+                                    </div>                        
                                 </div>
                             </div>
-
-                            <!-- END jVectorMap World -->
-                        </div>                                   
-                </div>
+						</div>
+				</div>
 				
-				<div class="row">
-					<div id="generalInfo" class="col-md-12">
-						<table class="table table-striped">
-						</table>
+				<div class="row  FTV landscape">
+					<div class="col-md-4 categoryInfo cat0">
+					
+					</div>
+					
+					<div class="col-md-4 categoryInfo cat1">
+					
+					</div>
+					
+					<div class="col-md-4 categoryInfo cat2">
+					
 					</div>
 				</div>
+				
                 <!-- END PAGE CONTENT WRAPPER -->                                
             </div>            
             <!-- END PAGE CONTENT -->
@@ -169,7 +190,9 @@
         <script type='text/javascript' src='js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js'></script>
         <script type='text/javascript' src='js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js'></script>                
         <script type='text/javascript' src='js/plugins/bootstrap/bootstrap-datepicker.js'></script>                
-        <script type="text/javascript" src="js/plugins/owl/owl.carousel.min.js"></script>                 
+        <script type="text/javascript" src="js/plugins/owl/owl.carousel.min.js"></script>    
+		<script type="text/javascript" src="js/plugins/noUiSlider/nouislider.min.js"></script>
+		<script type="text/javascript" src="js/plugins/wnumb/wNumb.js"></script>			
         
         <script type="text/javascript" src="js/plugins/moment.min.js"></script>
         <script type="text/javascript" src="js/plugins/daterangepicker/daterangepicker.js"></script>
@@ -179,27 +202,31 @@
         
         <script type="text/javascript" src="js/plugins.js"></script>        
         <script type="text/javascript" src="js/actions.js"></script>
-        
-        
-		<script type="text/javascript" src="js/front_map.js"></script>
         <!-- END TEMPLATE -->
 		
 		<script>
 $(document).ready(function(){
-	countryList  = getCountries("EN");
-	if(countryList.status == 0) {
-		curCountry = countryList.data[0];
-		$('#country_select #active_value').html(countryList.data[0].name + " <span class=\"caret\"></span>");
-		var menu  = $('#country_select .dropdown-menu');
-		menu.html('');
-		countryList.data.forEach(function(el) {
-			var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateMap();updateGeneralInformation();">' + el.name + '</a></li>');
-			menu.append(country);
-		});
-		setActiveCountry(curCountry.id, false);
-		updateMap();
-		updateGeneralInformation();
-	}
+	//showLoadingScreen();
+	$.post(baseServiceUrl + "/list",
+    {
+        lang: getAppLang(),
+    },
+    function(data, status){
+		countryList  = data;
+		if(status == 'success' && countryList.status == 0) {
+			curCountry = countryList.data[0];
+			$('#country_select #active_value').html(countryList.data[0].name + " <span class=\"caret\"></span>");
+			var menu  = $('#country_select .dropdown-menu');
+			menu.html('');
+			countryList.data.forEach(function(el) {
+				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateYearRange();">' + el.name + '</a></li>');
+				menu.append(country);
+			});
+			setActiveCountry(curCountry.id, false);
+			updateYearRange();
+		}
+    });
+	
 	
 });
 		</script>
