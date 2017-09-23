@@ -1,10 +1,50 @@
-const baseServiceUrl = "http://localhost:8080/trs"; 
-//const baseServiceUrl = "http://trservice3562.cloudapp.net:8080/trs"; 
+//const baseServiceUrl = "http://localhost:8080/trs"; 
+const baseServiceUrl = "http://trservice3562.cloudapp.net:8080/trs"; 
 
 var curCountry;
 var countryList;
 var countrySelectedFromMap = true;
 var countryMap = null;
+
+
+$(document).ready(function(){
+	setCurCurrency(parseInt(getCurCurrency()));
+	$(".page-container .bottom_menu .menu_item").click(function(){
+		if($(this).hasClass("active")){
+			$(".page-content-wrap .bsubmenuwrapper").css({opacity: 0});
+			$(".page-content-wrap .bsubmenuwrapper .bsubmenu").hide();
+			$(".page-container .bottom_menu .menu_item").removeClass("active");
+		}else{
+			$(".page-container .bottom_menu .menu_item").removeClass("active");
+			$(this).addClass("active");
+			$(".page-content-wrap .bsubmenuwrapper").css({opacity: 0});
+			$(".page-content-wrap .bsubmenuwrapper .bsubmenu").hide();
+			$("#" + $(this).data('submenu')).show();
+			$(".page-content-wrap .bsubmenuwrapper").animate({
+				opacity: 1,
+			  }, 500, function() {
+				// Animation complete.
+			});
+		}
+		
+	});
+});
+
+function setValuesFormats(val){
+	var value = new Number(val);
+	if(value == 0) return '0.0';
+	if(value<0.1){
+		return value.toPrecision(1);
+	}
+	if(value<1){
+		return value.toFixed(2);
+	}
+	if(value<1000){
+		return value.toFixed(1);
+	}
+	
+	return value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
+}
 
 function HtmlEncode(s)
 {
@@ -39,7 +79,7 @@ function setCurCurrency(currency){
 	return currency;
 }
 
-$(document).ready(function(){setCurCurrency(parseInt(getCurCurrency()));});
+
 
 function getCurYear(){
 	var year = window.localStorage.getItem('appCurYear');
@@ -195,7 +235,7 @@ function updateMap(){
 }
 
 function updateGeneralInformation(){
-	showLoadingScreen();
+	//showLoadingScreen();
 	$.post(baseServiceUrl + "/geninf",
     {
         lang: getAppLang(),
@@ -208,11 +248,11 @@ function updateGeneralInformation(){
 			var giWrapper  = $('#generalInfo table');
 			giWrapper.html('');
 			info.data.forEach(function(el) {
-				var giEl = $('<tr><td class="param">'+HtmlEncode(el.name)+'</td><td class="value">'+(el.value ==null || isNaN(el.value) ?el.value:Math.round((parseFloat(el.value))*10)/10)+'</td></tr>');
+				var giEl = $('<tr><td class="param">'+HtmlEncode(el.name)+'</td><td class="value">'+(el.value ==null || isNaN(el.value) ?el.value:setValuesFormats(el.value))+'</td></tr>');
 				giWrapper.append(giEl);
 			});
 		}
-		hideLoadingScreen();
+		//hideLoadingScreen();
     });
 	
 }
@@ -220,7 +260,7 @@ function updateGeneralInformation(){
 
 
 function updateFTYearsList(){
-	showLoadingScreen();
+	//showLoadingScreen();
 	$.post(baseServiceUrl + "/getftiyears",
     {
         lang: getAppLang(),
@@ -249,7 +289,7 @@ var FTItems;
 var donutChart;
 
 function updateFTItems(){
-	showLoadingScreen();
+	//showLoadingScreen();
 	$.post(baseServiceUrl + "/gettradeitems",
     {
         lang: getAppLang(),
@@ -268,9 +308,9 @@ function updateFTItems(){
 			donutChart = Morris.Donut({
 				element: 'donutchart',
 				data: [
-					{label: "Import", value: FTItems.totalImports},
-					{label: "Export", value: FTItems.totalNonOilExports},
-					{label: "Re-Export", value: FTItems.totalReExports}
+					{label: "Import", value: setValuesFormats(FTItems.totalImports)},
+					{label: "Export", value: setValuesFormats(FTItems.totalNonOilExports)},
+					{label: "Re-Export", value: setValuesFormats(FTItems.totalReExports)}
 				],
 				colors: chartColors,
 				resize: true
@@ -281,7 +321,7 @@ function updateFTItems(){
 			});
 			
 			$("#donutchart text tspan").first().html("Total trade");
-			$("#donutchart text tspan").last().html(FTItems.totalFT);
+			$("#donutchart text tspan").last().html(setValuesFormats(FTItems.totalFT));
 			try{
 				donutChart.select(-1);
 			}catch(err){
@@ -291,7 +331,7 @@ function updateFTItems(){
 			
 			
 		}
-		hideLoadingScreen();
+		//hideLoadingScreen();
 		
 		
 		showActiveFTData(-1);
@@ -342,7 +382,7 @@ function updateCategoriesData(index, selector){
 	}
 	
 	itemsToDisplay.forEach(function(el, ind, array) {
-			var item = $("<div class='item item1'><div class='itemhead'><span class='name'>" + HtmlEncode(el.title) + "</span><span class='value'>" + Number(el.value).toFixed(1) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
+			var item = $("<div class='item item1'><div class='itemhead'><span class='name'>" + HtmlEncode(el.title) + "</span><span class='value'>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
 			panelBody.append(item);
 			
 	});
@@ -466,7 +506,7 @@ function showActiveFTData(index){
 	}
 	
 	itemsToDisplay.forEach(function(el, ind, array) {
-			var item = $("<div class='item item1'><div class='itemhead'><span class='name'>" + HtmlEncode(el.title) + "</span><span class='value'>" + Number(el.value).toFixed(1) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
+			var item = $("<div class='item item1'><div class='itemhead'><span class='name'>" + HtmlEncode(el.title) + "</span><span class='value'>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
 			panelBody.append(item);
 			
 	});
@@ -581,7 +621,7 @@ function updateFTVolumeInfo(){
 			
 			for(var i=0;i<3;i++) showFTCategoryInfo(i);
 			
-			hideLoadingScreen();
+			//hideLoadingScreen();
 		};
     })
 }
@@ -597,31 +637,31 @@ function showFTCategoryInfo(index){
 					category = el.totalTrade;
 					break;
 				case 1:value = el.derectTrade.nonOilExports + el.derectTrade.reExports + el.derectTrade.imports;
-					category = el.totalTrade;
+					category = el.derectTrade;
 					break;
 				case 2:value = el.freeZonesTrade.nonOilExports + el.freeZonesTrade.reExports + el.freeZonesTrade.imports;
-					category = el.totalTrade;
+					category = el.freeZonesTrade;
 					break;
 			}
 			
 			var panelBody = '<div class="panel-body">';
 			panelBody += '<span>Import</span>';
-			panelBody += '<span class="pull-right">' + category.imports + '</span>';
+			panelBody += '<span class="pull-right">' + setValuesFormats(category.imports) + '</span>';
 			
 			panelBody += "<div class='progress'><div class='progress-bar progress-bar-success valueImport" + index + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
 			
 			panelBody += '<span>Export</span>';
-			panelBody += '<span class="pull-right">' + category.nonOilExports + '</span>';
+			panelBody += '<span class="pull-right">' + setValuesFormats(category.nonOilExports) + '</span>';
 			
 			panelBody += "<div class='progress'><div class='progress-bar progress-bar-success valueExport" + index + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
 			
 			panelBody += '<span>Re-Export</span>';
-			panelBody += '<span class="pull-right">' + category.reExports + '</span>';
+			panelBody += '<span class="pull-right">' + setValuesFormats(category.reExports) + '</span>';
 			
 			panelBody += "<div class='progress'><div class='progress-bar progress-bar-success valueReExport" + index + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
 			
 			panelBody += '</div>';
-			var panel = '<div class="panel panel-default"><div class="panel-heading"><span class="panel-title">'+el.year +'</span><span class="panel-title pull-right">' + value + '</span></div>' +panelBody+ '</div>';
+			var panel = '<div class="panel panel-default"><div class="panel-heading"><span class="panel-title">'+el.year +'</span><span class="panel-title pull-right">' + setValuesFormats(value) + '</span></div>' +panelBody+ '</div>';
 			
 			setTimeout(function(){
 				$(".FTV .progress-bar.valueImport"+index).css('width', (category.imports*100/value) + "%");
@@ -632,4 +672,6 @@ function showFTCategoryInfo(index){
 			$('.FTV .categoryInfo.cat'+index).prepend($(panel));
 	});
 }
+
+
 
