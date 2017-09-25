@@ -1,5 +1,5 @@
-//const baseServiceUrl = "http://localhost:8080/trs"; 
-const baseServiceUrl = "http://trservice3562.cloudapp.net:8080/trs"; 
+const baseServiceUrl = "http://localhost:8080/trs"; 
+//const baseServiceUrl = "http://trservice3562.cloudapp.net:8080/trs"; 
 
 var curCountry;
 var countryList;
@@ -28,6 +28,7 @@ $(document).ready(function(){
 		}
 		
 	});
+	
 });
 
 function setValuesFormats(val){
@@ -382,10 +383,11 @@ function updateCategoriesData(index, selector){
 	}
 	
 	itemsToDisplay.forEach(function(el, ind, array) {
-			var item = $("<div class='item item1'><div class='itemhead'><span class='name'>" + HtmlEncode(el.title) + "</span><span class='value'>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
+			var item = $("<div class='item item1'><div class='itemhead'><span class='name' >" + HtmlEncode(el.title) + "</span><span class='value'><span class=\"fa fa-question\" data-toggle=\"popover\" data-placement=\"top\" data-content=\""+HtmlEncode(el.title)+"\"></span>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
 			panelBody.append(item);
 			
 	});
+	
 	
 	itemsToDisplay.forEach(function(el, ind, array) {
 			setTimeout(function(){
@@ -393,8 +395,8 @@ function updateCategoriesData(index, selector){
 			}, 300);
 				
 	});
-	
-	
+	$('[data-toggle="popover"]').popover(); 
+	$('#' + chartId + " svg").html("");
 	
 // Create the donut pie chart and insert it onto the page
 nv.addGraph(function() {
@@ -506,7 +508,7 @@ function showActiveFTData(index){
 	}
 	
 	itemsToDisplay.forEach(function(el, ind, array) {
-			var item = $("<div class='item item1'><div class='itemhead'><span class='name'>" + HtmlEncode(el.title) + "</span><span class='value'>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
+			var item = $("<div class='item item1'><div class='itemhead' ><span class='name' >" + HtmlEncode(el.title) + "</span><span class='value'><span class=\"fa fa-question\" data-toggle=\"popover\" data-placement=\"top\" data-content=\""+HtmlEncode(el.title)+"\"></span>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
 			panelBody.append(item);
 			
 	});
@@ -518,7 +520,7 @@ function showActiveFTData(index){
 				
 	});
 	
-	
+	$('[data-toggle="popover"]').popover();
 }
 
 

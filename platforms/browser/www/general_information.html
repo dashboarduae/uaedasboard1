@@ -37,7 +37,8 @@
                 <!-- START X-NAVIGATION -->
                 <ul class="x-navigation">
                     <li class="xn-logo">
-                        <a href="index.html"><div id="logo"><img src="img/logo.png"><span>United Arab Emirates<br> Ministery of Finance</span></div></a>
+                        <a href="index.html">General Information</a>
+						<a href="#" class="x-navigation-controlfilter mb-control" data-box="#filter-box"></a>
                         <a href="#" class="x-navigation-control"></a>
                     </li>
                     <li class="xn-title">Navigation</li>
@@ -50,26 +51,35 @@
                 <!-- END X-NAVIGATION -->
             </div>
             <!-- END PAGE SIDEBAR -->
-            
+            <div id="filter-box"  class="message-box animated fadeIn">
+			
+			<div class="mb-container">
+                <div class="mb-middle">
+                    <div class="mb-title">Select Country</div>
+                    <div class="mb-content">
+                        <div class="row gi">
+							
+							<div id="country_select" class="btn-group">
+								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"> <span class="caret"></span></a>
+								<ul class="dropdown-menu" role="menu">
+														   
+								</ul>
+							</div>
+						</div>                   
+                    </div>
+                    <div class="mb-footer">
+                        <button class="btn btn-default btn-lg pull-right mb-control-close">Close</button>
+                    </div>
+                </div>
+            </div>
+			</div>
             <!-- PAGE CONTENT -->
-            <div class="page-content">
+            <div class="page-content scroll">
                 
                 <!-- START X-NAVIGATION VERTICAL -->
 
                 <!-- END X-NAVIGATION VERTICAL -->                     
 
-                <!-- START BREADCRUMB -->
-                <ul class="breadcrumb">
-                    <!--<li><a href="#">Home</a></li>                    
-                    <li class="active">Dashboard</li>-->
-                </ul>
-                <!-- END BREADCRUMB --> 
-				<!-- PAGE TITLE -->
-				<div class="page-title">
-					
-                    <h2><span class="fa "></span>General Information</h2>
-                </div>
-                <!-- END PAGE TITLE -->
                 <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap">
 				<div id="loadingscreen"></div>
@@ -79,7 +89,7 @@
                             <!-- START jVectorMap World -->
                             <div class="panel panel-default">
                                 <div class="panel-body panel-body-map">
-                                    <div id="vector_world_map" style="width: 100%; height: 300px"></div>
+                                    <div id="vector_world_map" style="width: 100%; height: 50vw"></div>
                                 </div>
                             </div>
 
@@ -94,58 +104,10 @@
 					</div>
 				</div>
 				
-				<div class="row clearfix180">
-				</div>
 				
-				<div class="bsubmenuwrapper">
-					<ul class="bsubmenu" id="bsmenu1">
-						<li>
-						<div class="row gi">
-							
-							<div id="country_select" class="btn-group">
-								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"> <span class="caret"></span></a>
-								<ul class="dropdown-menu" role="menu">
-														   
-								</ul>
-							</div>
-							
-						</div>
-						</li>
-						
-					</ul>
-					
-					<ul class="bsubmenu" id="bsmenu2">
-					</ul>
-					
-					<ul class="bsubmenu" id="bsmenu3">
-					</ul>
-					
-					<ul class="bsubmenu" id="bsmenu4">
-					</ul>
-				</div>
                 <!-- END PAGE CONTENT WRAPPER -->                                
             </div>            
             <!-- END PAGE CONTENT -->
-			<!-- BOTTOM MENU -->
-			
-			<div class="bottom_menu">
-				<div class="menu_item" data-submenu="bsmenu1"><img src="img/grid_icon.png" class="icon">
-				<span>Filters</span>
-				</div>
-				
-				<div class="menu_item" data-submenu="bsmenu2"><img src="img/grid_icon.png" class="icon">
-				<span>Item 2</span>
-				</div>
-				
-				<div class="menu_item" data-submenu="bsmenu3"><img src="img/grid_icon.png" class="icon">
-				<span>Item 3</span>
-				</div>
-				
-				<div class="menu_item" data-submenu="bsmenu4"><img src="img/grid_icon.png" class="icon">
-				<span>Item 4</span>
-				</div>
-			</div>
-			<!-- END OF BOTTOM MENU -->
         </div>
         <!-- END PAGE CONTAINER -->
 
@@ -191,8 +153,35 @@
         <script type='text/javascript' src='js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js'></script>
         <script type='text/javascript' src='js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js'></script>                
         <script type='text/javascript' src='js/plugins/bootstrap/bootstrap-datepicker.js'></script>                
-        <script type="text/javascript" src="js/plugins/owl/owl.carousel.min.js"></script>                 
-        
+        <script type="text/javascript" src="js/plugins/owl/owl.carousel.min.js"></script> 
+                
+        <script type='text/javascript' src='js/plugins/noty/jquery.noty.js'></script>
+        <script type='text/javascript' src='js/plugins/noty/layouts/topCenter.js'></script>
+        <script type='text/javascript' src='js/plugins/noty/layouts/topLeft.js'></script>
+        <script type='text/javascript' src='js/plugins/noty/layouts/topRight.js'></script> 
+
+		 <script type='text/javascript' src='js/plugins/noty/themes/default.js'></script>
+            <script type="text/javascript">                                            
+                function notyConfirm(){
+                    noty({
+                        text: 'Do you want to continue?',
+                        layout: 'topRight',
+                        buttons: [
+                                {addClass: 'btn btn-success btn-clean', text: 'Ok', onClick: function($noty) {
+                                    $noty.close();
+                                    noty({text: 'You clicked "Ok" button', layout: 'topRight', type: 'success'});
+                                }
+                                },
+                                {addClass: 'btn btn-danger btn-clean', text: 'Cancel', onClick: function($noty) {
+                                    $noty.close();
+                                    noty({text: 'You clicked "Cancel" button', layout: 'topRight', type: 'error'});
+                                    }
+                                }
+                            ]
+                    })                                                    
+                }                                            
+            </script>
+
         <script type="text/javascript" src="js/plugins/moment.min.js"></script>
         <script type="text/javascript" src="js/plugins/daterangepicker/daterangepicker.js"></script>
         <!-- END THIS PAGE PLUGINS-->        
