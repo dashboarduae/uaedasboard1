@@ -7331,22 +7331,20 @@ li.ext_zip {
 display:none;
 }
 
-@media all and  (max-width: 1024px){
-.x-navigation > li.xn-logo > a:first-child {
-    padding: 15px 50px 15px 0;
-	font-size: 22px
-}
-
 .fp .x-navigation > li.xn-logo > a:first-child {
     padding: 15px 0 15px 0;
-	font-size: 22px
+	font-size: 22px;
+	    background: #b78a35;
 }
-}
+
 
 @media all and  (max-width: 500px){
 .x-navigation > li.xn-logo > a:first-child {
-	font-size: 5.5vw;
+	font-size: 5.5vw;background: #b78a35;
 }
+}
+.x-navigation > li.xn-logo > a:first-child {
+	background: #b78a35;
 }
 
 #loadingscreen{
@@ -7399,6 +7397,7 @@ display:none;
     font-weight: bold;
     padding: 12px 6px;
     text-align: justify;
+	color:#b78a35;
 }
 
 
@@ -7462,20 +7461,22 @@ display:none;
 }
 
 
-.fp .x-navigation > li.xn-logo > a:first-child {
+.fp-logo > a:first-child {
     height: 90px;
+    padding: 10px;
+    display: block;
+    text-align: center;
+    color: #000;
+    background: #f5f5f5 url(../img/bg.png) left top repeat;
 }
 
-.fp  .x-navigation {
+
+
+
+.fp-logo  {
     max-height: 90px;
-  }
-
-
-@media only screen and (max-width: 1024px){
-.fp .x-navigation {
-    max-height: 90px;
 }
-}
+
 
 .fp  .x-navigation .x-navigation-control {
     height: 90px;
@@ -7524,7 +7525,7 @@ font-size: 16px;
 }
 
 .fp .page-container .page-content{
-    top: 90px;	
+       top: 135px;
 }
 
 .page-container .bottom_menu{
@@ -7599,7 +7600,7 @@ font-size: 16px;
 }
 
 .page-content-wrap .grid{
-	
+	    margin-bottom: 15px;
 }
 
 .page-content-wrap .clearfix180:after {
@@ -7619,6 +7620,7 @@ font-size: 16px;
 .mCustomScrollBox,
 .mCSB_container.mCS_no_scrollbar_y.mCS_y_hidden{
 	width:100%;
+	overflow: visible;
 }
 
 
@@ -7632,12 +7634,16 @@ font-size: 16px;
     background: #fff;
 }
 
+.page-content-wrap .grid-item a{
+	text-decoration:none;
+}
+
 
 
 .page-content-wrap .grid-item img.icon{
 	display: block;
     margin: 10px auto;
-    height: 75px;
+    height: 35%;
 }
 
 .page-content-wrap .grid-item h3{
@@ -7775,4 +7781,141 @@ font-size: 16px;
     font-size: 14px;
     font-weight: normal;
 	cursor:pointer;
+}
+
+#lineChart{
+	width:100%;
+	text-align:center;
+}
+
+#lineChart svg {
+    height: 50vw;
+}
+
+.morris-hover.morris-default-style {
+border-radius: 10px;
+    padding: 6px;
+    color: #666;
+    background: rgba(255, 255, 255, 0.8);
+    border: solid 2px rgba(230, 230, 230, 0.8);
+    font-family: sans-serif;
+    font-size: 12px;
+    text-align: center;
+    position: static;
+    display: inline-block;
+}
+
+
+.progress {
+    height: 7px;
+}
+
+.page-container .page-content .page-content-wrap {
+    padding: 10px 0 30px;
+}
+
+.x-navigation > li.xn-logo > a:first-child:hover {
+    background: #b78a35;padding: 15px 50px 15px 15px;
+}
+
+.GICountryTitle{
+	background:#252525;display:table;
+	width:100%;
+	border-spacing: 10px;
+    border-collapse: separate;
+	margin-bottom: 10px;
+}
+
+.row.GICountryTitle:before,
+.row.GICountryTitle:after{
+	display:none;
+}
+
+.GICountryTitle .countryInfo{
+display: table-cell;
+    color: #fff;
+    font-size: 4.375vw;
+    vertical-align: top;
+}
+
+.GICountryTitle .countryInfo.flag{
+	width:15%;
+}
+
+.GICountryTitle .countryInfo.population{
+	width:30%;
+}
+
+.GICountryTitle .countryInfo.flag img{
+	width:100%;
+}
+
+
+.GICountryTitle .countryInfo .desc{
+	font-size:3.125vw;
+}
+
+.GICountryTitle .countryInfo .value{
+	font-size:3.75vw;
+}
+
+#vector_world_map{
+	width: 100%; height: 50vw;
+}
+
+.mCSB_scrollTools {
+    position: absolute;
+    width: 16px;
+    height: auto;
+    left: auto;
+    top: 0;
+    right: -10px;
+    bottom: 0;
+}
+
+#generalInfo{
+	overflow: hidden;
+	height: calc(100vh - 130px - 56vw);
+}
+
+#generalInfo .param,
+#generalInfo .value{
+	font-size:3.6vw;
+}
+
+@media all and (orientation:landscape) {
+.mapleft, .mapright{
+    display: block;
+    width: 50%;
+    float: left;
+}
+
+#generalInfo .param,
+#generalInfo .value{
+	font-size:1.8vw;
+}
+
+#vector_world_map{
+	    height: calc(100vh - 90px - 6vw);
+}
+
+.GICountryTitle .countryInfo {
+    font-size: 2.18vw;
+}
+
+.GICountryTitle .countryInfo .desc {
+    font-size: 1.562vw;
+}
+
+.GICountryTitle .countryInfo .value {
+    font-size: 1.875vw;
+}
+
+#generalInfo{
+	height: calc(100vh - 70px);
+}
+
+.GICountryTitle{
+	margin-bottom: 0px;
+}
 }

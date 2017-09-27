@@ -246,11 +246,35 @@ function updateGeneralInformation(){
 
 		var info = data;
 		if(status == 'success' && info.status == 0){
+			console.log(info.data);
+			console.log(curCountry);
+			
+			$(".GICountryTitle .flag img").attr('src', '');
+			var image = new Image();
+
+			image.onload = function() {
+				$(".GICountryTitle .flag img").attr('src', image.src);
+			}
+			image.onerror = function() {
+				// image did not load
+				$(".GICountryTitle .flag img").attr('src', 'img/flags/_defFlag.jpg');
+			}
+
+			image.src = 'img/flags/' + curCountry.name + '.jpg';
+			
+			$(".GICountryTitle .name").text(curCountry.name);
+			
+			$(".GICountryTitle .capital .value").text('-');
+			
 			var giWrapper  = $('#generalInfo table');
 			giWrapper.html('');
 			info.data.forEach(function(el) {
 				var giEl = $('<tr><td class="param">'+HtmlEncode(el.name)+'</td><td class="value">'+(el.value ==null || isNaN(el.value) ?el.value:setValuesFormats(el.value))+'</td></tr>');
 				giWrapper.append(giEl);
+				
+				if(el.name == 'Capital') $(".GICountryTitle .capital .value").text(el.value);
+				
+				if(el.name == 'Population, in Millions') $(".GICountryTitle .population .value").text(Math.round(el.value) + ' Millions');
 			});
 		}
 		//hideLoadingScreen();
@@ -545,7 +569,7 @@ function setActiveYearRange(yearFrom, yearTo){
 
 
 var yearSlider = null;
-function updateYearRange(){
+function updateYearRangeFTVolume(){
 	yearSlider = document.getElementById('year_range_select');
 	
 	$.post(baseServiceUrl + "/getftiyears",
@@ -576,6 +600,11 @@ function updateYearRange(){
 					}
 				});
 				updateFTVolumeInfo();
+				yearSlider.noUiSlider.on('change', function(){
+					var activeYears = yearSlider.noUiSlider.get();
+					setActiveYearRange(activeYears[0],activeYears[1]);
+					updateFTVolumeInfo();
+				});
 			}else{
 				//yearSlider.noUiSlider.set([(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)]);
 				
@@ -594,6 +623,130 @@ function updateYearRange(){
 					}
 				});
 				updateFTVolumeInfo();
+			}
+			
+		}
+    });
+
+	
+}
+
+function updateYearRangeFTBalance(){
+	yearSlider = document.getElementById('year_range_select');
+	
+	$.post(baseServiceUrl + "/getftiyears",
+    {
+        lang: getAppLang(),
+        country: curCountry.id,
+    },
+    function(info, status){
+		
+		if(status == 'success' && info.status == 0){
+			var activeRange = getActiveYearRange();
+			var minYear = Number.parseInt(info.data[0], 10);
+			var maxYear = Number.parseInt(info.data[info.data.length - 1], 10);
+			
+			if(yearSlider.noUiSlider == undefined){
+				noUiSlider.create(yearSlider, {
+					start: [(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)],
+					connect: true,
+					behaviour: 'tap-drag', 
+					step: 1,
+					tooltips: true,
+					format: wNumb({
+						decimals: 0
+					}),
+					range: {
+						'min': minYear,
+						'max': maxYear
+					}
+				});
+				updateFTBalanceInfo();
+				yearSlider.noUiSlider.on('change', function(){
+					var activeYears = yearSlider.noUiSlider.get();
+					setActiveYearRange(activeYears[0],activeYears[1]);
+					updateFTBalanceInfo();
+				});
+			}else{
+				//yearSlider.noUiSlider.set([(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)]);
+				
+				yearSlider.noUiSlider.updateOptions({
+					start: [(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)],
+					connect: true,
+					behaviour: 'tap-drag', 
+					step: 1,
+					tooltips: true,
+					format: wNumb({
+						decimals: 0
+					}),
+					range: {
+						'min': minYear,
+						'max': maxYear
+					}
+				});
+				updateFTBalanceInfo();
+			}
+			
+		}
+    });
+
+	
+}
+
+function updateYearRangeFTGrowth(){
+	yearSlider = document.getElementById('year_range_select');
+	
+	$.post(baseServiceUrl + "/getftiyears",
+    {
+        lang: getAppLang(),
+        country: curCountry.id,
+    },
+    function(info, status){
+		
+		if(status == 'success' && info.status == 0){
+			var activeRange = getActiveYearRange();
+			var minYear = Number.parseInt(info.data[0], 10);
+			var maxYear = Number.parseInt(info.data[info.data.length - 1], 10);
+			
+			if(yearSlider.noUiSlider == undefined){
+				noUiSlider.create(yearSlider, {
+					start: [(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)],
+					connect: true,
+					behaviour: 'tap-drag', 
+					step: 1,
+					tooltips: true,
+					format: wNumb({
+						decimals: 0
+					}),
+					range: {
+						'min': minYear,
+						'max': maxYear
+					}
+				});
+				updateFTGrowthInfo();
+				yearSlider.noUiSlider.on('change', function(){
+					var activeYears = yearSlider.noUiSlider.get();
+					setActiveYearRange(activeYears[0],activeYears[1]);
+					updateFTGrowthInfo();
+				});
+			}else{
+				//yearSlider.noUiSlider.set([(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)]);
+				
+				yearSlider.noUiSlider.updateOptions({
+					start: [(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)],
+					connect: true,
+					behaviour: 'tap-drag', 
+					step: 1,
+					tooltips: true,
+					format: wNumb({
+						decimals: 0
+					}),
+					range: {
+						'min': minYear,
+						'max': maxYear
+					}
+				});
+				updateFTGrowthInfo();
 			}
 			
 		}
@@ -675,5 +828,94 @@ function showFTCategoryInfo(index){
 	});
 }
 
+var balanceGraph;
+function updateFTBalanceInfo(){
+	var years = getActiveYearRange();
+	$.post(baseServiceUrl + "/getftbalance",
+    {
+        lang: getAppLang(),
+        country: curCountry.id,
+		from:years[0],
+		to:years[1],
+		currency:getCurCurrency()
+    },
+    function(info, status){
+		
+		if(status == 'success' && info.status == 0){
+			
+			var years = getActiveYearRange();
+			
+			var showData = new Array();
+			info.data.forEach(function(el, i) {
+				if(el.year >= years[0] && el.year <= years[1])
+					showData.push(el);
+			});
+			
+			$('#lineChart').html('');
+			balanceGraph = Morris.Line({
+				element: 'lineChart',
+				data: showData,
+				xkey: 'year',
+				ykeys: ['value'],
+				labels: ['Trade Balance'],
+				yLabelFormat:function (y) { return setValuesFormats(y); },
+				fillOpacity: 0.6,
+				  hideHover: 'auto',
+				  behaveLikeLine: true,
+				  resize: true,
+				  pointFillColors:['#ffffff'],
+				  pointStrokeColors: ['black'],
+				  lineColors:['gray']
+			});
+			//hideLoadingScreen();
+		};
+    })
+}
 
-
+function updateFTGrowthInfo(){
+	var years = getActiveYearRange();
+	$.post(baseServiceUrl + "/getfttotal",
+    {
+        lang: getAppLang(),
+        country: curCountry.id,
+		from:years[0],
+		to:years[1],
+		currency:getCurCurrency()
+    },
+    function(info, status){
+		
+		if(status == 'success' && info.status == 0){
+			console.log(info.data);
+			var years = getActiveYearRange();
+			
+			var showData = new Array();
+			info.data.forEach(function(el, i) {
+				if(i>0 && el.year >= years[0] && el.year <= years[1]){
+					var newEl = {year:'', value:0};
+					newEl.year = el.year;
+					newEl.value = Math.round((el.value - info.data[i-1].value)/info.data[i-1].value*100);
+					showData.push(newEl);
+				}
+					
+			});
+			
+			$('#lineChart').html('');
+			balanceGraph = Morris.Line({
+				element: 'lineChart',
+				data: showData,
+				xkey: 'year',
+				ykeys: ['value'],
+				labels: ['Trade Growth'],
+				fillOpacity: 0.6,
+				yLabelFormat:function (y) { return y.toString() + '%'; },
+				  hideHover: 'auto',
+				  behaveLikeLine: true,
+				  resize: true,
+				  pointFillColors:['#ffffff'],
+				  pointStrokeColors: ['black'],
+				  lineColors:['gray']
+			});
+			//hideLoadingScreen();
+		};
+    })
+}

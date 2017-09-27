@@ -45,6 +45,8 @@
                     <li class="xn-title">Navigation</li>
                     <li class="active"><a href="general_information.html"><span class="fa fa-globe"></span> <span class="xn-text">General Information</span></a></li>
 					<li><a href="foreign_trade_volume.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Volume</span></a></li>
+					<li><a href="trade_balance.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Balance</span></a></li>
+					<li><a href="trade_growth.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Grouth</span></a></li>
 					<li><a href="direct_foreign_trade_items.html"><span class="fa "></span> <span class="xn-text">Direct Foreign Trade Items</span></a></li>
 					<li><a href="investement_facts.html"><span class="fa "></span> <span class="xn-text">Investement Facts</span></a></li>
                     
@@ -203,7 +205,7 @@ $(document).ready(function(){
 				menu.append(country);
 			});
 			setActiveCountry(curCountry.id, false);
-			updateYearRange();
+			updateYearRangeFTVolume();
 		}
     });
 	
