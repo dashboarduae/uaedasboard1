@@ -7245,7 +7245,7 @@ li.ext_zip {
   .x-navigation {
     max-height: 50px;
     overflow: hidden;
-    background: #1b1e24;
+    background: #252525;
   }
   .x-navigation.x-navigation-panel {
     height: 50px;
@@ -7338,14 +7338,10 @@ display:none;
 }
 
 
-@media all and  (max-width: 500px){
 .x-navigation > li.xn-logo > a:first-child {
 	font-size: 5.5vw;background: #b78a35;
 }
-}
-.x-navigation > li.xn-logo > a:first-child {
-	background: #b78a35;
-}
+
 
 #loadingscreen{
 	position: absolute;
@@ -7445,7 +7441,20 @@ display:none;
 	display:none;
 }
 
+#donutchart {
+	
+}
+
+#chartImport,
+#chartExport,
+#chartReExport{
+	height:24vw;
+}
+
 @media all and (orientation:landscape) {
+	.x-navigation > li.xn-logo > a:first-child {
+    font-size: 1.8vw;
+	}
   .FTItemsCategories{
 	display:block;
 	}
@@ -7811,14 +7820,20 @@ border-radius: 10px;
 
 
 .progress {
-    height: 7px;
+    height: 2.2vw;
 }
 
 .page-container .page-content .page-content-wrap {
     padding: 10px 0 30px;
 }
 
-.x-navigation > li.xn-logo > a:first-child:hover {
+.x-navigation > li.xn-logo > a:first-child:hover,
+.x-navigation > li.xn-logo > a:first-child {
+    background: #b78a35;padding: 15px 50px 15px 15px;
+}
+
+.x-navigation > li.xn-logo > a:first-child:hover,
+.x-navigation > li.xn-logo > a:first-child {
     background: #b78a35;padding: 15px 50px 15px 15px;
 }
 
@@ -7826,9 +7841,9 @@ border-radius: 10px;
 .FTVTitle{
 	background:#252525;display:table;
 	width:100%;
-	border-spacing: 10px;
+	border-spacing: 3.125vw;
     border-collapse: separate;
-	margin-bottom: 10px;
+	margin-bottom: 3.125vw;
 }
 
 .row.GICountryTitle:before,
@@ -7857,7 +7872,8 @@ display: table-cell;
 
 .GICountryTitle .countryInfo.flag img,
 .FTVTitle .countryInfo.flag img{
-	width:100%;
+	width: 100%;
+    position: relative;
 }
 
 
@@ -7876,6 +7892,41 @@ display: table-cell;
 
 .FTVTitle .countryInfo .value{
 	font-size:2.5vw;
+}
+
+@media all and (orientation:landscape) {
+	
+.GICountryTitle,
+.FTVTitle{
+	border-spacing: 1vw;
+	margin-bottom: 1vw;
+}
+	
+.GICountryTitle .countryInfo.flag img,
+.FTVTitle .countryInfo.flag img{
+    top: -.3vw;
+    bottom: -.1vw;
+}
+	
+.FTVTitle .countryInfo.flag{
+	width:10%;
+}	
+	
+.FTVTitle .countryInfo{
+display: table-cell;
+    color: #fff;
+    font-size: 4.375vw;
+    vertical-align: top;
+}
+
+.FTVTitle .countryInfo .desc{
+    font-size: 2.7vw;
+    font-weight: bold;
+}
+
+.FTVTitle .countryInfo .value{
+	font-size:1.2vw;
+}	
 }
 
 
@@ -7948,7 +7999,39 @@ display: table-cell;
 	font-size: 5vw;
 }
 
+.panel {
+    margin-bottom: 6.25vw;
+}
+
+.nav-tabs > li > a {
+	font-size:4.375vw;
+}
+
+.panel .panel-heading {
+    padding: 3.125vw;
+}
+
+#country_select,
+#currency_select,
+#filter-box .mb-content .row{
+	width:100%;
+}
+
+
+
 @media all and (orientation:landscape) {
+#filter-box .mb-content .row{
+	
+}	
+	
+.panel .panel-heading {
+    padding: 1.5vw;
+}
+
+.progress {
+    height: 0.7vw;
+}
+
 .categoryInfo .panel .panel-title {
 	font-size: 2.1vw;
 }
@@ -7956,4 +8039,13 @@ display: table-cell;
 .categoryInfo .panel .panel-body {
 	font-size: 1.5vw;
 }
+
+.panel {
+    margin-bottom: 3.7vw;
 }
+
+.nav-tabs > li > a {
+	font-size:1.4vw;
+}
+}
+

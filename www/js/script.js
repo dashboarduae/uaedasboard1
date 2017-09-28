@@ -1,5 +1,5 @@
-//const baseServiceUrl = "http://localhost:8080/trs"; 
-const baseServiceUrl = "http://trservice3562.cloudapp.net:8080/trs"; 
+const baseServiceUrl = "http://localhost:8080/trs"; 
+//const baseServiceUrl = "http://trservice3562.cloudapp.net:8080/trs"; 
 
 var curCountry;
 var countryList;
