@@ -7367,7 +7367,7 @@ display:none;
 
 #country_select .dropdown-menu,
 #year_select  .dropdown-menu{
-	max-height: 200px;
+	max-height: calc(90vh - 150px);
     overflow-y: auto;
 }
 
@@ -7507,7 +7507,7 @@ font-size: 16px;
 
 .nav-tabs.nav-justified.w30>li{
 	float:left;
-	
+	width: 33%;
 }
 
 .noUi-horizontal .noUi-tooltip{
@@ -7685,6 +7685,10 @@ font-size: 16px;
 	display:none;
 }
 
+.FTV.landscape h3{
+	font-size:3.17vw;
+}
+
 @media all and (orientation:landscape) {
 .FTV.portrait{
 	display:none;
@@ -7818,7 +7822,8 @@ border-radius: 10px;
     background: #b78a35;padding: 15px 50px 15px 15px;
 }
 
-.GICountryTitle{
+.GICountryTitle,
+.FTVTitle{
 	background:#252525;display:table;
 	width:100%;
 	border-spacing: 10px;
@@ -7827,18 +7832,22 @@ border-radius: 10px;
 }
 
 .row.GICountryTitle:before,
-.row.GICountryTitle:after{
+.row.GICountryTitle:after,
+.row.FTVTitle:before,
+.row.FTVTitle:after{
 	display:none;
 }
 
-.GICountryTitle .countryInfo{
+.GICountryTitle .countryInfo,
+.FTVTitle .countryInfo{
 display: table-cell;
     color: #fff;
     font-size: 4.375vw;
     vertical-align: top;
 }
 
-.GICountryTitle .countryInfo.flag{
+.GICountryTitle .countryInfo.flag,
+.FTVTitle .countryInfo.flag{
 	width:15%;
 }
 
@@ -7846,7 +7855,8 @@ display: table-cell;
 	width:30%;
 }
 
-.GICountryTitle .countryInfo.flag img{
+.GICountryTitle .countryInfo.flag img,
+.FTVTitle .countryInfo.flag img{
 	width:100%;
 }
 
@@ -7858,6 +7868,16 @@ display: table-cell;
 .GICountryTitle .countryInfo .value{
 	font-size:3.75vw;
 }
+
+.FTVTitle .countryInfo .desc{
+    font-size: 4.5vw;
+    font-weight: bold;
+}
+
+.FTVTitle .countryInfo .value{
+	font-size:2.5vw;
+}
+
 
 #vector_world_map{
 	width: 100%; height: 50vw;
@@ -7917,5 +7937,23 @@ display: table-cell;
 
 .GICountryTitle{
 	margin-bottom: 0px;
+}
+}
+
+.categoryInfo .panel .panel-title {
+	font-size: 6.25vw;
+}
+
+.categoryInfo .panel .panel-body {
+	font-size: 5vw;
+}
+
+@media all and (orientation:landscape) {
+.categoryInfo .panel .panel-title {
+	font-size: 2.1vw;
+}
+
+.categoryInfo .panel .panel-body {
+	font-size: 1.5vw;
 }
 }

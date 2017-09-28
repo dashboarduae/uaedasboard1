@@ -60,7 +60,7 @@ function getCurCurrency(){
 	if(cur == undefined) {
 		cur = 0;
 	}
-	return cur;
+	return parseInt(cur);
 }
 
 function setCurCurrency(currency){
@@ -246,8 +246,6 @@ function updateGeneralInformation(){
 
 		var info = data;
 		if(status == 'success' && info.status == 0){
-			console.log(info.data);
-			console.log(curCountry);
 			
 			$(".GICountryTitle .flag img").attr('src', '');
 			var image = new Image();
@@ -257,7 +255,7 @@ function updateGeneralInformation(){
 			}
 			image.onerror = function() {
 				// image did not load
-				$(".GICountryTitle .flag img").attr('src', 'img/flags/_defFlag.jpg');
+				$(".GICountryTitle .flag img").attr('src', 'img/flags/_defFlag.png');
 			}
 
 			image.src = 'img/flags/' + curCountry.name + '.jpg';
@@ -770,6 +768,7 @@ function updateFTVolumeInfo(){
     function(info, status){
 		
 		if(status == 'success' && info.status == 0){
+			updateFTVolumeTitle();
 			console.log(info.data);
 			FTVolumeData = info.data;
 			$(".FTV .tab-pane.categoryInfo").html("");
@@ -779,6 +778,44 @@ function updateFTVolumeInfo(){
 			//hideLoadingScreen();
 		};
     })
+}
+
+function updateFTVolumeTitle(){
+	$(".FTVTitle .flag img").attr('src', '');
+			var image = new Image();
+
+			image.onload = function() {
+				$(".FTVTitle .flag img").attr('src', image.src);
+			}
+			image.onerror = function() {
+				// image did not load
+				$(".FTVTitle .flag img").attr('src', 'img/flags/_defFlag.jpg');
+			}
+
+			image.src = 'img/flags/' + curCountry.name + '.png';
+	
+	
+	var years = getActiveYearRange();
+	$('.inlineYearFrom').text(years[0]);
+	$('.inlineYearTo').text(years[1]);
+	
+	var currString = "";
+	var curr = getCurCurrency();
+	switch(curr){
+		case 0:
+		currString = "AED Millions";
+			break;
+		case 1:
+		currString = "USD Millions";
+			break;
+		case 2:
+		currString = "AED Billions";
+			break;
+		case 3:
+		currString = "USD Billions";
+			break;
+	}
+	$('.inlineCurrency').text(currString);
 }
 
 function showFTCategoryInfo(index){
@@ -800,31 +837,35 @@ function showFTCategoryInfo(index){
 			}
 			
 			var panelBody = '<div class="panel-body">';
+
 			panelBody += '<span>Import</span>';
 			panelBody += '<span class="pull-right">' + setValuesFormats(category.imports) + '</span>';
 			
-			panelBody += "<div class='progress'><div class='progress-bar progress-bar-success valueImport" + index + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
+			panelBody += "<div class='progress'><div  class='progress-bar progress-bar-success valueImport" + index + " year" + el.year + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
 			
 			panelBody += '<span>Export</span>';
 			panelBody += '<span class="pull-right">' + setValuesFormats(category.nonOilExports) + '</span>';
 			
-			panelBody += "<div class='progress'><div class='progress-bar progress-bar-success valueExport" + index + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
+			panelBody += "<div class='progress'><div  class='progress-bar progress-bar-success valueExport" + index + " year" + el.year + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
 			
 			panelBody += '<span>Re-Export</span>';
 			panelBody += '<span class="pull-right">' + setValuesFormats(category.reExports) + '</span>';
 			
-			panelBody += "<div class='progress'><div class='progress-bar progress-bar-success valueReExport" + index + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
+			panelBody += "<div class='progress'><div class='progress-bar progress-bar-success valueReExport" + index + " year" + el.year + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
 			
 			panelBody += '</div>';
 			var panel = '<div class="panel panel-default"><div class="panel-heading"><span class="panel-title">'+el.year +'</span><span class="panel-title pull-right">' + setValuesFormats(value) + '</span></div>' +panelBody+ '</div>';
 			
-			setTimeout(function(){
-				$(".FTV .progress-bar.valueImport"+index).css('width', (category.imports*100/value) + "%");
-				$(".FTV .progress-bar.valueExport"+index).css('width', (category.nonOilExports*100/value) + "%");
-				$(".FTV .progress-bar.valueReExport"+index).css('width', (category.reExports*100/value) + "%");
-			}, 300);
 			
 			$('.FTV .categoryInfo.cat'+index).prepend($(panel));
+			
+			if(value > 0){console.log();
+				setTimeout(function(){
+					$(".FTV .progress-bar.valueImport"+index+".year"+el.year).css('width', (category.imports*100/value) + "%");
+					$(".FTV .progress-bar.valueExport"+index+".year"+el.year).css('width', (category.nonOilExports*100/value) + "%");
+					$(".FTV .progress-bar.valueReExport"+index+".year"+el.year).css('width', (category.reExports*100/value) + "%");
+				}, 300);
+			}
 	});
 }
 

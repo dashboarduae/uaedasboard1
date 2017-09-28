@@ -53,6 +53,7 @@
                 </ul>
                 <!-- END X-NAVIGATION -->
             </div>
+
             <!-- END PAGE SIDEBAR -->
             <div id="filter-box"  class="message-box animated fadeIn">
 			
@@ -81,16 +82,16 @@
 							<div id="currency_select" class="btn-group">
 								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false">AED Millions <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="#" onClick="setCurCurrency(0);updateFTItems();">AED Millions</a></li>
-									<li><a href="#" onClick="setCurCurrency(1);updateFTItems();">USD Millions</a></li>
-									<li><a href="#" onClick="setCurCurrency(2);updateFTItems();">AED Billions</a></li>
-									<li><a href="#" onClick="setCurCurrency(3);updateFTItems();">USD Billions</a></li>
+									<li><a href="#" onClick="setCurCurrency(0);updateYearRangeFTVolume();">AED Millions</a></li>
+									<li><a href="#" onClick="setCurCurrency(1);updateYearRangeFTVolume();">USD Millions</a></li>
+									<li><a href="#" onClick="setCurCurrency(2);updateYearRangeFTVolume();">AED Billions</a></li>
+									<li><a href="#" onClick="setCurCurrency(3);updateYearRangeFTVolume();">USD Billions</a></li>
 								</ul>
 							</div>
 						</div>	
                     </div>
                     <div class="mb-footer">
-                        <button class="btn btn-default btn-lg pull-right mb-control-close">Close</button>
+                        <button class="btn btn-default btn-lg pull-right mb-control-close">Apply</button>
                     </div>
                 </div>
             </div>
@@ -98,12 +99,15 @@
             <!-- PAGE CONTENT -->
             <div class="page-content scroll">
                 
+				<div  class="row FTVTitle"  style="margin-bottom:10px;">
+						<div class="countryInfo flag"><img src="img/flags/_defFlag.jpg"></div> 
+						<div class="countryInfo"><div class="desc inlineCountryTitle"></div><div class="value"><span class="inlineYearFrom"></span> to <span class="inlineYearTo"></span> (in <span class="inlineCurrency"></span>)</div></div>						
+				</div>
                 <!-- START X-NAVIGATION VERTICAL -->
                 <!-- END X-NAVIGATION VERTICAL -->                     
 
                 <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap">
-				<div id="loadingscreen"><img src="/img/loading.svg"></div>
 				
 				<div class="row FTV portrait">
 						<div class="col-md-12">
@@ -129,19 +133,32 @@
 				</div>
 				
 				<div class="row  FTV landscape">
-					<div class="col-md-4 categoryInfo cat0">
-					
+				
+					<div class="col-md-4">
+                                <h3>Total Trade</h3>
+                                <div class="tab-pane active categoryInfo cat0" >
+                                        
+                                </div>                        
+                                
 					</div>
 					
-					<div class="col-md-4 categoryInfo cat1">
-					
+					<div class="col-md-4">
+                                <h3>Direct Trade</h3>
+                                <div class="tab-pane active categoryInfo cat1" >
+                                        
+                                </div>                        
+                                
 					</div>
 					
-					<div class="col-md-4 categoryInfo cat2">
-					
+					<div class="col-md-4">
+                                <h3>Free Zone Trade</h3>
+                                <div class="tab-pane active categoryInfo cat2" >
+                                        
+                                </div>                        
+                                
 					</div>
-				</div>
-				<div class="row clearfix180">
+					
+					
 				</div>
 				
                 <!-- END PAGE CONTENT WRAPPER -->                                
@@ -201,7 +218,7 @@ $(document).ready(function(){
 			var menu  = $('#country_select .dropdown-menu');
 			menu.html('');
 			countryList.data.forEach(function(el) {
-				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateYearRange();">' + el.name + '</a></li>');
+				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateYearRangeFTVolume();">' + el.name + '</a></li>');
 				menu.append(country);
 			});
 			setActiveCountry(curCountry.id, false);

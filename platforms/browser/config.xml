@@ -6,9 +6,9 @@
     <feature name="Device">
         <param name="browser-package" value="Device" />
     </feature>
-    <name>Trade Relations Dashboard</name>
+    <name>UAE Non-Oil Trade</name>
     <description>
-        Trade Relations Dashboard
+        UAE Non-Oil Trade
     </description>
     <author email="support@phonegap.com" href="http://phonegap.com">
         PhoneGap Team

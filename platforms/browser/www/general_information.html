@@ -70,7 +70,7 @@
 						</div>                   
                     </div>
                     <div class="mb-footer">
-                        <button class="btn btn-default btn-lg pull-right mb-control-close">Close</button>
+                        <button class="btn btn-default btn-lg pull-right mb-control-close">Apply</button>
                     </div>
                 </div>
             </div>
@@ -151,26 +151,7 @@
         <script type='text/javascript' src='js/plugins/noty/layouts/topRight.js'></script> 
 
 		 <script type='text/javascript' src='js/plugins/noty/themes/default.js'></script>
-            <script type="text/javascript">                                            
-                function notyConfirm(){
-                    noty({
-                        text: 'Do you want to continue?',
-                        layout: 'topRight',
-                        buttons: [
-                                {addClass: 'btn btn-success btn-clean', text: 'Ok', onClick: function($noty) {
-                                    $noty.close();
-                                    noty({text: 'You clicked "Ok" button', layout: 'topRight', type: 'success'});
-                                }
-                                },
-                                {addClass: 'btn btn-danger btn-clean', text: 'Cancel', onClick: function($noty) {
-                                    $noty.close();
-                                    noty({text: 'You clicked "Cancel" button', layout: 'topRight', type: 'error'});
-                                    }
-                                }
-                            ]
-                    })                                                    
-                }                                            
-            </script>
+
 
         <script type="text/javascript" src="js/plugins/moment.min.js"></script>
         <script type="text/javascript" src="js/plugins/daterangepicker/daterangepicker.js"></script>

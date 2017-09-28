@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="ae.gov.economy.trdashboard" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>Trade Relations Dashboard</name>
+    <name>UAE Non-Oil Trade</name>
     <description>
-        Trade Relations Dashboard
+        UAE Non-Oil Trade
     </description>
     <author email="support@phonegap.com" href="http://phonegap.com">
         PhoneGap Team
