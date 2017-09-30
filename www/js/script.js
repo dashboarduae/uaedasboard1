@@ -66,7 +66,7 @@ function HtmlEncode(s)
 function getCurCurrency(){
 	var cur = window.localStorage.getItem('appCurCurrency');
 	if(cur == undefined) {
-		cur = 0;
+		cur = 1;
 	}
 	return parseInt(cur);
 }
@@ -254,6 +254,7 @@ function updateGeneralInformation(){
     function(data, status){
 
 		var info = data;
+		
 		if(status == 'success' && info.status == 0){
 			
 			$(".GICountryTitle .flag img").attr('src', '');
@@ -346,18 +347,18 @@ function updateFTItems(){
 		
 		if(status == 'success' && info.status == 0){
 			FTItems = info.data;
-			//console.log(FTItems);
-			
+			updateFTItemsTitle();
 			$('#donutchart').html('');
 			donutChart = Morris.Donut({
 				element: 'donutchart',
 				data: [
-					{label: "Import", value: setValuesFormats(FTItems.totalImports)},
-					{label: "Export", value: setValuesFormats(FTItems.totalNonOilExports)},
-					{label: "Re-Export", value: setValuesFormats(FTItems.totalReExports)}
+					{label: "Import", value: FTItems.totalImports},
+					{label: "Non-Oil Export", value: FTItems.totalNonOilExports},
+					{label: "Re-Export", value: FTItems.totalReExports}
 				],
 				colors: chartColors,
-				resize: true
+				resize: true,
+				formatter: function (value, data) { return setValuesFormats(value); }
 			});
 			donutChart.on('click', function(i, row){
 				showActiveFTData(i);
@@ -427,7 +428,7 @@ function updateCategoriesData(index, selector){
 		case 2: 
 			itemsToDisplay = FTItems.reExportsItems;
 			totalValue = FTItems.totalReExports;
-			chartLabel = "ReExport";
+			chartLabel = "Re-Export";
 			chartId = "chartReExport";
 			progressBarClass = "valueReExport";
 			break;
@@ -791,6 +792,43 @@ function updateFTVolumeTitle(){
 	$('.inlineCurrency').text(currString);
 }
 
+function updateFTItemsTitle(){
+	$(".FTVTitle .flag img").attr('src', '');
+			var image = new Image();
+
+			image.onload = function() {
+				$(".FTVTitle .flag img").attr('src', image.src);
+			}
+			image.onerror = function() {
+				// image did not load
+				$(".FTVTitle .flag img").attr('src', 'img/flags/_defFlag.jpg');
+			}
+
+			image.src = 'img/flags/' + curCountry.name + '.png';
+	
+	
+	var year = getCurYear()
+	$('.inlineYear').text(year);
+	
+	var currString = "";
+	var curr = getCurCurrency();
+	switch(curr){
+		case 0:
+		currString = "AED Millions";
+			break;
+		case 1:
+		currString = "USD Millions";
+			break;
+		case 2:
+		currString = "AED Billions";
+			break;
+		case 3:
+		currString = "USD Billions";
+			break;
+	}
+	$('.inlineCurrency').text(currString);
+}
+
 function showFTCategoryInfo(index){
 	FTVolumeData.forEach(function(el, i) {
 		
@@ -816,7 +854,7 @@ function showFTCategoryInfo(index){
 			
 			panelBody += "<div class='progress'><div  class='progress-bar progress-bar-success valueImport" + index + " year" + el.year + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
 			
-			panelBody += '<span>Export</span>';
+			panelBody += '<span>Non-Oil Export</span>';
 			panelBody += '<span class="pull-right">' + setValuesFormats(category.nonOilExports) + '</span>';
 			
 			panelBody += "<div class='progress'><div  class='progress-bar progress-bar-success valueExport" + index + " year" + el.year + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
@@ -845,6 +883,7 @@ function showFTCategoryInfo(index){
 var balanceGraph;
 function updateFTBalanceInfo(){
 	var years = getActiveYearRange();
+	updateFTVolumeTitle();
 	$.post(baseServiceUrl + "/getftbalance",
     {
         lang: getAppLang(),
@@ -858,29 +897,37 @@ function updateFTBalanceInfo(){
 		if(status == 'success' && info.status == 0){
 			
 			var years = getActiveYearRange();
-			
-			var showData = new Array();
+			var showData = [{key:'', values: []}];
+			console.log(info.data);
 			info.data.forEach(function(el, i) {
-				if(el.year >= years[0] && el.year <= years[1])
-					showData.push(el);
+				if(el.year >= years[0] && el.year <= years[1]){
+					var newEl = {label:'', value:0};
+					newEl.label = el.year;
+					newEl.value = el.value;
+					showData[0].values.push(newEl);
+				}
+					
 			});
 			
-			$('#lineChart').html('');
-			balanceGraph = Morris.Line({
-				element: 'lineChart',
-				data: showData,
-				xkey: 'year',
-				ykeys: ['value'],
-				labels: ['Trade Balance'],
-				yLabelFormat:function (y) { return setValuesFormats(y); },
-				fillOpacity: 0.6,
-				  hideHover: 'auto',
-				  behaveLikeLine: true,
-				  resize: true,
-				  pointFillColors:['#ffffff'],
-				  pointStrokeColors: ['black'],
-				  lineColors:['gray']
+			$('#balanceChart svg').html('');
+			nv.addGraph(function() {
+			  var chart = nv.models.discreteBarChart()
+				  .x(function(d) { return d.label })    //Specify the data accessors.
+				  .y(function(d) { return setValuesFormats(d.value) })
+				  .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
+				  .tooltips(false)        //Don't show tooltips
+				  .showValues(true)       //...instead, show the bar value right on top of each bar.
+				  .transitionDuration(350);
+
+			  d3.select('#balanceChart svg')
+				  .datum(showData)
+				  .call(chart);
+
+			  nv.utils.windowResize(chart.update);
+
+			  return chart;
 			});
+			
 			//hideLoadingScreen();
 		};
     })
@@ -899,38 +946,35 @@ function updateFTGrowthInfo(){
     function(info, status){
 		
 		if(status == 'success' && info.status == 0){
-			console.log(info.data);
-			var years = getActiveYearRange();
 			
-			var showData = [{key:'', values: []}];
+			var years = getActiveYearRange();
+
+			var showData =  new Array();
 			info.data.forEach(function(el, i) {
 				if(i>0 && el.year >= years[0] && el.year <= years[1]){
 					var newEl = {label:'', value:0};
-					newEl.label = el.year;
+					newEl.year = el.year;
 					newEl.value = Math.round((el.value - info.data[i-1].value)/info.data[i-1].value*100);
-					showData[0].values.push(newEl);
+					showData.push(newEl);
 				}
 					
 			});
-			
-			$('#growthChart svg').html('');
-			nv.addGraph(function() {
-			  var chart = nv.models.discreteBarChart()
-				  .x(function(d) { return d.label })    //Specify the data accessors.
-				  .y(function(d) { return setValuesFormats(d.value) })
-				  .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
-				  .tooltips(false)        //Don't show tooltips
-				  .showValues(true)       //...instead, show the bar value right on top of each bar.
-				  .transitionDuration(350)
-				  ;
-
-			  d3.select('#growthChart svg')
-				  .datum(showData)
-				  .call(chart);
-
-			  nv.utils.windowResize(chart.update);
-
-			  return chart;
+			$('#growthChart').html('');
+			balanceGraph = Morris.Area({
+				element: 'growthChart',
+				data: showData,
+				xkey: 'year',
+				ykeys: ['value'],
+				labels: ['Balance'],
+				yLabelFormat:function (y) { return Math.round(y) + "%"; },
+				fillOpacity: 0.6,
+				  hideHover: 'auto',
+				  behaveLikeLine: true,
+				  resize: true,
+				  pointFillColors:['#39c3b0'],
+				  pointStrokeColors: ['#39c3b0'],
+				  lineColors:['#1caf9a'],
+				  formatter: function (value, data) { return Math.round(value) + "%"; }
 			});
 
 			//hideLoadingScreen();

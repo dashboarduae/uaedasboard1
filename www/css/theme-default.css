@@ -7442,7 +7442,7 @@ display:none;
 }
 
 #donutchart {
-	
+	height:45vw;
 }
 
 #chartImport,
@@ -7450,7 +7450,7 @@ display:none;
 #chartReExport{
     height: 30vw;
     position: absolute;
-    top: -8vw;
+    top: -6vw;
 }
 
 .FTItemsCategories .panel.panel-default{
@@ -7497,7 +7497,7 @@ display:none;
 }
 
 .page-container .page-sidebar .title{
-	background:#b58a33;color:#fff;    padding: 3.125vw; font-size:4.375vw;    line-height: 1.3em;
+	background:#000;color:#fff;    padding: 3.125vw; font-size:4.375vw;    line-height: 1.3em;
 }
 
 .page-container .page-sidebar .title .big{
@@ -7755,7 +7755,8 @@ margin: 0;
 }
 
 .FTV.landscape h3{
-	font-size:3.17vw;
+	font-size:2.7vw;
+	    font-weight: normal;
 }
 
 @media all and (orientation:landscape) {
@@ -7874,18 +7875,18 @@ font-size: 16px;
 	padding: 0 1vw;
 }
 
-#lineChart{
+#balanceChart{
 	width:100%;
 	text-align:center;
 }
 
-#lineChart svg,
+#balanceChart svg,
 #growthChart svg {
     height: 52vw;
 }
 
 @media all and (orientation:landscape) {
-#lineChart svg,
+#balanceChart svg,
 #growthChart svg{
     height: 35vw;
 }
@@ -8102,7 +8103,7 @@ display: table-cell;
 }
 
 #country_select,
-#currency_select,
+#currency_select,#year_select,
 #filter-box .mb-content .row{
 	width:100%;
 }
@@ -8178,7 +8179,13 @@ display: table-cell;
 }
 
 .FTItemsCategories .nvd3.nv-pie .nv-slice text{
-	font-size: 2vw;
+	font-size: 2.2vw;
+	font-weight:bold;
+}
+
+.FTItemsCategories .nvd3.nv-pie .nv-slice text:last-child{
+    font-size: 1.8vw;
+    font-weight: normal;
 }
 
 .panel .panel-body.nopadding{
@@ -8188,4 +8195,40 @@ display: table-cell;
 .panel .panel-title{
 	font-size:5vw;
 	line-height: 1.3em;
+}
+
+
+.nav-tabs, .nav-tabs.nav-justified{
+    margin-left: -20px;
+    width: calc(100% + 40px);
+    padding-bottom: 15px;
+    background: #f5f5f5 url(../img/bg.png) left top repeat;
+}
+
+.nav-tabs.nav-justified > .active > a, .nav-tabs.nav-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:focus,
+.nav-tabs.nav-justified > li > a{
+    border: 0px;
+    border-top: none;
+    background: #FFF;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    background: #b78a35;
+    color: #fff;
+    border: 1px solid #f5f5f5;
+}
+
+.tradeGrowth .panel .panel-heading .panel-title,
+.tradeBalance .panel .panel-heading .panel-title{
+	font-size: 4.5vw;
+    font-weight: normal;
+}
+
+
+@media all and (orientation:landscape) {
+.tradeGrowth .panel .panel-heading .panel-title,
+.tradeBalance .panel .panel-heading .panel-title{
+	font-size: 2.7vw;
+    font-weight: normal;
+}
 }
