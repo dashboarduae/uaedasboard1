@@ -7361,9 +7361,13 @@ display:none;
     margin: 30px auto;
 }
 
-#country_select .dropdown-menu,
-#year_select  .dropdown-menu{
+#country_select .dropdown-menu{
 	max-height: calc(90vh - 150px);
+    overflow-y: auto;
+}
+
+#year_select .dropdown-menu {
+    max-height: calc(80vh - 150px);
     overflow-y: auto;
 }
 
@@ -8112,7 +8116,7 @@ display: table-cell;
 
 @media all and (orientation:landscape) {
 #filter-box .mb-content .row{
-	
+	    float: left;
 }	
 	
 .panel .panel-heading {
@@ -8230,5 +8234,15 @@ display: table-cell;
 .tradeBalance .panel .panel-heading .panel-title{
 	font-size: 2.7vw;
     font-weight: normal;
+}
+
+#filter-box .row.w50{
+    width: 46%;
+    float: right;
+}
+
+#filter-box .row.w50:first-child{
+    width: 46%;
+    float: left;
 }
 }
