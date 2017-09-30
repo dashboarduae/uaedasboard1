@@ -6,7 +6,6 @@ var countryList;
 var countrySelectedFromMap = true;
 var countryMap = null;
 
-
 $(document).ready(function(){
 	setCurCurrency(parseInt(getCurCurrency()));
 	$(".page-container .bottom_menu .menu_item").click(function(){
@@ -94,7 +93,7 @@ function setCurCurrency(currency){
 function getCurYear(){
 	var year = window.localStorage.getItem('appCurYear');
 	if(year == undefined) {
-		year = "";
+		year = "2016";
 	}
 	return year;
 }
@@ -277,12 +276,24 @@ function updateGeneralInformation(){
 			var giWrapper  = $('#generalInfo table');
 			giWrapper.html('');
 			info.data.forEach(function(el) {
-				var giEl = $('<tr><td class="param">'+HtmlEncode(el.name)+'</td><td class="value">'+(el.value ==null || isNaN(el.value) ?el.value:setValuesFormats(el.value))+'</td></tr>');
-				giWrapper.append(giEl);
+				var addElement = true;
 				
-				if(el.name == 'Capital') $(".GICountryTitle .capital .value").text(el.value);
+				if(el.name == 'Capital') {
+					$(".GICountryTitle .capital .value").text(el.value);
+					addElement = false;
+				}
 				
-				if(el.name == 'Population, in Millions') $(".GICountryTitle .population .value").text(Math.round(el.value) + ' Millions');
+				if(el.name == 'Population, in Millions') {
+					$(".GICountryTitle .population .value").text(Math.round(el.value) + ' Millions');
+					addElement = false;
+				}
+				if(addElement){
+					var giEl = $('<tr><td class="param">'+HtmlEncode(el.name)+'</td><td class="value">'+(el.value ==null || isNaN(el.value) ?el.value:setValuesFormats(el.value))+'</td></tr>');
+					giWrapper.append(giEl);
+				}
+				
+				
+
 			});
 		}
 		//hideLoadingScreen();
@@ -570,7 +581,7 @@ function showActiveFTData(index){
 function getActiveYearRange(){
 	var yearFrom = window.localStorage.getItem('appYearFrom');
 	if(yearFrom == undefined) {
-		yearFrom = "2000";
+		yearFrom = "2014";
 	}
 	
 	var yearTo = window.localStorage.getItem('appYearTo');
@@ -680,71 +691,11 @@ function updateYearRangeFTBalance(){
 					}
 				});
 				updateFTBalanceInfo();
-				yearSlider.noUiSlider.on('change', function(){
-					var activeYears = yearSlider.noUiSlider.get();
-					setActiveYearRange(activeYears[0],activeYears[1]);
-					updateFTBalanceInfo();
-				});
-			}else{
-				//yearSlider.noUiSlider.set([(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)]);
-				
-				yearSlider.noUiSlider.updateOptions({
-					start: [(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)],
-					connect: true,
-					behaviour: 'tap-drag', 
-					step: 1,
-					tooltips: true,
-					format: wNumb({
-						decimals: 0
-					}),
-					range: {
-						'min': minYear,
-						'max': maxYear
-					}
-				});
-				updateFTBalanceInfo();
-			}
-			
-		}
-    });
-
-	
-}
-
-function updateYearRangeFTGrowth(){
-	yearSlider = document.getElementById('year_range_select');
-	
-	$.post(baseServiceUrl + "/getftiyears",
-    {
-        lang: getAppLang(),
-        country: curCountry.id,
-    },
-    function(info, status){
-		
-		if(status == 'success' && info.status == 0){
-			var activeRange = getActiveYearRange();
-			var minYear = Number.parseInt(info.data[0], 10);
-			var maxYear = Number.parseInt(info.data[info.data.length - 1], 10);
-			
-			if(yearSlider.noUiSlider == undefined){
-				noUiSlider.create(yearSlider, {
-					start: [(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)],
-					connect: true,
-					behaviour: 'tap-drag', 
-					step: 1,
-					tooltips: true,
-					format: wNumb({
-						decimals: 0
-					}),
-					range: {
-						'min': minYear,
-						'max': maxYear
-					}
-				});
 				updateFTGrowthInfo();
 				yearSlider.noUiSlider.on('change', function(){
 					var activeYears = yearSlider.noUiSlider.get();
 					setActiveYearRange(activeYears[0],activeYears[1]);
+					updateFTBalanceInfo();
 					updateFTGrowthInfo();
 				});
 			}else{
@@ -764,6 +715,7 @@ function updateYearRangeFTGrowth(){
 						'max': maxYear
 					}
 				});
+				updateFTBalanceInfo();
 				updateFTGrowthInfo();
 			}
 			
@@ -772,6 +724,7 @@ function updateYearRangeFTGrowth(){
 
 	
 }
+
 
 var FTVolumeData;
 
@@ -949,33 +902,37 @@ function updateFTGrowthInfo(){
 			console.log(info.data);
 			var years = getActiveYearRange();
 			
-			var showData = new Array();
+			var showData = [{key:'', values: []}];
 			info.data.forEach(function(el, i) {
 				if(i>0 && el.year >= years[0] && el.year <= years[1]){
-					var newEl = {year:'', value:0};
-					newEl.year = el.year;
+					var newEl = {label:'', value:0};
+					newEl.label = el.year;
 					newEl.value = Math.round((el.value - info.data[i-1].value)/info.data[i-1].value*100);
-					showData.push(newEl);
+					showData[0].values.push(newEl);
 				}
 					
 			});
 			
-			$('#lineChart').html('');
-			balanceGraph = Morris.Line({
-				element: 'lineChart',
-				data: showData,
-				xkey: 'year',
-				ykeys: ['value'],
-				labels: ['Trade Growth'],
-				fillOpacity: 0.6,
-				yLabelFormat:function (y) { return y.toString() + '%'; },
-				  hideHover: 'auto',
-				  behaveLikeLine: true,
-				  resize: true,
-				  pointFillColors:['#ffffff'],
-				  pointStrokeColors: ['black'],
-				  lineColors:['gray']
+			$('#growthChart svg').html('');
+			nv.addGraph(function() {
+			  var chart = nv.models.discreteBarChart()
+				  .x(function(d) { return d.label })    //Specify the data accessors.
+				  .y(function(d) { return setValuesFormats(d.value) })
+				  .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
+				  .tooltips(false)        //Don't show tooltips
+				  .showValues(true)       //...instead, show the bar value right on top of each bar.
+				  .transitionDuration(350)
+				  ;
+
+			  d3.select('#growthChart svg')
+				  .datum(showData)
+				  .call(chart);
+
+			  nv.utils.windowResize(chart.update);
+
+			  return chart;
 			});
+
 			//hideLoadingScreen();
 		};
     })

@@ -7463,7 +7463,7 @@ display:none;
 
 @media all and (orientation:landscape) {
 	.x-navigation > li.xn-logo > a:first-child {
-    font-size: 1.8vw;
+    font-size: 3vw;
 	}
   .FTItemsCategories{
 	display:block;    position: relative;
@@ -7879,11 +7879,19 @@ font-size: 16px;
 	text-align:center;
 }
 
-#lineChart svg {
-    height: 50vw;
+#lineChart svg,
+#growthChart svg {
+    height: 52vw;
 }
 
-.morris-hover.morris-default-style {
+@media all and (orientation:landscape) {
+#lineChart svg,
+#growthChart svg{
+    height: 35vw;
+}
+}
+
+.morris-hover.morris-default-style {/*
 border-radius: 10px;
     padding: 6px;
     color: #666;
@@ -7893,7 +7901,7 @@ border-radius: 10px;
     font-size: 12px;
     text-align: center;
     position: static;
-    display: inline-block;
+    display: inline-block;*/
 }
 
 
@@ -8171,4 +8179,13 @@ display: table-cell;
 
 .FTItemsCategories .nvd3.nv-pie .nv-slice text{
 	font-size: 2vw;
+}
+
+.panel .panel-body.nopadding{
+	padding:0;
+}
+
+.panel .panel-title{
+	font-size:5vw;
+	line-height: 1.3em;
 }

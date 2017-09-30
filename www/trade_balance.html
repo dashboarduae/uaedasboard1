@@ -38,17 +38,18 @@
                 <!-- START X-NAVIGATION -->
                 <ul class="x-navigation">
                     <li class="xn-logo">
-                        <a href="index.html">Foreign Trade Balance</a>
+                        <a href="index.html">UAE Non-Oil Foreign Trade Growth and Balance</a>
 						<a href="#" class="x-navigation-controlfilter mb-control" data-box="#filter-box"></a>
                         <a href="#" class="x-navigation-control"></a>
                     </li>
-                    <li class="xn-title">Navigation</li>
-                    <li class="active"><a href="general_information.html"><span class="fa fa-globe"></span> <span class="xn-text">General Information</span></a></li>
-					<li><a href="foreign_trade_volume.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Volume</span></a></li>
-					<li><a href="trade_balance.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Balance</span></a></li>
-					<li><a href="trade_growth.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Grouth</span></a></li>
-					<li><a href="direct_foreign_trade_items.html"><span class="fa "></span> <span class="xn-text">Direct Foreign Trade Items</span></a></li>
-					<li><a href="investement_facts.html"><span class="fa "></span> <span class="xn-text">Investement Facts</span></a></li>
+                    <li><a href="general_information.html"> <span class="xn-text">General Information</span></a></li>
+					<li><a href="foreign_trade_volume.html"><span class="xn-text">Trade Volume</span></a></li>
+					<li class="active"><a href="trade_balance.html"> <span class="xn-text">Trade Growth and Balance</span></a></li>
+					<li><a href="direct_foreign_trade_items.html"><span class="xn-text">Direct Trade Items</span></a></li>
+					<li><a href="#"><span class="xn-text">Investement Facts</span></a></li>
+					<li><a href="#"><span class="xn-text">Joint Agreements</span></a></li>
+					<li><a href="#"><span class="xn-text">Mutual Visits</span></a></li>
+					<li><a href="#"><span class="xn-text">Joint Committees</span></a></li>
                     
                 </ul>
                 <!-- END X-NAVIGATION -->
@@ -108,8 +109,20 @@
                             <div class="panel-heading">
                                 <h3 class="panel-title title-1">Foreign Trade Balance between UAE and <span class="inlineCountryTitle"></span></h3>     
                             </div>
-                            <div class="panel-body">
+                            <div class="panel-body nopadding">
                                 <div id="lineChart"></div>
+                            </div>
+                        </div>
+						
+					</div></div>
+					
+					<div class="row"><div class="col-md-12 clearfix">
+						<div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title title-1">Foreign Trade Growth between UAE and <span class="inlineCountryTitle"></span></h3>     
+                            </div>
+                            <div class="panel-body nopadding">
+                                <div id="growthChart"><svg></svg></div>
                             </div>
                         </div>
 						
@@ -153,6 +166,9 @@
         
         <script type="text/javascript" src="js/plugins/moment.min.js"></script>
         <script type="text/javascript" src="js/plugins/daterangepicker/daterangepicker.js"></script>
+		
+		<script type="text/javascript" src="js/plugins/nvd3/lib/d3.v3.js"></script>
+		<script type="text/javascript" src="js/plugins/nvd3/nv.d3.min.js"></script>
         <!-- END THIS PAGE PLUGINS-->        
 
         <!-- START TEMPLATE -->
@@ -188,7 +204,10 @@ $(document).ready(function(){
 		}
     });
 	
-	
+	$(window).resize(function(){
+		updateFTBalanceInfo();
+		updateFTGrowthInfo();
+	});
 });
 		</script>
     <!-- END SCRIPTS -->         
