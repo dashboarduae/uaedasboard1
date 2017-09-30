@@ -40,19 +40,32 @@ function compareCountry(a,b) {
 }
 
 function setValuesFormats(val){
+	
 	var value = new Number(val);
+
 	if(value == 0) return '0.0';
-	if(value<0.1){
+	if(value > 0){
+		if(value<0.1 ){
+			return value.toPrecision(1);
+		}
+		if(value<1){
+			return value.toFixed(2);
+		}
+		if(value<1000){
+			return value.toFixed(1);
+		}
+		return value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}else{
+		if(value<-1000) return value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		
+		if(value<-1){
+			return value.toFixed(1);
+		}
+		if(value<-0.1 ){
+			return value.toFixed(2)
+		}
 		return value.toPrecision(1);
 	}
-	if(value<1){
-		return value.toFixed(2);
-	}
-	if(value<1000){
-		return value.toFixed(1);
-	}
-	
-	return value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
 }
 
 function HtmlEncode(s)
@@ -913,16 +926,22 @@ function updateFTBalanceInfo(){
 			nv.addGraph(function() {
 			  var chart = nv.models.discreteBarChart()
 				  .x(function(d) { return d.label })    //Specify the data accessors.
-				  .y(function(d) { return setValuesFormats(d.value) })
+				  .y(function(d) { return d.value })
+				  .valueFormat(function(d) { return setValuesFormats(d)})
 				  .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
 				  .tooltips(false)        //Don't show tooltips
 				  .showValues(true)       //...instead, show the bar value right on top of each bar.
 				  .transitionDuration(350);
-
+				chart.yAxis.tickFormat(function(d) {
+						return setValuesFormats(d);
+					});
 			  d3.select('#balanceChart svg')
 				  .datum(showData)
 				  .call(chart);
-
+				d3.selectAll("rect.discreteBar")
+				.style("fill", function(d, i){
+					return d.y < 0 ? "#E04B4A":"#95B75D";
+				});
 			  nv.utils.windowResize(chart.update);
 
 			  return chart;
@@ -965,16 +984,16 @@ function updateFTGrowthInfo(){
 				data: showData,
 				xkey: 'year',
 				ykeys: ['value'],
-				labels: ['Balance'],
+				labels: ['Growth'],
 				yLabelFormat:function (y) { return Math.round(y) + "%"; },
 				fillOpacity: 0.6,
-				  hideHover: 'auto',
-				  behaveLikeLine: true,
-				  resize: true,
-				  pointFillColors:['#39c3b0'],
-				  pointStrokeColors: ['#39c3b0'],
-				  lineColors:['#1caf9a'],
-				  formatter: function (value, data) { return Math.round(value) + "%"; }
+				hideHover: 'auto',
+				behaveLikeLine: true,
+				resize: true,
+				pointFillColors:['#39c3b0'],
+				pointStrokeColors: ['#39c3b0'],
+				lineColors:['#1caf9a'],
+				formatter: function (value, data) { return Math.round(value) + "%"; }
 			});
 
 			//hideLoadingScreen();

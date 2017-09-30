@@ -194,6 +194,7 @@ $(document).ready(function(){
 			$('#country_select #active_value').html(countryList.data[0].name + " <span class=\"caret\"></span>");
 			var menu  = $('#country_select .dropdown-menu');
 			menu.html('');
+			countryList.data.sort(compareCountry);
 			countryList.data.forEach(function(el) {
 				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateYearRangeFTBalance();">' + el.name + '</a></li>');
 				menu.append(country);
