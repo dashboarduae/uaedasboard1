@@ -179,7 +179,11 @@ $(document).ready(function(){
 				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateYearRangeFTBalance();">' + el.name + '</a></li>');
 				menu.append(country);
 			});
-			setActiveCountry(curCountry.id, false);
+			var curC = window.localStorage.getItem('appCurCountry');
+			if(curC == undefined) {
+				curC = 156;
+			}
+			setActiveCountry(parseInt(curC), false);
 			updateYearRangeFTBalance();
 		}
     });

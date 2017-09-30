@@ -99,9 +99,9 @@
 					</div>
 					<div  class="row GICountryTitle"  style="margin-bottom:10px;">
 						<div class="countryInfo flag"><img src="img/flags/_defFlag.jpg"></div> 
-						<div class="countryInfo name">China</div>
-						<div class="countryInfo capital"><div class="desc">Capital</div><div class="value">Beijin</div></div>
-						<div class="countryInfo population"><div class="desc">Population</div><div class="value">1,372 Millions</div></div>					
+						<div class="countryInfo name"></div>
+						<div class="countryInfo capital"><div class="desc">Capital</div><div class="value"></div></div>
+						<div class="countryInfo population"><div class="desc">Population</div><div class="value"></div></div>					
 
 						
 					</div>
@@ -176,15 +176,18 @@ $(document).ready(function(){
     function(data, status){
 		countryList  = data;
 		if(status == 'success' && countryList.status == 0) {
-			curCountry = countryList.data[0];
-			$('#country_select #active_value').html(countryList.data[0].name + " <span class=\"caret\"></span>");
 			var menu  = $('#country_select .dropdown-menu');
 			menu.html('');
-			countryList.data.forEach(function(el) {
-				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateMap();updateGeneralInformation();">' + el.name + '</a></li>');
-				menu.append(country);
-			});
-			setActiveCountry(curCountry.id, false);
+			countryList.data.sort(compareCountry);
+			for(var i = 0;i<countryList.data.length; i++){
+				var country = $('<li><a href="#" onClick="setActiveCountry(' + countryList.data[i].id + ', false);updateMap();updateGeneralInformation();">' + countryList.data[i].name + '</a></li>');
+				menu.append(country);console.log(countryList.data[i].name);
+			}
+			var curC = window.localStorage.getItem('appCurCountry');
+			if(curC == undefined) {
+				curC = 156;
+			}
+			setActiveCountry(parseInt(curC), false);
 			updateMap();
 			updateGeneralInformation();
 		}

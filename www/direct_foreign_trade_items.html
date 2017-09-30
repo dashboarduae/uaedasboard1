@@ -37,7 +37,7 @@
                 <!-- START X-NAVIGATION -->
                 <ul class="x-navigation">
                     <li class="xn-logo">
-                        <a href="index.html">Direct Foreign Trade</a>
+                        <a href="index.html">UAE Direct Non-Oil Foreign Trade Items</a>
 						<a href="#" class="x-navigation-controlfilter mb-control" data-box="#filter-box"></a>
                         <a href="#" class="x-navigation-control"></a>
                     </li>
@@ -219,6 +219,8 @@
 		<script>
 $(document).ready(function(){
 	//showLoadingScreen();
+	
+	
 	$.post(baseServiceUrl + "/list",
     {
         lang: getAppLang(),
@@ -234,11 +236,15 @@ $(document).ready(function(){
 				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateMap();updateFTYearsList();">' + el.name + '</a></li>');
 				menu.append(country);
 			});
-			setActiveCountry(curCountry.id, false);
+			var curC = window.localStorage.getItem('appCurCountry');
+			if(curC == undefined) {
+				curC = 156;
+			}
+			setActiveCountry(parseInt(curC), false);
 			updateFTYearsList();
 		}
     });
-	$('window').resize(updateFTItems);
+	$(window).resize(updateFTItems);
 	
 	
 });

@@ -31,6 +31,15 @@ $(document).ready(function(){
 	
 });
 
+
+function compareCountry(a,b) {
+  if (a.name < b.name)
+    return -1;
+  if (a.name > b.name)
+    return 1;
+  return 0;
+}
+
 function setValuesFormats(val){
 	var value = new Number(val);
 	if(value == 0) return '0.0';
@@ -213,7 +222,8 @@ function setActiveCountry(id, fromMap){
 		curCountry = res;
 		$('#country_select #active_value').html(HtmlEncode(curCountry.name) + " <span class=\"caret\"></span>");
 		$('.inlineCountryTitle').html(HtmlEncode(curCountry.name));
-		window.localStorage.setItem("appCurCountry", curCountry);
+		window.localStorage.setItem("appCurCountry", curCountry.id);
+		
 	}
 	
 	countrySelectedFromMap = fromMap;
@@ -255,10 +265,10 @@ function updateGeneralInformation(){
 			}
 			image.onerror = function() {
 				// image did not load
-				$(".GICountryTitle .flag img").attr('src', 'img/flags/_defFlag.png');
+				$(".GICountryTitle .flag img").attr('src', 'img/flags/_defFlag.jpg');
 			}
 
-			image.src = 'img/flags/' + curCountry.name + '.jpg';
+			image.src = 'img/flags/' + curCountry.name + '.png';
 			
 			$(".GICountryTitle .name").text(curCountry.name);
 			
@@ -343,7 +353,7 @@ function updateFTItems(){
 				
 			});
 			
-			$("#donutchart text tspan").first().html("Total trade");
+			$("#donutchart text tspan").first().html("Total");
 			$("#donutchart text tspan").last().html(setValuesFormats(FTItems.totalFT));
 			try{
 				donutChart.select(-1);
@@ -363,11 +373,15 @@ function updateFTItems(){
 		updateCategoriesData(1, ".FTItemsCategories .Export");
 		updateCategoriesData(2, ".FTItemsCategories .ReExport");
 		setSameHeight(".FTItemsCategories .panel-body");
+		
+		$(".toggleTitles").click(function(){
+			$(".FTItems .itemhead .name").toggleClass("expand");setSameHeight(".FTItemsCategories .panel-body");
+		});
     });
 	
 }
 
-var chartColors = ['#95B75D', '#1caf9a', '#FEA223'];
+var chartColors = ['#E04B4A', '#1CAF9A', '#95B75D'];
 
 function updateCategoriesData(index, selector){
 	var panelBody = $( selector + " .panel-body");
@@ -377,6 +391,7 @@ function updateCategoriesData(index, selector){
 	var totalValue;
 	var chartLabel;
 	var chartId;
+	var progressBarClass;
 	
 	switch(index){
 		case -1: 
@@ -389,23 +404,26 @@ function updateCategoriesData(index, selector){
 			totalValue = FTItems.totalImports;
 			chartLabel = "Import";
 			chartId = "chartImport";
+			progressBarClass = "valueImport";
 			break;
 		case 1: 
 			itemsToDisplay = FTItems.nonOilExportsItems;
 			totalValue = FTItems.totalNonOilExports;
 			chartLabel = "Export";
 			chartId = "chartExport";
+			progressBarClass = "valueExport";
 			break;
 		case 2: 
 			itemsToDisplay = FTItems.reExportsItems;
 			totalValue = FTItems.totalReExports;
 			chartLabel = "ReExport";
 			chartId = "chartReExport";
+			progressBarClass = "valueReExport";
 			break;
 	}
 	
 	itemsToDisplay.forEach(function(el, ind, array) {
-			var item = $("<div class='item item1'><div class='itemhead'><span class='name' >" + HtmlEncode(el.title) + "</span><span class='value'><span class=\"fa fa-question\" data-toggle=\"popover\" data-placement=\"top\" data-content=\""+HtmlEncode(el.title)+"\"></span>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
+			var item = $("<div class='item item1'><div class='itemhead'><span class='name' >" + HtmlEncode(el.title) + "<span class='toggleTitles'>&nbsp;>>>&nbsp;</span></span><span class='value'>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success " + progressBarClass + " value"  + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
 			panelBody.append(item);
 			
 	});
@@ -417,7 +435,6 @@ function updateCategoriesData(index, selector){
 			}, 300);
 				
 	});
-	$('[data-toggle="popover"]').popover(); 
 	$('#' + chartId + " svg").html("");
 	
 // Create the donut pie chart and insert it onto the page
@@ -429,17 +446,14 @@ nv.addGraph(function() {
   		.y(function(d) {
         return d.value
       })
-  		.showLabels(true)
+  		.showLabels(false)
   		.showLegend(false)
   		.labelThreshold(.05)
   		.labelType("key")
   		.color([chartColors[index], "#ddd"])
-  		.tooltipContent(
-        function(key, y, e, graph) { return 'Custom tooltip string' }
-      ) // This is for when I turn on tooltips
   		.tooltips(false)
   		.donut(true)
-  		.donutRatio(0.55);
+  		.donutRatio(0.60);
   
   	// Insert text into the center of the donut
   	function centerText() {
@@ -461,7 +475,7 @@ nv.addGraph(function() {
         		.style("fill", "#000");
         // Insert second line of text into middle of donut pie chart
         donut.insert("text", "g")
-            .text(totalValue)
+            .text(setValuesFormats(totalValue))
             .attr("class", "middle")
             .attr("text-anchor", "middle")
         		.attr("dy", ".85em")
@@ -509,28 +523,34 @@ function showActiveFTData(index){
 	
 	var itemsToDisplay;
 	var totalValue;
+	var progressBarClass;
+	
 	
 	switch(index){
 		case -1: 
 			itemsToDisplay = FTItems.totalItems;
 			totalValue = FTItems.totalFT;
+			progressBarClass = "valueTotal";
 			break;
 		case 0: ;
 			itemsToDisplay = FTItems.importsItems;
 			totalValue = FTItems.totalImports;
+			progressBarClass = "valueImport";
 			break;
 		case 1: 
 			itemsToDisplay = FTItems.nonOilExportsItems;
 			totalValue = FTItems.totalNonOilExports;
+			progressBarClass = "valueExport";
 			break;
 		case 2: 
 			itemsToDisplay = FTItems.reExportsItems;
 			totalValue = FTItems.totalReExports;
+			progressBarClass = "valueReExport";
 			break;
 	}
 	
 	itemsToDisplay.forEach(function(el, ind, array) {
-			var item = $("<div class='item item1'><div class='itemhead' ><span class='name' >" + HtmlEncode(el.title) + "</span><span class='value'><span class=\"fa fa-question\" data-toggle=\"popover\" data-placement=\"top\" data-content=\""+HtmlEncode(el.title)+"\"></span>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
+			var item = $("<div class='item item1'><div class='itemhead' ><span class='name' >" + HtmlEncode(el.title) + "<span class='toggleTitles'>&nbsp;>>>&nbsp;</span></span><span class='value'>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success " + progressBarClass + " value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
 			panelBody.append(item);
 			
 	});
