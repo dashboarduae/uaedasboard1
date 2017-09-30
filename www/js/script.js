@@ -56,13 +56,13 @@ function setValuesFormats(val){
 		}
 		return value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 	}else{
-		if(value<-1000) return value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		if(value<=-1000) return value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		
-		if(value<-1){
-			return value.toFixed(1);
+		if(value<=-1){
+			return value.toFixed(0);
 		}
-		if(value<-0.1 ){
-			return value.toFixed(2)
+		if(value<=-0.1 ){
+			return value.toFixed(1)
 		}
 		return value.toPrecision(1);
 	}
@@ -122,7 +122,6 @@ function getAppLang(){
 	if(lang == undefined) {
 		//var lang = navigator.language.split("-");
 		//var current_lang = (lang[0]);
-		//console.log( "current_lang: " + current_lang );
 		lang = "EN";
 	}
 	return lang;
@@ -756,7 +755,6 @@ function updateFTVolumeInfo(){
 		
 		if(status == 'success' && info.status == 0){
 			updateFTVolumeTitle();
-			console.log(info.data);
 			FTVolumeData = info.data;
 			$(".FTV .tab-pane.categoryInfo").html("");
 			
@@ -883,7 +881,7 @@ function showFTCategoryInfo(index){
 			
 			$('.FTV .categoryInfo.cat'+index).prepend($(panel));
 			
-			if(value > 0){console.log();
+			if(value > 0){
 				setTimeout(function(){
 					$(".FTV .progress-bar.valueImport"+index+".year"+el.year).css('width', (category.imports*100/value) + "%");
 					$(".FTV .progress-bar.valueExport"+index+".year"+el.year).css('width', (category.nonOilExports*100/value) + "%");
@@ -911,7 +909,6 @@ function updateFTBalanceInfo(){
 			
 			var years = getActiveYearRange();
 			var showData = [{key:'', values: []}];
-			console.log(info.data);
 			info.data.forEach(function(el, i) {
 				if(el.year >= years[0] && el.year <= years[1]){
 					var newEl = {label:'', value:0};
@@ -940,7 +937,7 @@ function updateFTBalanceInfo(){
 				  .call(chart);
 				d3.selectAll("rect.discreteBar")
 				.style("fill", function(d, i){
-					return d.y < 0 ? "#E04B4A":"#95B75D";
+					return d.value < 0 ? "#E04B4A":"#95B75D";
 				});
 			  nv.utils.windowResize(chart.update);
 
