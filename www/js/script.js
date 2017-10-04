@@ -218,6 +218,17 @@ function getCountryFromList(cid){
 	return res;
 }
 
+function getCountryFromListName(name){
+	var res = null;
+	countryList.data.forEach(function(el) {
+			if(el.name== name){
+				res = el;
+			}
+	});
+
+	return res;
+}
+
 function getCountryFromListISO2(ciso2){
 	var res = null;
 	countryList.data.forEach(function(el) {
@@ -238,7 +249,10 @@ function setActiveCountry(id, fromMap){
 		window.localStorage.setItem("appCurCountry", curCountry.id);
 		
 	}
-	
+	if(id == -1 ){
+		curCountry = {id:-1, name:''};
+		window.localStorage.setItem("appCurCountry", -1);
+	}
 	countrySelectedFromMap = fromMap;
 }
 
@@ -279,7 +293,7 @@ function updateGeneralInformation(){
 			}
 			image.onerror = function() {
 				// image did not load
-				$(".GICountryTitle .flag img").attr('src', 'img/flags/_defFlag.jpg');
+				$(".GICountryTitle .flag img").attr('src', 'img/flags/_defFlag.png');
 			}
 
 			image.src = 'img/flags/' + curCountry.name + '.png';
@@ -787,7 +801,7 @@ function updateFTVolumeTitle(){
 			}
 			image.onerror = function() {
 				// image did not load
-				$(".FTVTitle .flag img").attr('src', 'img/flags/_defFlag.jpg');
+				$(".FTVTitle .flag img").attr('src', 'img/flags/_defFlag.png');
 			}
 
 			image.src = 'img/flags/' + curCountry.name + '.png';
@@ -825,7 +839,7 @@ function updateFTItemsTitle(){
 			}
 			image.onerror = function() {
 				// image did not load
-				$(".FTVTitle .flag img").attr('src', 'img/flags/_defFlag.jpg');
+				$(".FTVTitle .flag img").attr('src', 'img/flags/_defFlag.png');
 			}
 
 			image.src = 'img/flags/' + curCountry.name + '.png';

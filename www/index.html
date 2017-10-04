@@ -9,6 +9,8 @@
 <script>
 if(window.innerWidth>window.innerHeight) window.location = "index_land.html";
 </script>
+
+<link rel="stylesheet" type="text/css" id="theme" href="js/plugins/select2/css/select2.min.css"/>
 <style>
 BODY {background:white;margin:0;padding:0;font-size:1vm;font-family:Arial}
 IMG {font-size:1vw;margin:0;border:0}
@@ -43,15 +45,62 @@ A IMG {border:none}
 #icons_ul IMG {width:22vw}
 
 #text_cont_div {padding:2vw}
-#text_cont_div H2 {font-family:Arial;color:#B68A35;font-weight:bold;font-size:2.5vw;margin:0;padding:0}
-#text_cont_div P {color:#333;font-family:Arial;font-size:1.5vw;line-height:1.7em;padding-top:0;margin-top:0.8vw}
+#text_cont_div H2 {font-family:Arial;color:#B68A35;font-weight:bold;font-size:4vw;margin:0;padding:0}
+#text_cont_div P {color:#333;font-family:Arial;    font-size: 3vw;
+    line-height: 1.2em;padding-top:0;margin-top:0.8vw}
+
+
+.select2-container{width:30vw !important;}
+.select2-container .select2-selection--single{height:auto;}
+.select2-container--default .select2-selection--single .select2-selection__rendered{    
+line-height: 1em;
+    padding: 1vw;
+    font-size: 3vw;
+	text-align: left;
+	height: 1em;
+}
+.select2-container--default .select2-selection--single {
+    background-color: #fff;
+    border: none; 
+    border-radius: 0px; 
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 3vw;
+    position: absolute;
+    top: 0.7vw;
+    right: 0px;
+    width: 4.25vw;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected],
+.select2-results__option[aria-selected] {
+    background-color: #fff;
+    color: #000;
+	    line-height: 1em;
+    padding: 1vw;
+    font-size: 3vw;
+    text-align: left;
+}
+.select2-container--default .select2-search--dropdown .select2-search__field{
+padding: 1vw;
+    font-size: 3vw;
+    text-align: left;
+}
+
+.select2-container--open .select2-dropdown--below {
+    border: none;
+}
+
 </style>
+
+
 
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
         <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script> 
-		<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-select.js"></script> 
+		<script type="text/javascript" src="js/plugins/select2/js/select2.min.js"></script> 
 		<script type="text/javascript" src="js/script.js"></script>	
 <!-- START PHONEGAP -->
 		 <script type="text/javascript" src="cordova.js"></script>
@@ -70,7 +119,7 @@ A IMG {border:none}
 <div id='h1_div'>
 
 <table><tr><td><span>&bull;</span></td>
-<td><h1>UAE Non-Oil Foreign Trade</h1></td>
+<td><h1>UAE Trade Relation Dashboard</h1></td>
 <td><span class='s'>&bull;</span></td></tr>
 </table>
 
@@ -96,12 +145,19 @@ A IMG {border:none}
 <div class='pie_div' style='right:1vw'>
 <div style='color:white;padding-top:9vw;font-family:Arial;text-align:center'>
 
-	<div style='font-size:3vw'><div style='padding-bottom:1vw'>Country</div><input type='text' value='China' style='width:28vw;border:none;padding:0.3vw;font-size:3vw;margin:0'></div>
+	<div style='font-size:3vw' id="country_select">
+	<div style='padding-bottom:1vw'>Country</div><select   class="chosen-select"></select>
+	</div>
 
-	<div style='font-size:3vw;padding-top:2.7vw;padding-bottom:2.3vw'><div style='padding-bottom:1vw'>Currency</div>
-    <input type='text' value='USD Millions' style='width:28vw;border:none;padding:0.3vw;font-size:3vw'></div>
+	<div id="currency_select" style='font-size:3vw;padding-top:2.7vw;padding-bottom:2.3vw'><div style='padding-bottom:1vw'>Currency</div>
+    <select   class="chosen-select">
+		<option>AED Millions</option>
+		<option>USD Millions</option>
+		<option>AED Billions</option>
+		<option>USD Billions</option>
+	</select></div>
 
-  <img src='img/fp/china_flag.jpg' style='width:10vw;height:auto' alt=''>
+  <img class="flag" src='img/flags/_defFlag.png' style='width:10vw;height:auto' alt=''>
 </div>
 </div>
 
@@ -132,8 +188,8 @@ A IMG {border:none}
 
 
 <div id='text_cont_div'>
-<h2>Brief about MOE mobile application:</h2>
-<p>Brief about MOE mobile application Brief about MOE mobile application Brief about MOE mobile application Brief about MOE mobile application Brief about MOE mobile application Brief about MOE mobile application.</p>
+<h2>About UAE Trade Relation Dashboard</h2>
+<p>An innovative interactive dashboard, that shows the UAE non-oil foreign trade information, and the most important bilateral indicators, agreements and investment between the UAE and the other countries around the world.</p>
 </div>
 
 		<script>
@@ -147,8 +203,8 @@ $(document).ready(function(){
     function(data, status){
 		countryList  = data;
 		if(status == 'success' && countryList.status == 0) {
-			curCountry = countryList.data[0];
-			/*$('#country_select #active_value').html(countryList.data[0].name + " <span class=\"caret\"></span>");
+			/*curCountry = countryList.data[0];
+			$('#country_select #active_value').html(countryList.data[0].name + " <span class=\"caret\"></span>");
 			var menu  = $('#country_select .dropdown-menu');
 			menu.html('');
 			countryList.data.sort(compareCountry);
@@ -157,19 +213,80 @@ $(document).ready(function(){
 				menu.append(country);
 			});*/
 			
-			$('#country_select .selectpicker').html('');
+			$('#country_select .chosen-select').html('');
 			countryList.data.sort(compareCountry);
 			countryList.data.forEach(function(el) {
-				var country = $('<option onClick="setActiveCountry(' + el.id + ', false);updateYearRangeFTBalance();">' + el.name + '</a></option>');
-				$('#country_select .selectpicker').append(country);
+				var country = $('<option onClick="setActiveCountry(' + el.id + ', false);"></option>');
+				country.text(el.name);
+				$('#country_select .chosen-select').append(country);
 			});
-			
 			var curC = window.localStorage.getItem('appCurCountry');
 			if(curC == undefined) {
-				curC = 156;
+				curC = -1;
+			}
+			
+			setActiveCountry(curC, false);
+			cntrySelect.val(curCountry.id != -1 ? curCountry.name: 'Select');
+			
+			if(curCountry.id != -1){
+				$("img.flag").attr('src', '');
+				var image = new Image();
+
+				image.onload = function() {
+					$("img.flag").attr('src', image.src);
+				}
+				image.onerror = function() {
+					// image did not load
+					$("img.flag").attr('src', 'img/flags/_defFlag.png');
+				}
+
+				image.src = 'img/flags/' + curCountry.name + '.png';
 			}
 		}
     });
+	
+	var cntrySelect = $('#country_select .chosen-select').select2();
+	var crrncySelect = $('#currency_select .chosen-select').select2();
+	
+	var cc = parseInt(getCurCurrency());
+
+	switch(cc){
+		case 0:crrncySelect.val("AED Millions");
+		break;
+		case 1:crrncySelect.val("USD Millions");
+		break;
+		case 2:crrncySelect.val("AED Billions");
+		break;
+		case 3:crrncySelect.val("USD Billions");
+		break;
+	}
+	crrncySelect.trigger('change');
+	
+	$('#country_select .chosen-select').on('select2:select', function (e) {
+	  var cCountry = getCountryFromListName(cntrySelect.val());
+	  setActiveCountry(cCountry.id, false);
+				$("img.flag").attr('src', '');
+				var image = new Image();
+
+				image.onload = function() {
+					$("img.flag").attr('src', image.src);
+				}
+				image.onerror = function() {
+					// image did not load
+					$("img.flag").attr('src', 'img/flags/_defFlag.png');
+				}
+
+				image.src = 'img/flags/' + curCountry.name + '.png';
+		});
+	
+	
+	
+	$('#currency_select .chosen-select').on('select2:select', function (e) {
+			if(crrncySelect.val() == 'AED Millions') setCurCurrency('0');
+			if(crrncySelect.val() == 'USD Millions') setCurCurrency('1');
+			if(crrncySelect.val() == 'AED Billions') setCurCurrency('2');
+			if(crrncySelect.val() == 'USD Billions') setCurCurrency('3');
+	});
 	
 	$(window).resize(function(){
 		if(window.innerWidth>window.innerHeight) window.location = "index_land.html";
