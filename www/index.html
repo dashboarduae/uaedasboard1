@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="windows-1251">
-<meta http-equiv="Content-Type" content="text/html;charset=windows-1251" >
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>UAE First Page</title>
-
+<script>
+if(window.innerWidth>window.innerHeight) window.location = "index_land.html";
+</script>
 <style>
 BODY {background:white;margin:0;padding:0;font-size:1vm;font-family:Arial}
 IMG {font-size:1vw;margin:0;border:0}
@@ -44,6 +47,19 @@ A IMG {border:none}
 #text_cont_div P {color:#333;font-family:Arial;font-size:1.5vw;line-height:1.7em;padding-top:0;margin-top:0.8vw}
 </style>
 
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script> 
+		<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-select.js"></script> 
+		<script type="text/javascript" src="js/script.js"></script>	
+<!-- START PHONEGAP -->
+		 <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+		
+    </script>
+<!-- END PHONEGAP -->	
 </head>
 
 <body>
@@ -120,6 +136,46 @@ A IMG {border:none}
 <p>Brief about MOE mobile application Brief about MOE mobile application Brief about MOE mobile application Brief about MOE mobile application Brief about MOE mobile application Brief about MOE mobile application.</p>
 </div>
 
+		<script>
+$(document).ready(function(){
+	
+	//showLoadingScreen();
+	$.post(baseServiceUrl + "/list",
+    {
+        lang: getAppLang(),
+    },
+    function(data, status){
+		countryList  = data;
+		if(status == 'success' && countryList.status == 0) {
+			curCountry = countryList.data[0];
+			/*$('#country_select #active_value').html(countryList.data[0].name + " <span class=\"caret\"></span>");
+			var menu  = $('#country_select .dropdown-menu');
+			menu.html('');
+			countryList.data.sort(compareCountry);
+			countryList.data.forEach(function(el) {
+				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateYearRangeFTBalance();">' + el.name + '</a></li>');
+				menu.append(country);
+			});*/
+			
+			$('#country_select .selectpicker').html('');
+			countryList.data.sort(compareCountry);
+			countryList.data.forEach(function(el) {
+				var country = $('<option onClick="setActiveCountry(' + el.id + ', false);updateYearRangeFTBalance();">' + el.name + '</a></option>');
+				$('#country_select .selectpicker').append(country);
+			});
+			
+			var curC = window.localStorage.getItem('appCurCountry');
+			if(curC == undefined) {
+				curC = 156;
+			}
+		}
+    });
+	
+	$(window).resize(function(){
+		if(window.innerWidth>window.innerHeight) window.location = "index_land.html";
+	});
+});
+		</script>
 
 </body>
 </html>
