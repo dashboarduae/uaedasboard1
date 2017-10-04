@@ -1,147 +1,302 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>        
-        <!-- META SECTION -->
-        <title>UAE Non-Oil Trade</title>            
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        
-        <link rel="icon" href="favicon.ico" type="image/x-icon" />
-        <!-- END META SECTION -->
-        
-        <!-- CSS INCLUDE -->        
-        <link rel="stylesheet" type="text/css" id="theme" href="css/theme-default.css"/>
-        <!-- EOF CSS INCLUDE --> 
-		<!-- START PLUGINS -->
+
+<title>UAE First Page</title>
+<script>
+if(window.innerWidth>window.innerHeight) window.location = "index_land.html";
+</script>
+
+<link rel="stylesheet" type="text/css" id="theme" href="js/plugins/select2/css/select2.min.css"/>
+<style>
+BODY {background:white;margin:0;padding:0;font-size:1vm;font-family:Arial}
+IMG {font-size:1vw;margin:0;border:0}
+A IMG {border:none}
+
+#logo_div {text-align:center}
+#logo_div IMG {width:100%;height:auto;margin-top:2vw;margin-bottom:2vw}
+
+#h1_div {text-align:center;color:#B58A31;font-family:Arial;font-size:5vw;}
+#h1_div TABLE {margin: 0 auto;border-collapse:collapse}
+#h1_div TABLE TD SPAN {text-shadow: -4vw 0px 0px #D9B680;font-size:14vw}
+#h1_div TABLE TD SPAN.s {text-shadow: 4vw 0px 0px #D9B680;}
+#h1_div TABLE TD H1 {font-family:Arial;font-size:5vw;font-weight:normal;margin:0;padding:0}
+
+#map_div {height:55vw;background:url("img/fp/map.png");background-size: 100%;position:relative}
+.pie_div {position:absolute;top:5vw;width:45vw;height:45vw;background:url("img/fp/pie.png");background-size: 100%;z-index:2}
+
+#ani_arr1_div {position:absolute;bottom:11vw;left:28vw;z-index:1}
+#ani_arr2_div {position:absolute;bottom:34vw;left:27vw;z-index:1}
+#ani_arr1_div IMG {width:44vw;height:auto}
+#ani_arr2_div IMG {width:44vw;height:auto}
+
+#icons_cont_div {margin-top:4vw}
+
+#icons_arr_div {float:right;background:white;width:8vw;height:70vw;position:relative}
+#icons_arr_div A {display:block;position:absolute;width:2vw;left:2vw;top:28vw}
+#icons_arr_div A IMG {width:4vw}
+
+#icons_ul {margin:0;padding:0;float:right;width:85vw}
+#icons_ul LI {font-size:3.5vw;list-style-type:none;display:block;text-align:center;width:28vw;float:right;margin:0;padding:0;padding-bottom:4vw}
+#icons_ul A {font-size:3.5vw;font-family:Arial;height:35vw;color:#333;text-decoration:none}
+#icons_ul IMG {width:22vw}
+
+#text_cont_div {padding:2vw}
+#text_cont_div H2 {font-family:Arial;color:#B68A35;font-weight:bold;font-size:4vw;margin:0;padding:0}
+#text_cont_div P {color:#333;font-family:Arial;    font-size: 3vw; text-align:justify;
+    line-height: 1.2em;padding-top:0;margin-top:0.8vw}
+
+
+.select2-container{width:30vw !important;}
+.select2-container .select2-selection--single{height:auto;}
+.select2-container--default .select2-selection--single .select2-selection__rendered{    
+line-height: 1em;
+    padding: 1vw;
+    font-size: 3vw;
+	text-align: left;
+	height: 1em;
+}
+.select2-container--default .select2-selection--single {
+    background-color: #fff;
+    border: none; 
+    border-radius: 0px; 
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 3vw;
+    position: absolute;
+    top: 0.7vw;
+    right: 0px;
+    width: 4.25vw;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected],
+.select2-results__option[aria-selected] {
+    background-color: #fff;
+    color: #000;
+	    line-height: 1em;
+    padding: 1vw;
+    font-size: 3vw;
+    text-align: left;
+}
+.select2-container--default .select2-search--dropdown .select2-search__field{
+padding: 1vw;
+    font-size: 3vw;
+    text-align: left;
+}
+
+.select2-container--open .select2-dropdown--below {
+    border: none;
+}
+
+
+.select2-search--dropdown {
+    display: none;
+}
+</style>
+
+
+
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
         <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script> 
-		<script type="text/javascript" src="js/script.js"></script>		
-        <!-- END PLUGINS -->
+		<script type="text/javascript" src="js/plugins/select2/js/select2.min.js"></script> 
+		<script type="text/javascript" src="js/script.js"></script>	
 <!-- START PHONEGAP -->
 		 <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript">
         app.initialize();
+		
     </script>
-		<!-- END PHONEGAP -->		
-    </head>
-    <body class="fp">
-	
-	
-        <!-- START PAGE CONTAINER -->
-        <div class="page-container">
-            
-            <!-- START PAGE SIDEBAR -->
-            <div class="page-sidebar">
-				<div class="fp-logo">
-                        <a href="index.html"><div id="logo"><img src="img/logo.png"><span>United Arab Emirates<br> Ministery of Economy</span></div></a>
-                        
-                </div>
-                <!-- START X-NAVIGATION -->
-                <ul class="x-navigation">
-                    <li class="xn-logo">
-                        <a href="index.html">UAE Non-Oil Trade</a>
-                        
-                    </li>
-                    <li class="xn-title">Navigation</li>
-                    <li><a href="general_information.html"><span class="fa fa-globe"></span> <span class="xn-text">General Information</span></a></li>
-					<li><a href="foreign_trade_volume.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Volume</span></a></li>
-					<li><a href="direct_foreign_trade_items.html"><span class="fa "></span> <span class="xn-text">Direct Foreign Trade Items</span></a></li>
-					<li><a href="investement_facts.html"><span class="fa "></span> <span class="xn-text">Investement Facts</span></a></li>
-                    
-                </ul>
-                <!-- END X-NAVIGATION -->
-            </div>
-            <!-- END PAGE SIDEBAR -->
-            
-            <!-- PAGE CONTENT -->
-            <div class="page-content scroll">             
-				<!-- PAGE TITLE -->
-                <!-- END PAGE TITLE -->
-                <!-- PAGE CONTENT WRAPPER -->
-                <div class="page-content-wrap">
-					<div class="grid clearfix90">
-						<div class="grid-item">
-							<a href="general_information.html"><img class="icon" src="img/grid_icon.png"><h3>General Information</h3></a>
-						</div>
-						<div class="grid-item">
-							<a href="foreign_trade_volume.html"><img class="icon" src="img/grid_icon.png"><h3>Foreign Trade Volume</h3></a>
-						</div>
-						<div class="grid-item">
-							<a href="direct_foreign_trade_items.html"><img class="icon" src="img/grid_icon.png"><h3>Direct Foreign Trade Items</h3></a>
-						</div>
-						<div class="grid-item">
-							<a href="investement_facts.html"><img class="icon" src="img/grid_icon.png"><h3>Investement Facts</h3></a>
-						</div>
-						<div class="grid-item">
-							<a href="general_information.html"><img class="icon" src="img/grid_icon.png"><h3>General Information</h3></a>
-						</div>
-						<div class="grid-item">
-							<a href="general_information.html"><img class="icon" src="img/grid_icon.png"><h3>General Information</h3></a>
-						</div>
-						<div class="grid-item">
-							<a href="general_information.html"><img class="icon" src="img/grid_icon.png"><h3>General Information</h3></a>
-						</div>
-						<div class="grid-item">
-							<a href="general_information.html"><img class="icon" src="img/grid_icon.png"><h3>General Information</h3></a>
-						</div>
-					</div>
-				</div>
-                <!-- END PAGE CONTENT WRAPPER -->                                
-            </div>            
-            <!-- END PAGE CONTENT -->
-			
-        </div>
-        <!-- END PAGE CONTAINER -->
+<!-- END PHONEGAP -->	
+</head>
+
+<body>
+
+<div id='logo_div'><img src='img/fp/logo.jpg' alt=''></div>
+
+
+<div id='h1_div'>
+
+<table><tr><td><span>&bull;</span></td>
+<td><h1>UAE Trade Relation Dashboard</h1></td>
+<td><span class='s'>&bull;</span></td></tr>
+</table>
+
+</div>
 
 
 
-        <!-- START PRELOADS -->
-        <audio id="audio-alert" src="audio/alert.mp3" preload="auto"></audio>
-        <audio id="audio-fail" src="audio/fail.mp3" preload="auto"></audio>
-        <!-- END PRELOADS -->                  
-        
-    <!-- START SCRIPTS -->
-		
-		
+<div id='map_div'>
+
+<div class='pie_div' style='left:1vw'>
+<div style='color:white;padding-top:8vw;font-family:Arial;text-align:center'>
+	<img src='img/fp/arab_map.png' style='width:25vw;height:auto;'>
+	<div style='font-size:3vw;font-family:Arial;line-height:3vw;padding-bottom:1vw'>United Arab Emirates</div>
+	<img src='img/fp/arab_flag.jpg' style='width:10vw;height:auto' alt=''>
+</div>
+</div>
 
 
-        <!-- START THIS PAGE PLUGINS-->        
-        <script type='text/javascript' src='js/plugins/icheck/icheck.min.js'></script>        
-        <script type="text/javascript" src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
-        <script type="text/javascript" src="js/plugins/scrolltotop/scrolltopcontrol.js"></script>
-        
-        <script type="text/javascript" src="js/plugins/morris/raphael-min.js"></script>
-        <script type="text/javascript" src="js/plugins/morris/morris.min.js"></script>       
-        <script type="text/javascript" src="js/plugins/rickshaw/d3.v3.js"></script>
-        <script type="text/javascript" src="js/plugins/rickshaw/rickshaw.min.js"></script>
-        <script type='text/javascript' src='js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js'></script>
-        <script type='text/javascript' src='js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js'></script>                
-        <script type='text/javascript' src='js/plugins/bootstrap/bootstrap-datepicker.js'></script>                
-        <script type="text/javascript" src="js/plugins/owl/owl.carousel.min.js"></script>                 
-        
-        <script type="text/javascript" src="js/plugins/moment.min.js"></script>
-        <script type="text/javascript" src="js/plugins/daterangepicker/daterangepicker.js"></script>
-        <!-- END THIS PAGE PLUGINS-->        
+<div id='ani_arr1_div'><img src='img/fp/ani_arr1.gif' alt=''></div>
+<div id='ani_arr2_div'><img src='img/fp/ani_arr2.gif' alt=''></div>
 
-        <!-- START TEMPLATE -->
-        
-        <script type="text/javascript" src="js/plugins.js"></script>        
-        <script type="text/javascript" src="js/actions.js"></script>
-        
-        
-        <!-- END TEMPLATE -->
-		
+
+<div class='pie_div' style='right:1vw'>
+<div style='color:white;padding-top:8vw;font-family:Arial;text-align:center'>
+
+	<div style='font-size:3vw' id="country_select">
+	<div style='padding-bottom:1vw'>Country</div><select   class="chosen-select"></select>
+	</div>
+
+	<div id="currency_select" style='font-size:3vw;padding-top:2.7vw;padding-bottom:2.3vw'><div style='padding-bottom:1vw'>Currency</div>
+    <select   class="chosen-select">
+		<option>AED Millions</option>
+		<option>USD Millions</option>
+		<option>AED Billions</option>
+		<option>USD Billions</option>
+	</select></div>
+
+  <img class="flag" src='img/flags/_defFlag.png' style='width:10vw;height:auto' alt=''>
+</div>
+</div>
+
+</div>
+
+
+
+
+<div id='icons_cont_div'>
+
+<div id='icons_arr_div'>
+<a href='#'><img src='img/fp/arr.jpg'></a>
+</div>
+
+<ul id='icons_ul'>
+
+<li><a href='trade_balance.html'><img src='img/fp/i3.jpg'><br>Trade Growth<br>and Balance</a></li>
+<li><a href='foreign_trade_volume.html'><img src='img/fp/i2.jpg'><br>Trade<br>Volume</a></li>
+<li><a href='general_information.html'><img src='img/fp/i1.jpg'><br>General<br>Information</a></li>
+
+<li><a href='#'><img src='img/fp/i5.jpg'><br>Investments<br>Facts</a></li>
+<li><a href='#'><img src='img/fp/i6.jpg'><br>Joint<br>Agreements</a></li>
+<li><a href='direct_foreign_trade_items.html'><img src='img/fp/i4.jpg'><br>Direct<br>Trade Items</a></li>
+
+</ul>
+<div style='clear:both'></div>
+</div>
+
+
+<div id='text_cont_div'>
+<h2>About UAE Trade Relation Dashboard</h2>
+<p>An innovative interactive dashboard, that shows the UAE non-oil foreign trade information, and the most important bilateral indicators, agreements and investment between the UAE and the other countries around the world.</p>
+</div>
+
 		<script>
+$(document).ready(function(){
+	
+	//showLoadingScreen();
+	$.post(baseServiceUrl + "/list",
+    {
+        lang: getAppLang(),
+    },
+    function(data, status){
+		countryList  = data;
+		if(status == 'success' && countryList.status == 0) {
+			/*curCountry = countryList.data[0];
+			$('#country_select #active_value').html(countryList.data[0].name + " <span class=\"caret\"></span>");
+			var menu  = $('#country_select .dropdown-menu');
+			menu.html('');
+			countryList.data.sort(compareCountry);
+			countryList.data.forEach(function(el) {
+				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateYearRangeFTBalance();">' + el.name + '</a></li>');
+				menu.append(country);
+			});*/
+			
+			$('#country_select .chosen-select').html('');
+			countryList.data.sort(compareCountry);
+			countryList.data.forEach(function(el) {
+				var country = $('<option onClick="setActiveCountry(' + el.id + ', false);"></option>');
+				country.text(el.name);
+				$('#country_select .chosen-select').append(country);
+			});
+			var curC = window.localStorage.getItem('appCurCountry');
+			if(curC == undefined) {
+				curC = -1;
+			}
+			
+			setActiveCountry(curC, false);
+			cntrySelect.val(curCountry.id != -1 ? curCountry.name: 'Select');
+			
+			if(curCountry.id != -1){
+				$("img.flag").attr('src', '');
+				var image = new Image();
 
+				image.onload = function() {
+					$("img.flag").attr('src', image.src);
+				}
+				image.onerror = function() {
+					// image did not load
+					$("img.flag").attr('src', 'img/flags/_defFlag.png');
+				}
+
+				image.src = 'img/flags/' + curCountry.name + '.png';
+			}
+		}
+    });
+	
+	var cntrySelect = $('#country_select .chosen-select').select2();
+	var crrncySelect = $('#currency_select .chosen-select').select2();
+	
+	var cc = parseInt(getCurCurrency());
+
+	switch(cc){
+		case 0:crrncySelect.val("AED Millions");
+		break;
+		case 1:crrncySelect.val("USD Millions");
+		break;
+		case 2:crrncySelect.val("AED Billions");
+		break;
+		case 3:crrncySelect.val("USD Billions");
+		break;
+	}
+	crrncySelect.trigger('change');
+	
+	$('#country_select .chosen-select').on('select2:select', function (e) {
+	  var cCountry = getCountryFromListName(cntrySelect.val());
+	  setActiveCountry(cCountry.id, false);
+				$("img.flag").attr('src', '');
+				var image = new Image();
+
+				image.onload = function() {
+					$("img.flag").attr('src', image.src);
+				}
+				image.onerror = function() {
+					// image did not load
+					$("img.flag").attr('src', 'img/flags/_defFlag.png');
+				}
+
+				image.src = 'img/flags/' + curCountry.name + '.png';
+		});
+	
+	
+	
+	$('#currency_select .chosen-select').on('select2:select', function (e) {
+			if(crrncySelect.val() == 'AED Millions') setCurCurrency('0');
+			if(crrncySelect.val() == 'USD Millions') setCurCurrency('1');
+			if(crrncySelect.val() == 'AED Billions') setCurCurrency('2');
+			if(crrncySelect.val() == 'USD Billions') setCurCurrency('3');
+	});
+	
+	$(window).resize(function(){
+		//if(window.innerWidth>window.innerHeight) window.location = "index_land.html";
+	});
+});
 		</script>
-    <!-- END SCRIPTS -->         
-    </body>
+
+</body>
 </html>
-
-
-
-
-
-

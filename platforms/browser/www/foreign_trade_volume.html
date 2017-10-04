@@ -38,17 +38,18 @@
                 <!-- START X-NAVIGATION -->
                 <ul class="x-navigation">
                     <li class="xn-logo">
-                        <a href="index.html">Foreign Trade Volume</a>
+                        <a href="index.html">UAE Non-Oil Foreign Trade Volume</a>
 						<a href="#" class="x-navigation-controlfilter mb-control" data-box="#filter-box"></a>
                         <a href="#" class="x-navigation-control"></a>
                     </li>
-                    <li class="xn-title">Navigation</li>
-                    <li class="active"><a href="general_information.html"><span class="fa fa-globe"></span> <span class="xn-text">General Information</span></a></li>
-					<li><a href="foreign_trade_volume.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Volume</span></a></li>
-					<li><a href="trade_balance.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Balance</span></a></li>
-					<li><a href="trade_growth.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Grouth</span></a></li>
-					<li><a href="direct_foreign_trade_items.html"><span class="fa "></span> <span class="xn-text">Direct Foreign Trade Items</span></a></li>
-					<li><a href="investement_facts.html"><span class="fa "></span> <span class="xn-text">Investement Facts</span></a></li>
+                    <li><a href="general_information.html"> <span class="xn-text">General Information</span></a></li>
+					<li class="active"><a href="foreign_trade_volume.html"><span class="xn-text">Trade Volume</span></a></li>
+					<li><a href="trade_balance.html"> <span class="xn-text">Trade Growth and Balance</span></a></li>
+					<li><a href="direct_foreign_trade_items.html"><span class="xn-text">Direct Trade Items</span></a></li>
+					<li><a href="#"><span class="xn-text">Investement Facts</span></a></li>
+					<li><a href="#"><span class="xn-text">Joint Agreements</span></a></li>
+					<li><a href="#"><span class="xn-text">Mutual Visits</span></a></li>
+					<li><a href="#"><span class="xn-text">Joint Committees</span></a></li>
                     
                 </ul>
                 <!-- END X-NAVIGATION -->
@@ -61,7 +62,7 @@
                 <div class="mb-middle">
                     <div class="mb-title"></div>
                     <div class="mb-content">
-                        <div class="row">
+                        <div class="row w50">
 							<h3>Country</h3>
 							<div id="country_select" class="btn-group">
 								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"> <span class="caret"></span></a>
@@ -70,7 +71,7 @@
 								</ul>
 							</div>
 						</div> 
-						<div class="row">
+						<div class="row w50">
 							<h3>Currency</h3>
 							<div id="currency_select" class="btn-group">
 								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false">AED Millions <span class="caret"></span></a>
@@ -136,7 +137,7 @@
 				<div class="row  FTV landscape">
 				
 					<div class="col-md-4">
-                                <h3>Total Trade</h3>
+                                <h3>Total</h3>
                                 <div class="tab-pane active categoryInfo cat0" >
                                         
                                 </div>                        
@@ -144,7 +145,7 @@
 					</div>
 					
 					<div class="col-md-4">
-                                <h3>Direct Trade</h3>
+                                <h3>Direct</h3>
                                 <div class="tab-pane active categoryInfo cat1" >
                                         
                                 </div>                        
@@ -152,7 +153,7 @@
 					</div>
 					
 					<div class="col-md-4">
-                                <h3>Free Zone Trade</h3>
+                                <h3>Free Zone</h3>
                                 <div class="tab-pane active categoryInfo cat2" >
                                         
                                 </div>                        
@@ -218,11 +219,16 @@ $(document).ready(function(){
 			$('#country_select #active_value').html(countryList.data[0].name + " <span class=\"caret\"></span>");
 			var menu  = $('#country_select .dropdown-menu');
 			menu.html('');
+			countryList.data.sort(compareCountry);
 			countryList.data.forEach(function(el) {
 				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateYearRangeFTVolume();">' + el.name + '</a></li>');
 				menu.append(country);
 			});
-			setActiveCountry(curCountry.id, false);
+			var curC = window.localStorage.getItem('appCurCountry');
+			if(curC == undefined) {
+				curC = 156;
+			}
+			setActiveCountry(parseInt(curC), false);
 			updateYearRangeFTVolume();
 		}
     });

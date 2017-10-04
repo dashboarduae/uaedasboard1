@@ -41,13 +41,14 @@
 						<a href="#" class="x-navigation-controlfilter mb-control" data-box="#filter-box"></a>
                         <a href="#" class="x-navigation-control"></a>
                     </li>
-                    <li class="xn-title">Navigation</li>
-                    <li class="active"><a href="general_information.html"><span class="fa fa-globe"></span> <span class="xn-text">General Information</span></a></li>
-					<li><a href="foreign_trade_volume.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Volume</span></a></li>
-					<li><a href="trade_balance.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Balance</span></a></li>
-					<li><a href="trade_growth.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Grouth</span></a></li>
-					<li><a href="direct_foreign_trade_items.html"><span class="fa "></span> <span class="xn-text">Direct Foreign Trade Items</span></a></li>
-					<li><a href="investement_facts.html"><span class="fa "></span> <span class="xn-text">Investement Facts</span></a></li>
+                    <li class="active"><a href="general_information.html"> <span class="xn-text">General Information</span></a></li>
+					<li><a href="foreign_trade_volume.html"><span class="xn-text">Trade Volume</span></a></li>
+					<li><a href="trade_balance.html"> <span class="xn-text">Trade Growth and Balance</span></a></li>
+					<li><a href="direct_foreign_trade_items.html"><span class="xn-text">Direct Trade Items</span></a></li>
+					<li><a href="#"><span class="xn-text">Investement Facts</span></a></li>
+					<li><a href="#"><span class="xn-text">Joint Agreements</span></a></li>
+					<li><a href="#"><span class="xn-text">Mutual Visits</span></a></li>
+					<li><a href="#"><span class="xn-text">Joint Committees</span></a></li>
                     
                 </ul>
                 <!-- END X-NAVIGATION -->
@@ -99,9 +100,9 @@
 					</div>
 					<div  class="row GICountryTitle"  style="margin-bottom:10px;">
 						<div class="countryInfo flag"><img src="img/flags/_defFlag.jpg"></div> 
-						<div class="countryInfo name">China</div>
-						<div class="countryInfo capital"><div class="desc">Capital</div><div class="value">Beijin</div></div>
-						<div class="countryInfo population"><div class="desc">Population</div><div class="value">1,372 Millions</div></div>					
+						<div class="countryInfo name"></div>
+						<div class="countryInfo capital"><div class="desc">Capital</div><div class="value"></div></div>
+						<div class="countryInfo population"><div class="desc">Population</div><div class="value"></div></div>					
 
 						
 					</div>
@@ -176,15 +177,18 @@ $(document).ready(function(){
     function(data, status){
 		countryList  = data;
 		if(status == 'success' && countryList.status == 0) {
-			curCountry = countryList.data[0];
-			$('#country_select #active_value').html(countryList.data[0].name + " <span class=\"caret\"></span>");
 			var menu  = $('#country_select .dropdown-menu');
 			menu.html('');
-			countryList.data.forEach(function(el) {
-				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateMap();updateGeneralInformation();">' + el.name + '</a></li>');
-				menu.append(country);
-			});
-			setActiveCountry(curCountry.id, false);
+			countryList.data.sort(compareCountry);
+			for(var i = 0;i<countryList.data.length; i++){
+				var country = $('<li><a href="#" onClick="setActiveCountry(' + countryList.data[i].id + ', false);updateMap();updateGeneralInformation();">' + countryList.data[i].name + '</a></li>');
+				menu.append(country);console.log(countryList.data[i].name);
+			}
+			var curC = window.localStorage.getItem('appCurCountry');
+			if(curC == undefined) {
+				curC = 156;
+			}
+			setActiveCountry(parseInt(curC), false);
 			updateMap();
 			updateGeneralInformation();
 		}

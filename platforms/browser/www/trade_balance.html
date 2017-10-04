@@ -15,15 +15,18 @@
 		<link rel="stylesheet" type="text/css"  href="js/plugins/noUiSlider/nouislider.min.css"/>
         <!-- EOF CSS INCLUDE --> 
 		<!-- START PLUGINS -->
+		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
         <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script> 
+		<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-select.js"></script> 
 		<script type="text/javascript" src="js/script.js"></script>		
         <!-- END PLUGINS -->
 <!-- START PHONEGAP -->
 		 <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript">
         app.initialize();
+		
     </script>
 		<!-- END PHONEGAP -->		
     </head>
@@ -38,17 +41,18 @@
                 <!-- START X-NAVIGATION -->
                 <ul class="x-navigation">
                     <li class="xn-logo">
-                        <a href="index.html">Foreign Trade Balance</a>
+                        <a href="index.html">UAE Non-Oil Trade Growth and Balance</a>
 						<a href="#" class="x-navigation-controlfilter mb-control" data-box="#filter-box"></a>
                         <a href="#" class="x-navigation-control"></a>
                     </li>
-                    <li class="xn-title">Navigation</li>
-                    <li class="active"><a href="general_information.html"><span class="fa fa-globe"></span> <span class="xn-text">General Information</span></a></li>
-					<li><a href="foreign_trade_volume.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Volume</span></a></li>
-					<li><a href="trade_balance.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Balance</span></a></li>
-					<li><a href="trade_growth.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Grouth</span></a></li>
-					<li><a href="direct_foreign_trade_items.html"><span class="fa "></span> <span class="xn-text">Direct Foreign Trade Items</span></a></li>
-					<li><a href="investement_facts.html"><span class="fa "></span> <span class="xn-text">Investement Facts</span></a></li>
+                    <li><a href="general_information.html"> <span class="xn-text">General Information</span></a></li>
+					<li><a href="foreign_trade_volume.html"><span class="xn-text">Trade Volume</span></a></li>
+					<li class="active"><a href="trade_balance.html"> <span class="xn-text">Trade Growth and Balance</span></a></li>
+					<li><a href="direct_foreign_trade_items.html"><span class="xn-text">Direct Trade Items</span></a></li>
+					<li><a href="#"><span class="xn-text">Investement Facts</span></a></li>
+					<li><a href="#"><span class="xn-text">Joint Agreements</span></a></li>
+					<li><a href="#"><span class="xn-text">Mutual Visits</span></a></li>
+					<li><a href="#"><span class="xn-text">Joint Committees</span></a></li>
                     
                 </ul>
                 <!-- END X-NAVIGATION -->
@@ -60,23 +64,17 @@
                 <div class="mb-middle">
                     <div class="mb-title"></div>
                     <div class="mb-content">
-                        <div class="row">
+                        <div class="row w50">
 							<h3>Country</h3>
 							<div id="country_select" class="btn-group">
+
 								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"> <span class="caret"></span></a>
-								<ul class="dropdown-menu" role="menu">
+								<ul class="dropdown-menu"  role="menu">
 													   
 								</ul>
 							</div>
 						</div> 
-						<div class="row">
-							<h3>Year 
-							<div id="year_range_select">
-								
-							</div>
-							</h3>
-						</div>	
-						<div class="row">
+						<div class="row w50">
 							<h3>Currency</h3>
 							<div id="currency_select" class="btn-group">
 								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false">AED Millions <span class="caret"></span></a>
@@ -87,7 +85,15 @@
 									<li><a href="#" onClick="setCurCurrency(3);updateYearRangeFTBalance();">USD Billions</a></li>
 								</ul>
 							</div>
+						</div>
+						<div class="row">
+							<h3>Year 
+							<div id="year_range_select">
+								
+							</div>
+							</h3>
 						</div>	
+							
                     </div>
                     <div class="mb-footer">
                         <button class="btn btn-default btn-lg pull-right mb-control-close">Apply</button>
@@ -97,19 +103,34 @@
 			</div>
             <!-- PAGE CONTENT -->
             <div class="page-content scroll">
-                
+                <div  class="row FTVTitle"  style="margin-bottom:10px;">
+						<div class="countryInfo flag"><img src="img/flags/_defFlag.jpg"></div> 
+						<div class="countryInfo"><div class="desc inlineCountryTitle"></div><div class="value"><span class="inlineYearFrom"></span> to <span class="inlineYearTo"></span> (in <span class="inlineCurrency"></span>)</div></div>						
+				</div>
                 <!-- START X-NAVIGATION VERTICAL -->
                 <!-- END X-NAVIGATION VERTICAL -->                     
 
                 <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap">
-					<div class="row"><div class="col-md-12 clearfix">
+					<div class="row"><div class="col-md-12 clearfix tradeGrowth">
 						<div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title title-1">Foreign Trade Balance between UAE and <span class="inlineCountryTitle"></span></h3>     
+                                <h3 class="panel-title title-1">Non-Oil Trade Growth</h3>     
                             </div>
-                            <div class="panel-body">
-                                <div id="lineChart"></div>
+                            <div class="panel-body nopadding">
+                                <div id="growthChart"></div>
+                            </div>
+                        </div>
+						
+					</div></div>
+					
+					<div class="row"><div class="col-md-12 clearfix tradeBalance">
+						<div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title title-1">Non-Oil Trade Balance</h3>     
+                            </div>
+                            <div class="panel-body nopadding">
+                                <div id="balanceChart"><svg></svg></div>
                             </div>
                         </div>
 						
@@ -147,12 +168,13 @@
         <script type="text/javascript" src="js/plugins/owl/owl.carousel.min.js"></script>    
 		<script type="text/javascript" src="js/plugins/noUiSlider/nouislider.min.js"></script>
 		<script type="text/javascript" src="js/plugins/wnumb/wNumb.js"></script>	
-
-		<script type="text/javascript" src="js/plugins/morris/raphael-min.js"></script>
-		<script type="text/javascript" src="js/plugins/morris/morris.min.js"></script>
         
         <script type="text/javascript" src="js/plugins/moment.min.js"></script>
         <script type="text/javascript" src="js/plugins/daterangepicker/daterangepicker.js"></script>
+		
+		<script type="text/javascript" src="js/plugins/nvd3/lib/d3.v3.js"></script>
+		<script type="text/javascript" src="js/plugins/nvd3/nv.d3.min.js"></script>
+		
         <!-- END THIS PAGE PLUGINS-->        
 
         <!-- START TEMPLATE -->
@@ -163,6 +185,7 @@
 		
 		<script>
 $(document).ready(function(){
+	
 	//showLoadingScreen();
 	$.post(baseServiceUrl + "/list",
     {
@@ -175,16 +198,30 @@ $(document).ready(function(){
 			$('#country_select #active_value').html(countryList.data[0].name + " <span class=\"caret\"></span>");
 			var menu  = $('#country_select .dropdown-menu');
 			menu.html('');
+			countryList.data.sort(compareCountry);
 			countryList.data.forEach(function(el) {
 				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateYearRangeFTBalance();">' + el.name + '</a></li>');
 				menu.append(country);
 			});
-			setActiveCountry(curCountry.id, false);
+			
+			
+			var curC = window.localStorage.getItem('appCurCountry');
+			if(curC == undefined) {
+				curC = 156;
+			}
+			setActiveCountry(parseInt(curC), false);
 			updateYearRangeFTBalance();
 		}
     });
 	
+	$('.mb-control-close').click(function(){
+		showBalanceChart();
+	});
 	
+	$(window).resize(function(){
+		updateFTBalanceInfo();
+		updateFTGrowthInfo();
+	});
 });
 		</script>
     <!-- END SCRIPTS -->         

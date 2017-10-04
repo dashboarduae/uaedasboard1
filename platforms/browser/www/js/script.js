@@ -1,11 +1,10 @@
-const baseServiceUrl = "http://localhost:8080/trs"; 
-//const baseServiceUrl = "http://trservice3562.cloudapp.net:8080/trs"; 
+//const baseServiceUrl = "http://localhost:8080/trs"; 
+const baseServiceUrl = "http://trservice3562.cloudapp.net:8080/trs"; 
 
 var curCountry;
 var countryList;
 var countrySelectedFromMap = true;
 var countryMap = null;
-
 
 $(document).ready(function(){
 	setCurCurrency(parseInt(getCurCurrency()));
@@ -29,22 +28,46 @@ $(document).ready(function(){
 		
 	});
 	
+	
+	
 });
 
+
+function compareCountry(a,b) {
+  if (a.name < b.name)
+    return -1;
+  if (a.name > b.name)
+    return 1;
+  return 0;
+}
+
 function setValuesFormats(val){
+	
 	var value = new Number(val);
+
 	if(value == 0) return '0.0';
-	if(value<0.1){
+	if(value > 0){
+		if(value<0.1 ){
+			return value.toPrecision(1);
+		}
+		if(value<1){
+			return value.toFixed(2);
+		}
+		if(value<1000){
+			return value.toFixed(1);
+		}
+		return value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}else{
+		if(value<=-1000) return value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		
+		if(value<=-1){
+			return value.toFixed(0);
+		}
+		if(value<=-0.1 ){
+			return value.toFixed(1)
+		}
 		return value.toPrecision(1);
 	}
-	if(value<1){
-		return value.toFixed(2);
-	}
-	if(value<1000){
-		return value.toFixed(1);
-	}
-	
-	return value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");;
 }
 
 function HtmlEncode(s)
@@ -58,7 +81,7 @@ function HtmlEncode(s)
 function getCurCurrency(){
 	var cur = window.localStorage.getItem('appCurCurrency');
 	if(cur == undefined) {
-		cur = 0;
+		cur = 1;
 	}
 	return parseInt(cur);
 }
@@ -85,7 +108,7 @@ function setCurCurrency(currency){
 function getCurYear(){
 	var year = window.localStorage.getItem('appCurYear');
 	if(year == undefined) {
-		year = "";
+		year = "2016";
 	}
 	return year;
 }
@@ -101,7 +124,6 @@ function getAppLang(){
 	if(lang == undefined) {
 		//var lang = navigator.language.split("-");
 		//var current_lang = (lang[0]);
-		//console.log( "current_lang: " + current_lang );
 		lang = "EN";
 	}
 	return lang;
@@ -196,6 +218,17 @@ function getCountryFromList(cid){
 	return res;
 }
 
+function getCountryFromListName(name){
+	var res = null;
+	countryList.data.forEach(function(el) {
+			if(el.name== name){
+				res = el;
+			}
+	});
+
+	return res;
+}
+
 function getCountryFromListISO2(ciso2){
 	var res = null;
 	countryList.data.forEach(function(el) {
@@ -213,9 +246,13 @@ function setActiveCountry(id, fromMap){
 		curCountry = res;
 		$('#country_select #active_value').html(HtmlEncode(curCountry.name) + " <span class=\"caret\"></span>");
 		$('.inlineCountryTitle').html(HtmlEncode(curCountry.name));
-		window.localStorage.setItem("appCurCountry", curCountry);
+		window.localStorage.setItem("appCurCountry", curCountry.id);
+		
 	}
-	
+	if(id == -1 ){
+		curCountry = {id:-1, name:''};
+		window.localStorage.setItem("appCurCountry", -1);
+	}
 	countrySelectedFromMap = fromMap;
 }
 
@@ -245,6 +282,7 @@ function updateGeneralInformation(){
     function(data, status){
 
 		var info = data;
+		
 		if(status == 'success' && info.status == 0){
 			
 			$(".GICountryTitle .flag img").attr('src', '');
@@ -258,7 +296,7 @@ function updateGeneralInformation(){
 				$(".GICountryTitle .flag img").attr('src', 'img/flags/_defFlag.png');
 			}
 
-			image.src = 'img/flags/' + curCountry.name + '.jpg';
+			image.src = 'img/flags/' + curCountry.name + '.png';
 			
 			$(".GICountryTitle .name").text(curCountry.name);
 			
@@ -267,12 +305,24 @@ function updateGeneralInformation(){
 			var giWrapper  = $('#generalInfo table');
 			giWrapper.html('');
 			info.data.forEach(function(el) {
-				var giEl = $('<tr><td class="param">'+HtmlEncode(el.name)+'</td><td class="value">'+(el.value ==null || isNaN(el.value) ?el.value:setValuesFormats(el.value))+'</td></tr>');
-				giWrapper.append(giEl);
+				var addElement = true;
 				
-				if(el.name == 'Capital') $(".GICountryTitle .capital .value").text(el.value);
+				if(el.name == 'Capital') {
+					$(".GICountryTitle .capital .value").text(el.value);
+					addElement = false;
+				}
 				
-				if(el.name == 'Population, in Millions') $(".GICountryTitle .population .value").text(Math.round(el.value) + ' Millions');
+				if(el.name == 'Population, in Millions') {
+					$(".GICountryTitle .population .value").text(Math.round(el.value) + ' Millions');
+					addElement = false;
+				}
+				if(addElement){
+					var giEl = $('<tr><td class="param">'+HtmlEncode(el.name)+'</td><td class="value">'+(el.value ==null || isNaN(el.value) ?el.value:setValuesFormats(el.value))+'</td></tr>');
+					giWrapper.append(giEl);
+				}
+				
+				
+
 			});
 		}
 		//hideLoadingScreen();
@@ -325,25 +375,48 @@ function updateFTItems(){
 		
 		if(status == 'success' && info.status == 0){
 			FTItems = info.data;
-			//console.log(FTItems);
+			updateFTItemsTitle();
 			
-			$('#donutchart').html('');
+			initDonutChart();
+			
+			showActiveFTData(-1);
+		
+			updateCategoriesData(0, ".FTItemsCategories .Import");
+			updateCategoriesData(1, ".FTItemsCategories .Export");
+			updateCategoriesData(2, ".FTItemsCategories .ReExport");
+			setSameHeight(".FTItemsCategories .panel-body");
+			
+			$(".toggleTitles").click(function(){
+				$(".FTItems .itemhead .name").toggleClass("expand");setSameHeight(".FTItemsCategories .panel-body");
+			});
+		}
+		//hideLoadingScreen();
+		
+		
+		
+    });
+	
+}
+
+function initDonutChart(){
+	$('#donutchart').html('');
 			donutChart = Morris.Donut({
 				element: 'donutchart',
 				data: [
-					{label: "Import", value: setValuesFormats(FTItems.totalImports)},
-					{label: "Export", value: setValuesFormats(FTItems.totalNonOilExports)},
-					{label: "Re-Export", value: setValuesFormats(FTItems.totalReExports)}
+					{label: "Import", value: FTItems.totalImports},
+					{label: "Non-Oil Export", value: FTItems.totalNonOilExports},
+					{label: "Re-Export", value: FTItems.totalReExports}
 				],
 				colors: chartColors,
-				resize: true
+				resize: true,
+				formatter: function (value, data) { return setValuesFormats(value); }
 			});
 			donutChart.on('click', function(i, row){
 				showActiveFTData(i);
 				
 			});
 			
-			$("#donutchart text tspan").first().html("Total trade");
+			$("#donutchart text tspan").first().html("Total");
 			$("#donutchart text tspan").last().html(setValuesFormats(FTItems.totalFT));
 			try{
 				donutChart.select(-1);
@@ -351,23 +424,9 @@ function updateFTItems(){
 				
 			}
 			
-			
-			
-		}
-		//hideLoadingScreen();
-		
-		
-		showActiveFTData(-1);
-		
-		updateCategoriesData(0, ".FTItemsCategories .Import");
-		updateCategoriesData(1, ".FTItemsCategories .Export");
-		updateCategoriesData(2, ".FTItemsCategories .ReExport");
-		setSameHeight(".FTItemsCategories .panel-body");
-    });
-	
 }
 
-var chartColors = ['#95B75D', '#1caf9a', '#FEA223'];
+var chartColors = ['#E04B4A', '#1CAF9A', '#95B75D'];
 
 function updateCategoriesData(index, selector){
 	var panelBody = $( selector + " .panel-body");
@@ -377,6 +436,7 @@ function updateCategoriesData(index, selector){
 	var totalValue;
 	var chartLabel;
 	var chartId;
+	var progressBarClass;
 	
 	switch(index){
 		case -1: 
@@ -389,23 +449,26 @@ function updateCategoriesData(index, selector){
 			totalValue = FTItems.totalImports;
 			chartLabel = "Import";
 			chartId = "chartImport";
+			progressBarClass = "valueImport";
 			break;
 		case 1: 
 			itemsToDisplay = FTItems.nonOilExportsItems;
 			totalValue = FTItems.totalNonOilExports;
 			chartLabel = "Export";
 			chartId = "chartExport";
+			progressBarClass = "valueExport";
 			break;
 		case 2: 
 			itemsToDisplay = FTItems.reExportsItems;
 			totalValue = FTItems.totalReExports;
-			chartLabel = "ReExport";
+			chartLabel = "Re-Export";
 			chartId = "chartReExport";
+			progressBarClass = "valueReExport";
 			break;
 	}
 	
 	itemsToDisplay.forEach(function(el, ind, array) {
-			var item = $("<div class='item item1'><div class='itemhead'><span class='name' >" + HtmlEncode(el.title) + "</span><span class='value'><span class=\"fa fa-question\" data-toggle=\"popover\" data-placement=\"top\" data-content=\""+HtmlEncode(el.title)+"\"></span>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
+			var item = $("<div class='item item1'><div class='itemhead'><span class='name' >" + HtmlEncode(el.title) + "<span class='toggleTitles'>&nbsp;>>>&nbsp;</span></span><span class='value'>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success " + progressBarClass + " value"  + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
 			panelBody.append(item);
 			
 	});
@@ -417,7 +480,6 @@ function updateCategoriesData(index, selector){
 			}, 300);
 				
 	});
-	$('[data-toggle="popover"]').popover(); 
 	$('#' + chartId + " svg").html("");
 	
 // Create the donut pie chart and insert it onto the page
@@ -429,17 +491,14 @@ nv.addGraph(function() {
   		.y(function(d) {
         return d.value
       })
-  		.showLabels(true)
+  		.showLabels(false)
   		.showLegend(false)
   		.labelThreshold(.05)
   		.labelType("key")
   		.color([chartColors[index], "#ddd"])
-  		.tooltipContent(
-        function(key, y, e, graph) { return 'Custom tooltip string' }
-      ) // This is for when I turn on tooltips
   		.tooltips(false)
   		.donut(true)
-  		.donutRatio(0.55);
+  		.donutRatio(0.60);
   
   	// Insert text into the center of the donut
   	function centerText() {
@@ -461,7 +520,7 @@ nv.addGraph(function() {
         		.style("fill", "#000");
         // Insert second line of text into middle of donut pie chart
         donut.insert("text", "g")
-            .text(totalValue)
+            .text(setValuesFormats(totalValue))
             .attr("class", "middle")
             .attr("text-anchor", "middle")
         		.attr("dy", ".85em")
@@ -498,6 +557,8 @@ function setSameHeight(selector){
 	$(selector).height(maxHeight);
 }
 
+var activeFTItemsIndex = -1;
+
 function showActiveFTData(index){
 
 	$(".FTItemsSummary .panel-title").hide();
@@ -509,28 +570,37 @@ function showActiveFTData(index){
 	
 	var itemsToDisplay;
 	var totalValue;
+	var progressBarClass;
+	
+	if(activeFTItemsIndex == index) index = -1;
+	
 	
 	switch(index){
 		case -1: 
 			itemsToDisplay = FTItems.totalItems;
 			totalValue = FTItems.totalFT;
+			progressBarClass = "valueTotal";
+			initDonutChart();
 			break;
 		case 0: ;
 			itemsToDisplay = FTItems.importsItems;
 			totalValue = FTItems.totalImports;
+			progressBarClass = "valueImport";
 			break;
 		case 1: 
 			itemsToDisplay = FTItems.nonOilExportsItems;
 			totalValue = FTItems.totalNonOilExports;
+			progressBarClass = "valueExport";
 			break;
 		case 2: 
 			itemsToDisplay = FTItems.reExportsItems;
 			totalValue = FTItems.totalReExports;
+			progressBarClass = "valueReExport";
 			break;
 	}
 	
 	itemsToDisplay.forEach(function(el, ind, array) {
-			var item = $("<div class='item item1'><div class='itemhead' ><span class='name' >" + HtmlEncode(el.title) + "</span><span class='value'><span class=\"fa fa-question\" data-toggle=\"popover\" data-placement=\"top\" data-content=\""+HtmlEncode(el.title)+"\"></span>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
+			var item = $("<div class='item item1'><div class='itemhead' ><span class='name' >" + HtmlEncode(el.title) + "<span class='toggleTitles'>&nbsp;>>>&nbsp;</span></span><span class='value'>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success " + progressBarClass + " value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
 			panelBody.append(item);
 			
 	});
@@ -543,6 +613,7 @@ function showActiveFTData(index){
 	});
 	
 	$('[data-toggle="popover"]').popover();
+	activeFTItemsIndex = index;
 }
 
 
@@ -550,7 +621,7 @@ function showActiveFTData(index){
 function getActiveYearRange(){
 	var yearFrom = window.localStorage.getItem('appYearFrom');
 	if(yearFrom == undefined) {
-		yearFrom = "2000";
+		yearFrom = "2014";
 	}
 	
 	var yearTo = window.localStorage.getItem('appYearTo');
@@ -660,71 +731,11 @@ function updateYearRangeFTBalance(){
 					}
 				});
 				updateFTBalanceInfo();
-				yearSlider.noUiSlider.on('change', function(){
-					var activeYears = yearSlider.noUiSlider.get();
-					setActiveYearRange(activeYears[0],activeYears[1]);
-					updateFTBalanceInfo();
-				});
-			}else{
-				//yearSlider.noUiSlider.set([(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)]);
-				
-				yearSlider.noUiSlider.updateOptions({
-					start: [(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)],
-					connect: true,
-					behaviour: 'tap-drag', 
-					step: 1,
-					tooltips: true,
-					format: wNumb({
-						decimals: 0
-					}),
-					range: {
-						'min': minYear,
-						'max': maxYear
-					}
-				});
-				updateFTBalanceInfo();
-			}
-			
-		}
-    });
-
-	
-}
-
-function updateYearRangeFTGrowth(){
-	yearSlider = document.getElementById('year_range_select');
-	
-	$.post(baseServiceUrl + "/getftiyears",
-    {
-        lang: getAppLang(),
-        country: curCountry.id,
-    },
-    function(info, status){
-		
-		if(status == 'success' && info.status == 0){
-			var activeRange = getActiveYearRange();
-			var minYear = Number.parseInt(info.data[0], 10);
-			var maxYear = Number.parseInt(info.data[info.data.length - 1], 10);
-			
-			if(yearSlider.noUiSlider == undefined){
-				noUiSlider.create(yearSlider, {
-					start: [(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)],
-					connect: true,
-					behaviour: 'tap-drag', 
-					step: 1,
-					tooltips: true,
-					format: wNumb({
-						decimals: 0
-					}),
-					range: {
-						'min': minYear,
-						'max': maxYear
-					}
-				});
 				updateFTGrowthInfo();
 				yearSlider.noUiSlider.on('change', function(){
 					var activeYears = yearSlider.noUiSlider.get();
 					setActiveYearRange(activeYears[0],activeYears[1]);
+					updateFTBalanceInfo();
 					updateFTGrowthInfo();
 				});
 			}else{
@@ -744,6 +755,7 @@ function updateYearRangeFTGrowth(){
 						'max': maxYear
 					}
 				});
+				updateFTBalanceInfo();
 				updateFTGrowthInfo();
 			}
 			
@@ -752,6 +764,7 @@ function updateYearRangeFTGrowth(){
 
 	
 }
+
 
 var FTVolumeData;
 
@@ -769,7 +782,6 @@ function updateFTVolumeInfo(){
 		
 		if(status == 'success' && info.status == 0){
 			updateFTVolumeTitle();
-			console.log(info.data);
 			FTVolumeData = info.data;
 			$(".FTV .tab-pane.categoryInfo").html("");
 			
@@ -789,7 +801,7 @@ function updateFTVolumeTitle(){
 			}
 			image.onerror = function() {
 				// image did not load
-				$(".FTVTitle .flag img").attr('src', 'img/flags/_defFlag.jpg');
+				$(".FTVTitle .flag img").attr('src', 'img/flags/_defFlag.png');
 			}
 
 			image.src = 'img/flags/' + curCountry.name + '.png';
@@ -798,6 +810,43 @@ function updateFTVolumeTitle(){
 	var years = getActiveYearRange();
 	$('.inlineYearFrom').text(years[0]);
 	$('.inlineYearTo').text(years[1]);
+	
+	var currString = "";
+	var curr = getCurCurrency();
+	switch(curr){
+		case 0:
+		currString = "AED Millions";
+			break;
+		case 1:
+		currString = "USD Millions";
+			break;
+		case 2:
+		currString = "AED Billions";
+			break;
+		case 3:
+		currString = "USD Billions";
+			break;
+	}
+	$('.inlineCurrency').text(currString);
+}
+
+function updateFTItemsTitle(){
+	$(".FTVTitle .flag img").attr('src', '');
+			var image = new Image();
+
+			image.onload = function() {
+				$(".FTVTitle .flag img").attr('src', image.src);
+			}
+			image.onerror = function() {
+				// image did not load
+				$(".FTVTitle .flag img").attr('src', 'img/flags/_defFlag.png');
+			}
+
+			image.src = 'img/flags/' + curCountry.name + '.png';
+	
+	
+	var year = getCurYear()
+	$('.inlineYear').text(year);
 	
 	var currString = "";
 	var curr = getCurCurrency();
@@ -843,7 +892,7 @@ function showFTCategoryInfo(index){
 			
 			panelBody += "<div class='progress'><div  class='progress-bar progress-bar-success valueImport" + index + " year" + el.year + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
 			
-			panelBody += '<span>Export</span>';
+			panelBody += '<span>Non-Oil Export</span>';
 			panelBody += '<span class="pull-right">' + setValuesFormats(category.nonOilExports) + '</span>';
 			
 			panelBody += "<div class='progress'><div  class='progress-bar progress-bar-success valueExport" + index + " year" + el.year + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
@@ -859,7 +908,7 @@ function showFTCategoryInfo(index){
 			
 			$('.FTV .categoryInfo.cat'+index).prepend($(panel));
 			
-			if(value > 0){console.log();
+			if(value > 0){
 				setTimeout(function(){
 					$(".FTV .progress-bar.valueImport"+index+".year"+el.year).css('width', (category.imports*100/value) + "%");
 					$(".FTV .progress-bar.valueExport"+index+".year"+el.year).css('width', (category.nonOilExports*100/value) + "%");
@@ -870,8 +919,10 @@ function showFTCategoryInfo(index){
 }
 
 var balanceGraph;
+var showBalanceData= [];
 function updateFTBalanceInfo(){
 	var years = getActiveYearRange();
+	updateFTVolumeTitle();
 	$.post(baseServiceUrl + "/getftbalance",
     {
         lang: getAppLang(),
@@ -885,32 +936,92 @@ function updateFTBalanceInfo(){
 		if(status == 'success' && info.status == 0){
 			
 			var years = getActiveYearRange();
+			/*showBalanceData = [{key:'', values: []}];
 			
-			var showData = new Array();
 			info.data.forEach(function(el, i) {
-				if(el.year >= years[0] && el.year <= years[1])
-					showData.push(el);
+				if(el.year >= years[0] && el.year <= years[1]){
+					var newEl = {label:'', value:0};
+					newEl.label = el.year;
+					newEl.value = el.value;
+					showBalanceData[0].values.push(newEl);
+				}
+					
 			});
+			*/
 			
-			$('#lineChart').html('');
-			balanceGraph = Morris.Line({
-				element: 'lineChart',
-				data: showData,
-				xkey: 'year',
-				ykeys: ['value'],
-				labels: ['Trade Balance'],
-				yLabelFormat:function (y) { return setValuesFormats(y); },
-				fillOpacity: 0.6,
-				  hideHover: 'auto',
-				  behaveLikeLine: true,
-				  resize: true,
-				  pointFillColors:['#ffffff'],
-				  pointStrokeColors: ['black'],
-				  lineColors:['gray']
+			showBalanceData = [['Year','', { role: 'style' }, {role: 'tooltip'}]];
+			
+			info.data.forEach(function(el, i) {
+				if(el.year >= years[0] && el.year <= years[1]){
+					var newEl = [];
+					newEl.push(parseInt(el.year));
+					newEl.push(el.value);
+					newEl.push(el.value < 0 ? "#E04B4A":"#95B75D");
+					newEl.push("" + el.year + "\u000D\u000A" + setValuesFormats(el.value) + "");
+					showBalanceData.push(newEl);
+				}
+					
 			});
+			//showBalanceChart();
+			google.charts.load('current', {packages: ['corechart', 'bar'], callback: showBalanceChart});
+			
 			//hideLoadingScreen();
 		};
     })
+}
+
+function showBalanceChart(){/*
+	$('#balanceChart svg').html('');
+			nv.addGraph(function() {
+
+			  var chart = nv.models.discreteBarChart()
+				  .x(function(d) { return d.label })    //Specify the data accessors.
+				  .y(function(d) { return d.value })
+				  .valueFormat(function(d) { return setValuesFormats(d)})
+				  .staggerLabels(false)    //Too many bars and not enough room? Try staggering labels.
+				  .tooltips(true)        //Don't show tooltips
+				  .showValues(false)       //...instead, show the bar value right on top of each bar.
+				  .transitionDuration(3500);
+				
+				chart.xAxis.tickValues(function(d) {
+					var dataset = ['0000', '', '', '1234'];
+
+					return dataset;
+				});
+			  balanceGraph = d3.select('#balanceChart svg')
+				  .datum(showBalanceData).transition().duration(3000)
+				  .call(chart);
+				d3.selectAll("rect.discreteBar")
+				.style("fill", function(d, i){
+					return d.value < 0 ? "#E04B4A":"#95B75D";
+				});			
+			  nv.utils.windowResize(chart.update);
+
+			  return chart;
+			});
+	*/
+	 var data = google.visualization.arrayToDataTable(showBalanceData);
+		var chartTiks = [];
+		
+		for(var i = 1;i< showBalanceData.length; i++){
+			if(showBalanceData[i][0]%3 == 0) chartTiks.push(showBalanceData[i][0]);
+		}
+      var options = {
+        title: '',
+		legend: {position: 'none'},
+		animation: {
+                duration: 3000,
+                startup: true //This is the new option
+            },
+		hAxis: {
+			viewWindowMode:'maximized',
+			format: '',
+			//ticks: chartTiks
+		}
+      };
+
+      var materialChart = new google.visualization.ColumnChart(document.getElementById('balanceChart'));
+      materialChart.draw(data, options);
 }
 
 function updateFTGrowthInfo(){
@@ -926,36 +1037,37 @@ function updateFTGrowthInfo(){
     function(info, status){
 		
 		if(status == 'success' && info.status == 0){
-			console.log(info.data);
-			var years = getActiveYearRange();
 			
-			var showData = new Array();
+			var years = getActiveYearRange();
+
+			var showData =  new Array();
 			info.data.forEach(function(el, i) {
 				if(i>0 && el.year >= years[0] && el.year <= years[1]){
-					var newEl = {year:'', value:0};
+					var newEl = {label:'', value:0};
 					newEl.year = el.year;
 					newEl.value = Math.round((el.value - info.data[i-1].value)/info.data[i-1].value*100);
 					showData.push(newEl);
 				}
 					
 			});
-			
-			$('#lineChart').html('');
-			balanceGraph = Morris.Line({
-				element: 'lineChart',
+			$('#growthChart').html('');
+			balanceGraph = Morris.Area({
+				element: 'growthChart',
 				data: showData,
 				xkey: 'year',
 				ykeys: ['value'],
-				labels: ['Trade Growth'],
+				labels: ['Growth'],
+				yLabelFormat:function (y) { return Math.round(y) + "%"; },
 				fillOpacity: 0.6,
-				yLabelFormat:function (y) { return y.toString() + '%'; },
-				  hideHover: 'auto',
-				  behaveLikeLine: true,
-				  resize: true,
-				  pointFillColors:['#ffffff'],
-				  pointStrokeColors: ['black'],
-				  lineColors:['gray']
+				hideHover: 'auto',
+				behaveLikeLine: true,
+				resize: true,
+				pointFillColors:['#39c3b0'],
+				pointStrokeColors: ['#39c3b0'],
+				lineColors:['#1caf9a'],
+				formatter: function (value, data) { return Math.round(value) + "%"; }
 			});
+
 			//hideLoadingScreen();
 		};
     })

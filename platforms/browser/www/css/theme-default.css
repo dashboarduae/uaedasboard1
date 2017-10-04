@@ -46,7 +46,7 @@ body {
   margin: 0px;
   background: #f5f5f5 url('../img/bg.png') left top repeat;
   position: relative;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Segoe UI",Tahoma,Arial,sans-serif;
   font-size: 12px;
   color: #22262e;
   overflow-x: hidden;
@@ -3430,7 +3430,7 @@ background: #1caf9a !important;
   font-size: 32px;
   line-height: 40px;
   font-weight: bold;
-  font-family: arial;
+  font-family: "Segoe UI",Tahoma,Arial,sans-serif;
 }
 .widget .widget-big-int {
   font-size: 42px;
@@ -6175,7 +6175,7 @@ input.ui-editRangeSlider-inputValue {
   border-radius: 3px;
   background: #1b1e24;
   color: white;
-  font-family: sans-serif, Verdana;
+  font-family: "Segoe UI",Tahoma,Arial,sans-serif;
   font-size: smaller;
   padding: 3px;
   z-index: 15;
@@ -6400,7 +6400,7 @@ div.tagsinput div {
   color: #666;
   background: rgba(255, 255, 255, 0.8);
   border: solid 2px rgba(230, 230, 230, 0.8);
-  font-family: sans-serif;
+  font-family: "Segoe UI",Tahoma,Arial,sans-serif;
   font-size: 12px;
   text-align: center;
 }
@@ -6613,7 +6613,7 @@ div.tagsinput div {
   display: table-cell;
   width: 150px;
   height: 150px;
-  font-family: Monaco,Consolas,monospace;
+  font-family: "Segoe UI",Tahoma,Arial,sans-serif;
   font-size: 11px;
   vertical-align: middle;
   text-align: center;
@@ -7339,7 +7339,7 @@ display:none;
 
 
 .x-navigation > li.xn-logo > a:first-child {
-	font-size: 5.5vw;background: #b78a35;
+	font-size: 4vw;background: #b78a35;
 }
 
 
@@ -7361,9 +7361,13 @@ display:none;
     margin: 30px auto;
 }
 
-#country_select .dropdown-menu,
-#year_select  .dropdown-menu{
+#country_select .dropdown-menu{
 	max-height: calc(90vh - 150px);
+    overflow-y: auto;
+}
+
+#year_select .dropdown-menu {
+    max-height: calc(80vh - 150px);
     overflow-y: auto;
 }
 
@@ -7389,9 +7393,9 @@ display:none;
 
 #logo span {
     display: inline-block;
-    font-size: 17px;
+    font-size: 5.31vw;
     font-weight: bold;
-    padding: 12px 6px;
+    padding: 3.75vw 1.875vw;
     text-align: justify;
 	color:#b78a35;
 }
@@ -7418,9 +7422,9 @@ display:none;
 	width: 100%;
 }
 
-.FTItems .itemhead{
-	display:table;
-	width:100%;
+
+.FTItems .item{
+	display:table-row;	
 }
 
 .FTItems .itemhead .name, .FTItems .itemhead .value{
@@ -7434,29 +7438,71 @@ display:none;
 }
 
 .FTItemsSummary .panel-title{
-	display:none;
+	display:none;font-size:5vw;    line-height: 1.3em;
 }
 
 .FTItemsCategories{
 	display:none;
 }
 
+#donutlegend, 
+#donutchart{
+	display: table-cell;
+}
+
+
 #donutchart {
-	
+	height:45vw;    width: 45vw;
+}
+
+#donutlegend {
+	height:45vw;    width: 55vw;
+	vertical-align: middle;
+}
+
+#donutlegend ul{
+	    padding-left: 5vw;
+}
+
+#donutlegend li{
+display: block;
+    list-style: none;
+    padding: 1vw;
+    font-size: 3.75vw;
+    height: 1.3em;
+    line-height: 1.3em;
+    margin-bottom: 2vw;
+}
+
+#donutlegend li svg{
+	display:inline-block;
+	width:3.75vw;
+	    margin-right: 2vw;
 }
 
 #chartImport,
 #chartExport,
 #chartReExport{
-	height:24vw;
+    height: 30vw;
+    position: absolute;
+    top: -6vw;
+}
+
+.FTItemsCategories .panel.panel-default{
+	position: relative;    top: 20vw;margin-bottom: 14vw;
+}
+
+.FTItemsCategories .itemhead{
+	font-size: 1.75vw;
 }
 
 @media all and (orientation:landscape) {
+	#donutlegend {display:none;}
 	.x-navigation > li.xn-logo > a:first-child {
-    font-size: 1.8vw;
+    font-size: 3vw;
 	}
   .FTItemsCategories{
-	display:block;
+	display:block;    position: relative;
 	}
 	
    .FTItemsSummary, #donutchart {
@@ -7471,8 +7517,8 @@ display:none;
 
 
 .fp-logo > a:first-child {
-    height: 90px;
-    padding: 10px;
+    height: 28.125vw;
+    padding: 3.125vw;
     display: block;
     text-align: center;
     color: #000;
@@ -7482,10 +7528,59 @@ display:none;
 
 
 
-.fp-logo  {
-    max-height: 90px;
+.page-container .page-sidebar .fp-logo  {
+    max-height: 28.125vw;
 }
 
+.page-container .page-sidebar .title{
+	background:#252525;color:#fff;    padding: 3.125vw; font-size:4.375vw;    line-height: 1.3em;
+}
+
+.page-container .page-sidebar .title .big{
+	font-size:6vw;
+}
+
+.fp .page-container .page-content{
+    top: 46vw;
+}
+
+@media all and (orientation:landscape) {
+.page-container .page-sidebar .fp-logo,
+.page-container .page-sidebar .title	{
+    display:table-cell;    vertical-align: top;    border: solid 1px #b3b3b3; border-top:none;border-left:none;
+}
+#logo span {
+	    font-size: 2vw;
+	    padding: 1.25vw 0.625vw;
+}
+
+.page-container .page-sidebar .fp-logo{
+	width: 35vw;
+}
+
+.page-container .page-sidebar .title {
+    padding: 1vw;
+    font-size: 2.5vw;width: 65vw;border-right:none;
+}
+
+.page-container .page-sidebar .title .big {
+    font-size: 4vw;
+}
+
+.page-container .page-sidebar .fp-logo {
+    max-height: 9.35vw;
+}
+
+.fp-logo > a:first-child {
+    height: 9.35vw;
+    padding: 1.041vw;
+}
+
+.fp .page-container .page-content {
+    top: 9vw;
+}
+
+}
 
 .fp  .x-navigation .x-navigation-control {
     height: 90px;
@@ -7519,6 +7614,14 @@ font-size: 16px;
 	width: 33%;
 }
 
+.nav-tabs.nav-justified.w30>li > a{
+	opacity:.7;
+}
+
+.nav-tabs.nav-justified.w30>li.active > a{
+	opacity:1;
+}
+
 .noUi-horizontal .noUi-tooltip{
 	font-size:14px;
 }
@@ -7530,12 +7633,11 @@ font-size: 16px;
     top: 50px;
     bottom: 0;
     border: none;
-	
+	min-height: auto;
+	    height: auto !important;
 }
 
-.fp .page-container .page-content{
-       top: 135px;
-}
+
 
 .page-container .bottom_menu{
     height: 90px; 
@@ -7634,13 +7736,14 @@ font-size: 16px;
 
 
 
-.page-content-wrap .grid-item{
-    float:left;
+.page-content-wrap .grid-item {
+    float: left;
     width: 46vw;
-    height: 46vw;
+    height: 27vw;
     margin: 2vw;
     border: solid 1px #aaa;
-    background: #fff;
+    background: url(../img/fpicons/corner.png) rgba(182,138,53,1) top left no-repeat;
+    background-size: contain;
 }
 
 .page-content-wrap .grid-item a{
@@ -7650,30 +7753,31 @@ font-size: 16px;
 
 
 .page-content-wrap .grid-item img.icon{
-	display: block;
-    margin: 10px auto;
-    height: 35%;
+    display: block;
+    margin: 2vw auto;
+    width: 30%;
 }
 
 .page-content-wrap .grid-item h3{
-	margin: 0;
+margin: 0;
     padding: 0 1vw;
     text-align: center;
     line-height: 1.3em;
-	
-	font-size: 5vw;
+    font-family: "Segoe UI",Tahoma,Arial,sans-serif;
+    font-size: 3.5vw;
+    color: #fff;
 }
 
 @media all and (orientation:landscape) {
 .page-content-wrap .grid-item{
     width: 23vw;
-    height: 23vw;
+    height: 15vw;
     margin: 1vw;
 	
 }
 
 .page-content-wrap .grid-item h3{
-	font-size: 2.4vw;
+	font-size: 1.6vw;
 }
 }
 
@@ -7695,7 +7799,8 @@ font-size: 16px;
 }
 
 .FTV.landscape h3{
-	font-size:3.17vw;
+	font-size:2.7vw;
+	    font-weight: normal;
 }
 
 @media all and (orientation:landscape) {
@@ -7780,42 +7885,68 @@ font-size: 16px;
 	margin-bottom:10px;
 }
 
+.FTItems .itemhead{
+	display: table;
+	    width: 100%;
+}
+
+.FTItems  .itemhead .toggleTitles{
+	position:absolute;
+	top:0;
+	right:0;
+	
+}
+
 
 .FTItems .itemhead .name{
 	line-height: 1.3em;
     height: 1.3em;
     overflow: hidden;
     display: block;
+	position:relative;
+	padding-right: 9vw;
 }
-.FTItems .itemhead .fa-question{
-    position: absolute;
-    top: 0;
-	left: 0;
-    font-size: 14px;
-    font-weight: normal;
+
+.FTItems .itemhead .name.expand{
+	height: auto;
+}
+
+.FTItems .itemhead .name .toggleTitles{
 	cursor:pointer;
 }
 
-#lineChart{
+.FTItemsCategories .col-md-4{
+	padding: 0 1vw;
+}
+
+#balanceChart{
 	width:100%;
 	text-align:center;
 }
 
-#lineChart svg {
-    height: 50vw;
+#balanceChart svg,
+#growthChart svg {
+    height: 52vw;
 }
 
-.morris-hover.morris-default-style {
+@media all and (orientation:landscape) {
+#balanceChart svg,
+#growthChart svg{
+    height: 35vw;
+}
+}
+
+.morris-hover.morris-default-style {/*
 border-radius: 10px;
     padding: 6px;
     color: #666;
     background: rgba(255, 255, 255, 0.8);
     border: solid 2px rgba(230, 230, 230, 0.8);
-    font-family: sans-serif;
+    font-family: "Segoe UI",Tahoma,Arial,sans-serif;
     font-size: 12px;
     text-align: center;
     position: static;
-    display: inline-block;
+    display: inline-block;*/
 }
 
 
@@ -7895,6 +8026,10 @@ display: table-cell;
 }
 
 @media all and (orientation:landscape) {
+
+.FTItems .itemhead .name{
+	padding-right: 4vw;
+}
 	
 .GICountryTitle,
 .FTVTitle{
@@ -8012,7 +8147,7 @@ display: table-cell;
 }
 
 #country_select,
-#currency_select,
+#currency_select,#year_select,
 #filter-box .mb-content .row{
 	width:100%;
 }
@@ -8021,7 +8156,7 @@ display: table-cell;
 
 @media all and (orientation:landscape) {
 #filter-box .mb-content .row{
-	
+	    float: left;
 }	
 	
 .panel .panel-heading {
@@ -8049,3 +8184,105 @@ display: table-cell;
 }
 }
 
+.progress-bar.valueImport,
+.progress-bar.valueImport0,
+.progress-bar.valueImport1,
+.progress-bar.valueImport2
+  {
+    background-color: #E04B4A;
+}
+
+.progress-bar.valueExport,
+.progress-bar.valueExport0,
+.progress-bar.valueExport1,
+.progress-bar.valueExport2
+  {
+    background-color: #1CAF9A;
+}
+
+.progress-bar.valueReExport,
+.progress-bar.valueReExport0,
+.progress-bar.valueReExport1,
+.progress-bar.valueReExport2
+  {
+    background-color: #95B75D;
+}
+
+.progress-bar.valueTotal{
+    background-color: #1b1e24;
+}
+
+
+.FTItemsCategories .panel .panel-title{
+	font-size: 2vw;
+    line-height: 1.3em;
+}
+
+.nvd3.nv-wrap{
+	width:100%;
+}
+
+.FTItemsCategories .nvd3.nv-pie .nv-slice text{
+	font-size: 2.2vw;
+	font-weight:bold;
+}
+
+.FTItemsCategories .nvd3.nv-pie .nv-slice text:last-child{
+    font-size: 1.8vw;
+    font-weight: normal;
+}
+
+.panel .panel-body.nopadding{
+	padding:0;
+}
+
+.panel .panel-title{
+	font-size:5vw;
+	line-height: 1.3em;
+}
+
+
+.nav-tabs, .nav-tabs.nav-justified{
+    margin-left: -20px;
+    width: calc(100% + 40px);
+    padding-bottom: 15px;
+    background: #f5f5f5 url(../img/bg.png) left top repeat;
+}
+
+.nav-tabs.nav-justified > .active > a, .nav-tabs.nav-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:focus,
+.nav-tabs.nav-justified > li > a{
+    border: 0px;
+    border-top: none;
+    background: #FFF;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    background: #b78a35;
+    color: #fff;
+    border: 1px solid #f5f5f5;
+}
+
+.tradeGrowth .panel .panel-heading .panel-title,
+.tradeBalance .panel .panel-heading .panel-title{
+	font-size: 4.5vw;
+    font-weight: normal;
+}
+
+
+@media all and (orientation:landscape) {
+.tradeGrowth .panel .panel-heading .panel-title,
+.tradeBalance .panel .panel-heading .panel-title{
+	font-size: 2.7vw;
+    font-weight: normal;
+}
+
+#filter-box .row.w50{
+    width: 46%;
+    float: right;
+}
+
+#filter-box .row.w50:first-child{
+    width: 46%;
+    float: left;
+}
+}

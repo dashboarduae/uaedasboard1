@@ -37,17 +37,18 @@
                 <!-- START X-NAVIGATION -->
                 <ul class="x-navigation">
                     <li class="xn-logo">
-                        <a href="index.html">Direct Foreign Trade</a>
+                        <a href="index.html">UAE Direct Non-Oil Foreign Trade Items</a>
 						<a href="#" class="x-navigation-controlfilter mb-control" data-box="#filter-box"></a>
                         <a href="#" class="x-navigation-control"></a>
                     </li>
-                    <li class="xn-title">Navigation</li>
-                    <li class="active"><a href="general_information.html"><span class="fa fa-globe"></span> <span class="xn-text">General Information</span></a></li>
-					<li><a href="foreign_trade_volume.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Volume</span></a></li>
-					<li><a href="trade_balance.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Balance</span></a></li>
-					<li><a href="trade_growth.html"><span class="fa "></span> <span class="xn-text">Foreign Trade Grouth</span></a></li>
-					<li><a href="direct_foreign_trade_items.html"><span class="fa "></span> <span class="xn-text">Direct Foreign Trade Items</span></a></li>
-					<li><a href="investement_facts.html"><span class="fa "></span> <span class="xn-text">Investement Facts</span></a></li>
+                    <li><a href="general_information.html"> <span class="xn-text">General Information</span></a></li>
+					<li><a href="foreign_trade_volume.html"><span class="xn-text">Trade Volume</span></a></li>
+					<li><a href="trade_balance.html"> <span class="xn-text">Trade Growth and Balance</span></a></li>
+					<li class="active"><a href="direct_foreign_trade_items.html"><span class="xn-text">Direct Trade Items</span></a></li>
+					<li><a href="#"><span class="xn-text">Investement Facts</span></a></li>
+					<li><a href="#"><span class="xn-text">Joint Agreements</span></a></li>
+					<li><a href="#"><span class="xn-text">Mutual Visits</span></a></li>
+					<li><a href="#"><span class="xn-text">Joint Committees</span></a></li>
                     
                 </ul>
                 <!-- END X-NAVIGATION -->
@@ -58,7 +59,7 @@
 			<div class="mb-container">
                 <div class="mb-middle">
                     <div class="mb-content">
-                        <div class="row">
+                        <div class="row w50">
 							<h3>Country</h3>
 							<div id="country_select" class="btn-group">
 								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"> <span class="caret"></span></a>
@@ -67,15 +68,7 @@
 								</ul>
 							</div>
 						</div>
-						<div class="row">
-							<h3>Year</h3>
-							<div id="year_select" class="btn-group">
-								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"> <span class="caret"></span></a>
-								<ul class="dropdown-menu" role="menu">
-								</ul>
-							</div>
-						</div>
-						<div class="row">
+						<div class="row w50">
 							<h3>Currency</h3>
 							<div id="currency_select" class="btn-group">
 								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false">AED Millions <span class="caret"></span></a>
@@ -86,7 +79,16 @@
 									<li><a href="#" onClick="setCurCurrency(3);updateFTItems();">USD Billions</a></li>
 								</ul>
 							</div>
-						</div>                
+						</div>  
+						<div class="row">
+							<h3>Year</h3>
+							<div id="year_select" class="btn-group">
+								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"> <span class="caret"></span></a>
+								<ul class="dropdown-menu" role="menu">
+								</ul>
+							</div>
+						</div>
+						              
                     </div>
                     <div class="mb-footer">
                         <button class="btn btn-default btn-lg pull-right mb-control-close">Apply</button>
@@ -96,7 +98,10 @@
 			</div>
             <!-- PAGE CONTENT -->
             <div class="page-content scroll">
-                
+                <div  class="row FTVTitle"  style="margin-bottom:10px;">
+						<div class="countryInfo flag"><img src="img/flags/_defFlag.jpg"></div> 
+						<div class="countryInfo"><div class="desc inlineCountryTitle"></div><div class="value"><span class="inlineYear"></span>  (in <span class="inlineCurrency"></span>), top five items</div></div>						
+				</div>
                 <!-- START X-NAVIGATION VERTICAL -->
                 <!-- END X-NAVIGATION VERTICAL -->                     
 
@@ -108,7 +113,13 @@
 
                             <!-- START DONUT CHART -->
 							<div id="donutchart"></div>
-                            
+                            <div id="donutlegend">
+							<ul>
+								<li><svg ><circle cx="1.8vw" cy="1.5vw" r="1.3vw" fill="#e04b4a"></circle></svg>Import Items</li>
+								<li><svg ><circle cx="1.8vw" cy="1.5vw" r="1.3vw" fill="#1caf9a"></circle></svg>Non-Oil Export Items</li>
+								<li><svg ><circle cx="1.8vw" cy="1.5vw" r="1.3vw" fill="#95b75d"></circle></svg>Re-Export Items</li>
+							</ul>
+							</div>
                             <!-- END DONUT CHART -->                        
 
 					</div>
@@ -120,10 +131,10 @@
 					<div class="col-md-12  clearfix">
 						<div class="panel panel-default FTItems">
                             <div class="panel-heading">
-                                <h3 class="panel-title title-1">Top five <span class="inlineFTType">Direct Foriegn Trade Items</span> between UAE and <span class="inlineCountryTitle"></span></h3>    
-								<h3 class="panel-title title0">Top five <span class="inlineFTType">Import Items</span> from <span class="inlineCountryTitle"></span></h3> 
-								<h3 class="panel-title title1">Top five <span class="inlineFTType">Export Items</span> to <span class="inlineCountryTitle"></span></h3> 
-								<h3 class="panel-title title2">Top five <span class="inlineFTType">Re-Export Items</span> to <span class="inlineCountryTitle"></span></h3> 
+                                <h3 class="panel-title title-1"><span class="inlineFTType">Items</span></h3>    
+								<h3 class="panel-title title0"><span class="inlineFTType">Import Items</span></h3> 
+								<h3 class="panel-title title1"><span class="inlineFTType">Non-Oil Export Items</span></h3> 
+								<h3 class="panel-title title2"><span class="inlineFTType">Re-Export Items</span></h3> 
                             </div>
                             <div class="panel-body">
                                 
@@ -137,7 +148,7 @@
 						<div id="chartImport" ><svg></svg></div>
 						<div class="panel panel-default FTItems">
                             <div class="panel-heading">  
-								<h3 class="panel-title title0">Top five <span class="inlineFTType">Import Items</span> from <span class="inlineCountryTitle"></span></h3> 
+								<h3 class="panel-title title0"><span class="inlineFTType">Import Items</span></h3> 
                             </div>
                             <div class="panel-body">
                                 
@@ -148,7 +159,7 @@
 						<div id="chartExport"><svg></svg></div>
 						<div class="panel panel-default FTItems">
                             <div class="panel-heading">  
-								<h3 class="panel-title title1">Top five <span class="inlineFTType">Export Items</span> to <span class="inlineCountryTitle"></span></h3> 
+								<h3 class="panel-title title1"><span class="inlineFTType">Non-Oil Export Items</span></h3> 
                             </div>
                             <div class="panel-body">
                                 
@@ -159,7 +170,7 @@
 						<div id="chartReExport"><svg></svg></div>
 						<div class="panel panel-default FTItems">
                             <div class="panel-heading">  
-								<h3 class="panel-title title2">Top five <span class="inlineFTType">Re-Export Items</span> to <span class="inlineCountryTitle"></span></h3> 
+								<h3 class="panel-title title2"><span class="inlineFTType">Re-Export Items</span></h3> 
                             </div>
                             <div class="panel-body">
                                 
@@ -219,6 +230,8 @@
 		<script>
 $(document).ready(function(){
 	//showLoadingScreen();
+	
+	
 	$.post(baseServiceUrl + "/list",
     {
         lang: getAppLang(),
@@ -227,18 +240,24 @@ $(document).ready(function(){
 		countryList  = data;
 		if(status == 'success' && countryList.status == 0) {
 			curCountry = countryList.data[0];
+			
 			$('#country_select #active_value').html(countryList.data[0].name + " <span class=\"caret\"></span>");
 			var menu  = $('#country_select .dropdown-menu');
 			menu.html('');
+			countryList.data.sort(compareCountry);
 			countryList.data.forEach(function(el) {
 				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateMap();updateFTYearsList();">' + el.name + '</a></li>');
 				menu.append(country);
 			});
-			setActiveCountry(curCountry.id, false);
+			var curC = window.localStorage.getItem('appCurCountry');
+			if(curC == undefined) {
+				curC = 156;
+			}
+			setActiveCountry(parseInt(curC), false);
 			updateFTYearsList();
 		}
     });
-	$('window').resize(updateFTItems);
+	$(window).resize(updateFTItems);
 	
 	
 });
