@@ -92,6 +92,10 @@ padding: 1vw;
     border: none;
 }
 
+
+.select2-search--dropdown {
+    display: none;
+}
 </style>
 
 
@@ -143,7 +147,7 @@ padding: 1vw;
 
 
 <div class='pie_div' style='right:1vw'>
-<div style='color:white;padding-top:9vw;font-family:Arial;text-align:center'>
+<div style='color:white;padding-top:8vw;font-family:Arial;text-align:center'>
 
 	<div style='font-size:3vw' id="country_select">
 	<div style='padding-bottom:1vw'>Country</div><select   class="chosen-select"></select>
@@ -289,7 +293,7 @@ $(document).ready(function(){
 	});
 	
 	$(window).resize(function(){
-		if(window.innerWidth>window.innerHeight) window.location = "index_land.html";
+		//if(window.innerWidth>window.innerHeight) window.location = "index_land.html";
 	});
 });
 		</script>

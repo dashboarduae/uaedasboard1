@@ -7445,8 +7445,39 @@ display:none;
 	display:none;
 }
 
+#donutlegend, 
+#donutchart{
+	display: table-cell;
+}
+
+
 #donutchart {
-	height:45vw;
+	height:45vw;    width: 45vw;
+}
+
+#donutlegend {
+	height:45vw;    width: 55vw;
+	vertical-align: middle;
+}
+
+#donutlegend ul{
+	    padding-left: 5vw;
+}
+
+#donutlegend li{
+display: block;
+    list-style: none;
+    padding: 1vw;
+    font-size: 3.75vw;
+    height: 1.3em;
+    line-height: 1.3em;
+    margin-bottom: 2vw;
+}
+
+#donutlegend li svg{
+	display:inline-block;
+	width:3.75vw;
+	    margin-right: 2vw;
 }
 
 #chartImport,
@@ -7466,6 +7497,7 @@ display:none;
 }
 
 @media all and (orientation:landscape) {
+	#donutlegend {display:none;}
 	.x-navigation > li.xn-logo > a:first-child {
     font-size: 3vw;
 	}
@@ -8177,7 +8209,7 @@ display: table-cell;
 }
 
 .progress-bar.valueTotal{
-    background-color: #ddd;
+    background-color: #1b1e24;
 }
 
 

@@ -91,6 +91,10 @@ padding: 1vw;
 .select2-container--open .select2-dropdown--below {
     border: none;
 }
+
+.select2-search--dropdown {
+    display: none;
+}
 </style>
 
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -173,7 +177,7 @@ padding: 1vw;
 
 
 <div class='hor_pie_div' style='right:1vw'>
-<div style='color:white;padding-top:5vw;font-family:Arial;text-align:center'>
+<div style='color:white;padding-top:4vw;font-family:Arial;text-align:center'>
 
 	<div style='font-size:1.5vw' id="country_select">
 	<div style='padding-bottom:0.3vw'>Country</div><select   class="chosen-select"></select>
@@ -295,7 +299,7 @@ $(document).ready(function(){
 	});
 	
 	$(window).resize(function(){
-		if(!(window.innerWidth>window.innerHeight)) window.location = "index.html";
+		//if(!(window.innerWidth>window.innerHeight)) window.location = "index.html";
 	});
 });
 		</script>
