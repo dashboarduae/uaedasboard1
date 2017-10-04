@@ -28,6 +28,8 @@ $(document).ready(function(){
 		
 	});
 	
+	
+	
 });
 
 
@@ -360,7 +362,30 @@ function updateFTItems(){
 		if(status == 'success' && info.status == 0){
 			FTItems = info.data;
 			updateFTItemsTitle();
-			$('#donutchart').html('');
+			
+			initDonutChart();
+			
+			showActiveFTData(-1);
+		
+			updateCategoriesData(0, ".FTItemsCategories .Import");
+			updateCategoriesData(1, ".FTItemsCategories .Export");
+			updateCategoriesData(2, ".FTItemsCategories .ReExport");
+			setSameHeight(".FTItemsCategories .panel-body");
+			
+			$(".toggleTitles").click(function(){
+				$(".FTItems .itemhead .name").toggleClass("expand");setSameHeight(".FTItemsCategories .panel-body");
+			});
+		}
+		//hideLoadingScreen();
+		
+		
+		
+    });
+	
+}
+
+function initDonutChart(){
+	$('#donutchart').html('');
 			donutChart = Morris.Donut({
 				element: 'donutchart',
 				data: [
@@ -385,24 +410,6 @@ function updateFTItems(){
 				
 			}
 			
-			
-			
-		}
-		//hideLoadingScreen();
-		
-		
-		showActiveFTData(-1);
-		
-		updateCategoriesData(0, ".FTItemsCategories .Import");
-		updateCategoriesData(1, ".FTItemsCategories .Export");
-		updateCategoriesData(2, ".FTItemsCategories .ReExport");
-		setSameHeight(".FTItemsCategories .panel-body");
-		
-		$(".toggleTitles").click(function(){
-			$(".FTItems .itemhead .name").toggleClass("expand");setSameHeight(".FTItemsCategories .panel-body");
-		});
-    });
-	
 }
 
 var chartColors = ['#E04B4A', '#1CAF9A', '#95B75D'];
@@ -536,6 +543,8 @@ function setSameHeight(selector){
 	$(selector).height(maxHeight);
 }
 
+var activeFTItemsIndex = -1;
+
 function showActiveFTData(index){
 
 	$(".FTItemsSummary .panel-title").hide();
@@ -549,12 +558,15 @@ function showActiveFTData(index){
 	var totalValue;
 	var progressBarClass;
 	
+	if(activeFTItemsIndex == index) index = -1;
+	
 	
 	switch(index){
 		case -1: 
 			itemsToDisplay = FTItems.totalItems;
 			totalValue = FTItems.totalFT;
 			progressBarClass = "valueTotal";
+			initDonutChart();
 			break;
 		case 0: ;
 			itemsToDisplay = FTItems.importsItems;
@@ -587,6 +599,7 @@ function showActiveFTData(index){
 	});
 	
 	$('[data-toggle="popover"]').popover();
+	activeFTItemsIndex = index;
 }
 
 
@@ -892,6 +905,7 @@ function showFTCategoryInfo(index){
 }
 
 var balanceGraph;
+var showBalanceData= [];
 function updateFTBalanceInfo(){
 	var years = getActiveYearRange();
 	updateFTVolumeTitle();
@@ -908,45 +922,92 @@ function updateFTBalanceInfo(){
 		if(status == 'success' && info.status == 0){
 			
 			var years = getActiveYearRange();
-			var showData = [{key:'', values: []}];
+			/*showBalanceData = [{key:'', values: []}];
+			
 			info.data.forEach(function(el, i) {
 				if(el.year >= years[0] && el.year <= years[1]){
 					var newEl = {label:'', value:0};
 					newEl.label = el.year;
 					newEl.value = el.value;
-					showData[0].values.push(newEl);
+					showBalanceData[0].values.push(newEl);
 				}
 					
 			});
+			*/
 			
-			$('#balanceChart svg').html('');
-			nv.addGraph(function() {
-			  var chart = nv.models.discreteBarChart()
-				  .x(function(d) { return d.label })    //Specify the data accessors.
-				  .y(function(d) { return d.value })
-				  .valueFormat(function(d) { return setValuesFormats(d)})
-				  .staggerLabels(true)    //Too many bars and not enough room? Try staggering labels.
-				  .tooltips(false)        //Don't show tooltips
-				  .showValues(true)       //...instead, show the bar value right on top of each bar.
-				  .transitionDuration(350);
-				chart.yAxis.tickFormat(function(d) {
-						return setValuesFormats(d);
-					});
-			  d3.select('#balanceChart svg')
-				  .datum(showData)
-				  .call(chart);
-				d3.selectAll("rect.discreteBar")
-				.style("fill", function(d, i){
-					return d.value < 0 ? "#E04B4A":"#95B75D";
-				});
-			  nv.utils.windowResize(chart.update);
-
-			  return chart;
+			showBalanceData = [['Year','', { role: 'style' }, {role: 'tooltip'}]];
+			
+			info.data.forEach(function(el, i) {
+				if(el.year >= years[0] && el.year <= years[1]){
+					var newEl = [];
+					newEl.push(parseInt(el.year));
+					newEl.push(el.value);
+					newEl.push(el.value < 0 ? "#E04B4A":"#95B75D");
+					newEl.push("" + el.year + "\u000D\u000A" + setValuesFormats(el.value) + "");
+					showBalanceData.push(newEl);
+				}
+					
 			});
+			//showBalanceChart();
+			google.charts.load('current', {packages: ['corechart', 'bar'], callback: showBalanceChart});
 			
 			//hideLoadingScreen();
 		};
     })
+}
+
+function showBalanceChart(){/*
+	$('#balanceChart svg').html('');
+			nv.addGraph(function() {
+
+			  var chart = nv.models.discreteBarChart()
+				  .x(function(d) { return d.label })    //Specify the data accessors.
+				  .y(function(d) { return d.value })
+				  .valueFormat(function(d) { return setValuesFormats(d)})
+				  .staggerLabels(false)    //Too many bars and not enough room? Try staggering labels.
+				  .tooltips(true)        //Don't show tooltips
+				  .showValues(false)       //...instead, show the bar value right on top of each bar.
+				  .transitionDuration(3500);
+				
+				chart.xAxis.tickValues(function(d) {
+					var dataset = ['0000', '', '', '1234'];
+
+					return dataset;
+				});
+			  balanceGraph = d3.select('#balanceChart svg')
+				  .datum(showBalanceData).transition().duration(3000)
+				  .call(chart);
+				d3.selectAll("rect.discreteBar")
+				.style("fill", function(d, i){
+					return d.value < 0 ? "#E04B4A":"#95B75D";
+				});			
+			  nv.utils.windowResize(chart.update);
+
+			  return chart;
+			});
+	*/
+	 var data = google.visualization.arrayToDataTable(showBalanceData);
+		var chartTiks = [];
+		
+		for(var i = 1;i< showBalanceData.length; i++){
+			if(showBalanceData[i][0]%3 == 0) chartTiks.push(showBalanceData[i][0]);
+		}
+      var options = {
+        title: '',
+		legend: {position: 'none'},
+		animation: {
+                duration: 3000,
+                startup: true //This is the new option
+            },
+		hAxis: {
+			viewWindowMode:'maximized',
+			format: '',
+			//ticks: chartTiks
+		}
+      };
+
+      var materialChart = new google.visualization.ColumnChart(document.getElementById('balanceChart'));
+      materialChart.draw(data, options);
 }
 
 function updateFTGrowthInfo(){
