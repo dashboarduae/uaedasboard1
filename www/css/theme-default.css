@@ -7441,6 +7441,10 @@ display:none;
 	display:none;font-size:5vw;    line-height: 1.3em;
 }
 
+.FTItemsSummary .back .panel-title{
+	display:block;
+}
+
 .FTItemsCategories{
 	display:none;
 }
@@ -8223,13 +8227,13 @@ display: table-cell;
 }
 
 .FTItemsCategories .nvd3.nv-pie .nv-slice text{
-	font-size: 2.2vw;
-	font-weight:bold;
+	font-size: 1.8vw;
+	font-weight:normal;
 }
 
 .FTItemsCategories .nvd3.nv-pie .nv-slice text:last-child{
-    font-size: 1.8vw;
-    font-weight: normal;
+    font-size: 2.2vw;
+    font-weight: bold;
 }
 
 .panel .panel-body.nopadding{
@@ -8285,4 +8289,26 @@ display: table-cell;
     width: 46%;
     float: left;
 }
+
+ .FTItemsSummary{display:none !important;}
+}
+
+.FTItemsSummary .flipBlock .front{
+	width: calc(100% - 20px) !important;
+	left:10px;
+}
+ .flipBlock .back{
+	display:none;
+}
+
+
+
+#donutchart svg text:last-child{
+	font-weight: 800 !important;
+	font-size: 6vw  !important;
+}
+
+#donutchart svg text{
+	font-weight: normal  !important;
+	font-size: 3.5vw  !important;
 }

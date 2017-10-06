@@ -8,6 +8,7 @@ var countryMap = null;
 
 $(document).ready(function(){
 	setCurCurrency(parseInt(getCurCurrency()));
+	setFTItemsLimit(getFTItemsLimit());
 	$(".page-container .bottom_menu .menu_item").click(function(){
 		if($(this).hasClass("active")){
 			$(".page-content-wrap .bsubmenuwrapper").css({opacity: 0});
@@ -258,10 +259,10 @@ function setActiveCountry(id, fromMap){
 
 function updateMap(){
 	if(!countrySelectedFromMap ) {
-		try{
+		try{/*
 			countryMap.clearSelectedRegions()
 			countryMap.setSelectedRegions(curCountry.iso2);
-			$('#vector_world_map').vectorMap('set', 'focus',curCountry.iso2);
+			$('#vector_world_map').vectorMap('set', 'focus',curCountry.iso2);*/
 		}catch(err){
 			
 		}
@@ -361,6 +362,29 @@ function updateFTYearsList(){
 var FTItems;
 var donutChart;
 
+function getFTItemsLimit(){
+	var limit = window.localStorage.getItem('FTItemsLimit');
+	if(limit == undefined) {
+		limit = "5";
+	}
+	return limit;
+}
+
+function setFTItemsLimit(limit){
+	
+	if(isNormalInteger(limit)){
+		window.localStorage.setItem('FTItemsLimit', limit);
+		$('#item_count input').val(limit);
+		return limit;
+	}
+	return getFTItemsLimit();
+	
+}
+
+function isNormalInteger(str) {
+    return str >>> 0 === parseFloat(str);
+}
+
 function updateFTItems(){
 	//showLoadingScreen();
 	$.post(baseServiceUrl + "/gettradeitems",
@@ -368,7 +392,7 @@ function updateFTItems(){
         lang: getAppLang(),
         country: curCountry.id,
 		year:getCurYear(),
-		limit: 5,
+		limit: getFTItemsLimit(),
 		currency:getCurCurrency()
     },
     function(info, status){
@@ -385,10 +409,7 @@ function updateFTItems(){
 			updateCategoriesData(1, ".FTItemsCategories .Export");
 			updateCategoriesData(2, ".FTItemsCategories .ReExport");
 			setSameHeight(".FTItemsCategories .panel-body");
-			
-			$(".toggleTitles").click(function(){
-				$(".FTItems .itemhead .name").toggleClass("expand");setSameHeight(".FTItemsCategories .panel-body");
-			});
+			setSameHeight(".FTItemsSummary .panel-body");
 		}
 		//hideLoadingScreen();
 		
@@ -560,10 +581,10 @@ function setSameHeight(selector){
 var activeFTItemsIndex = -1;
 
 function showActiveFTData(index){
-
-	$(".FTItemsSummary .panel-title").hide();
-	$(".FTItemsSummary .panel-title.title"+index).show();
-	var panelBody = $(".FTItemsSummary .panel-body");
+	$(".FTItemsSummary").hide();
+	$(".FTItemsSummary .front .panel-title").hide();
+	$(".FTItemsSummary .front .panel-title.title"+index).show();
+	var panelBody = $(".FTItemsSummary .front .panel-body");
 	panelBody.html("");
 	
 	var tiSize = FTItems.totalItems.length;
@@ -601,6 +622,9 @@ function showActiveFTData(index){
 	
 	itemsToDisplay.forEach(function(el, ind, array) {
 			var item = $("<div class='item item1'><div class='itemhead' ><span class='name' >" + HtmlEncode(el.title) + "<span class='toggleTitles'>&nbsp;>>>&nbsp;</span></span><span class='value'>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success " + progressBarClass + " value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
+			$(item).find('.toggleTitles').click(function(){
+				showFTIFullText(".FTItemsSummary.flipBlock" ,HtmlEncode(el.title));
+			});
 			panelBody.append(item);
 			
 	});
@@ -611,9 +635,13 @@ function showActiveFTData(index){
 			}, 300);
 				
 	});
-	
-	$('[data-toggle="popover"]').popover();
 	activeFTItemsIndex = index;
+	$(".FTItemsSummary").show();
+}
+
+function showFTIFullText(selector, text){
+	$(selector).find(".back .panel-body").text(text);
+	$(selector).flip('toggle');
 }
 
 
@@ -962,17 +990,17 @@ function updateFTBalanceInfo(){
 				}
 					
 			});
-			//showBalanceChart();
-			google.charts.load('current', {packages: ['corechart', 'bar'], callback: showBalanceChart});
 			
+			google.charts.load('current', {packages: ['corechart', 'bar'], callback: showBalanceChart});
+			showBalanceChart();
 			//hideLoadingScreen();
 		};
     })
 }
 
-function showBalanceChart(){/*
+function showBalanceChart(){
 	$('#balanceChart svg').html('');
-			nv.addGraph(function() {
+		/*	nv.addGraph(function() {
 
 			  var chart = nv.models.discreteBarChart()
 				  .x(function(d) { return d.label })    //Specify the data accessors.
@@ -1002,9 +1030,11 @@ function showBalanceChart(){/*
 	*/
 	 var data = google.visualization.arrayToDataTable(showBalanceData);
 		var chartTiks = [];
-		
+		var chartWidth = $('#balanceChart svg').width()*0.6;
+		var maxTicksCount = Math.floor(chartWidth/30);
+		var everyNYear = Math.ceil((showBalanceData.length - 1)/maxTicksCount);
 		for(var i = 1;i< showBalanceData.length; i++){
-			if(showBalanceData[i][0]%3 == 0) chartTiks.push(showBalanceData[i][0]);
+			if(i%everyNYear == 1) chartTiks.push(showBalanceData[i][0]);
 		}
       var options = {
         title: '',
@@ -1014,9 +1044,9 @@ function showBalanceChart(){/*
                 startup: true //This is the new option
             },
 		hAxis: {
-			viewWindowMode:'maximized',
+			viewWindowMode:'pretty',
 			format: '',
-			//ticks: chartTiks
+			ticks: chartTiks
 		}
       };
 
