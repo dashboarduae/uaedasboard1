@@ -289,7 +289,17 @@ $(document).ready(function(){
 				image.src = 'img/flags/' + curCountry.name + '.png';
 		});
 	
-	
+	$('#hor_icons_ul A').click(function(){
+		var curC = window.localStorage.getItem('appCurCountry');
+			if(curC == undefined) {
+				curC = -1;
+			}
+		if(curC == -1) {
+			alert('Please select country');
+			return false;
+		}
+		
+	});
 	
 	$('#currency_select .chosen-select').on('select2:select', function (e) {
 			if(crrncySelect.val() == 'AED Millions') setCurCurrency('0');

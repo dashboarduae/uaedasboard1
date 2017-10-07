@@ -291,6 +291,18 @@ $(document).ready(function(){
 			if(crrncySelect.val() == 'USD Billions') setCurCurrency('3');
 	});
 	
+	$('#icons_ul A').click(function(){
+		var curC = window.localStorage.getItem('appCurCountry');
+			if(curC == undefined) {
+				curC = -1;
+			}
+		if(curC == -1) {
+			alert('Please select country');
+			return false;
+		}
+		
+	});
+	
 	$(window).resize(function(){
 		//if(window.innerWidth>window.innerHeight) window.location = "index_land.html";
 	});
