@@ -401,7 +401,7 @@ function updateFTItems(){
 			FTItems = info.data;
 			updateFTItemsTitle();
 			
-			initDonutChart();
+			
 			
 			showActiveFTData(-1);
 		
@@ -419,7 +419,7 @@ function updateFTItems(){
 	
 }
 
-function initDonutChart(){
+function initDonutChart(index){
 	$('#donutchart').html('');
 			donutChart = Morris.Donut({
 				element: 'donutchart',
@@ -440,7 +440,7 @@ function initDonutChart(){
 			$("#donutchart text tspan").first().html("Total");
 			$("#donutchart text tspan").last().html(setValuesFormats(FTItems.totalFT));
 			try{
-				donutChart.select(-1);
+				donutChart.select(index);
 			}catch(err){
 				
 			}
@@ -505,7 +505,7 @@ function updateCategoriesData(index, selector){
 	
 // Create the donut pie chart and insert it onto the page
 nv.addGraph(function() {
-  var donutChart = nv.models.pieChart()
+  var dntChart = nv.models.pieChart()
   		.x(function(d) {
         return d.label
       })
@@ -561,10 +561,10 @@ nv.addGraph(function() {
       "value": FTItems.totalFT - totalValue
     }])
     .transition().duration(300)
-    .call(donutChart)
+    .call(dntChart)
     .call(centerText());
     
-  return donutChart;
+  return dntChart;
 });
 
 
@@ -594,32 +594,34 @@ function showActiveFTData(index){
 	var progressBarClass;
 	
 	if(activeFTItemsIndex == index) index = -1;
-	
+	$('#donutlegend li').removeClass('active');
+	initDonutChart(index);
 	
 	switch(index){
 		case -1: 
 			itemsToDisplay = FTItems.totalItems;
 			totalValue = FTItems.totalFT;
 			progressBarClass = "valueTotal";
-			initDonutChart();
 			break;
 		case 0: ;
 			itemsToDisplay = FTItems.importsItems;
 			totalValue = FTItems.totalImports;
 			progressBarClass = "valueImport";
+			$('#donutlegend li:eq(0)').addClass('active');
 			break;
 		case 1: 
 			itemsToDisplay = FTItems.nonOilExportsItems;
 			totalValue = FTItems.totalNonOilExports;
 			progressBarClass = "valueExport";
+			$('#donutlegend li:eq(1)').addClass('active');
 			break;
 		case 2: 
 			itemsToDisplay = FTItems.reExportsItems;
 			totalValue = FTItems.totalReExports;
 			progressBarClass = "valueReExport";
+			$('#donutlegend li:eq(2)').addClass('active');
 			break;
 	}
-	
 	itemsToDisplay.forEach(function(el, ind, array) {
 			var item = $("<div class='item item1'><div class='itemhead' ><span class='name' >" + HtmlEncode(el.title) + "<span class='toggleTitles'>&nbsp;>>>&nbsp;</span></span><span class='value'>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success " + progressBarClass + " value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
 			$(item).find('.toggleTitles').click(function(){
@@ -914,21 +916,28 @@ function showFTCategoryInfo(index){
 			}
 			
 			var panelBody = '<div class="panel-body">';
-
+			
+			panelBody += '<div class="FTVItem">';
 			panelBody += '<span>Import</span>';
 			panelBody += '<span class="pull-right">' + setValuesFormats(category.imports) + '</span>';
 			
+
 			panelBody += "<div class='progress'><div  class='progress-bar progress-bar-success valueImport" + index + " year" + el.year + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
+			panelBody += '</div>';
 			
+			panelBody += '<div class="FTVItem">';
 			panelBody += '<span>Non-Oil Export</span>';
 			panelBody += '<span class="pull-right">' + setValuesFormats(category.nonOilExports) + '</span>';
 			
 			panelBody += "<div class='progress'><div  class='progress-bar progress-bar-success valueExport" + index + " year" + el.year + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
+			panelBody += '</div>';
 			
+			panelBody += '<div class="FTVItem">';
 			panelBody += '<span>Re-Export</span>';
 			panelBody += '<span class="pull-right">' + setValuesFormats(category.reExports) + '</span>';
 			
 			panelBody += "<div class='progress'><div class='progress-bar progress-bar-success valueReExport" + index + " year" + el.year + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
+			panelBody += '</div>';
 			
 			panelBody += '</div>';
 			var panel = '<div class="panel panel-default"><div class="panel-heading"><span class="panel-title">'+el.year +'</span><span class="panel-title pull-right">' + setValuesFormats(value) + '</span></div>' +panelBody+ '</div>';

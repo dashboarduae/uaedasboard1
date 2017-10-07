@@ -11,19 +11,20 @@ if(window.innerWidth>window.innerHeight) window.location = "index_land.html";
 </script>
 
 <link rel="stylesheet" type="text/css" id="theme" href="js/plugins/select2/css/select2.min.css"/>
+<link rel="stylesheet" type="text/css" id="theme" href="css/fonts/fons.css"/>
 <style>
-BODY {background:white;margin:0;padding:0;font-size:1vm;font-family:Arial}
+BODY {background:white;margin:0;padding:0;font-size:1vm;font-family:"Cronos Pro"}
 IMG {font-size:1vw;margin:0;border:0}
 A IMG {border:none}
 
 #logo_div {text-align:center}
 #logo_div IMG {width:100%;height:auto;margin-top:2vw;margin-bottom:2vw}
 
-#h1_div {text-align:center;color:#B58A31;font-family:Arial;font-size:5vw;}
+#h1_div {text-align:center;color:#B58A31;font-family:"Cronos Pro";font-size:5vw;}
 #h1_div TABLE {margin: 0 auto;border-collapse:collapse}
 #h1_div TABLE TD SPAN {text-shadow: -4vw 0px 0px #D9B680;font-size:14vw}
 #h1_div TABLE TD SPAN.s {text-shadow: 4vw 0px 0px #D9B680;}
-#h1_div TABLE TD H1 {font-family:Arial;font-size:5vw;font-weight:normal;margin:0;padding:0}
+#h1_div TABLE TD H1 {font-family:"Cronos Pro";font-size:5vw;font-weight:normal;margin:0;padding:0}
 
 #map_div {height:55vw;background:url("img/fp/map.png");background-size: 100%;position:relative}
 .pie_div {position:absolute;top:5vw;width:45vw;height:45vw;background:url("img/fp/pie.png");background-size: 100%;z-index:2}
@@ -41,12 +42,12 @@ A IMG {border:none}
 
 #icons_ul {margin:0;padding:0;float:right;width:85vw}
 #icons_ul LI {font-size:3.5vw;list-style-type:none;display:block;text-align:center;width:28vw;float:right;margin:0;padding:0;padding-bottom:4vw}
-#icons_ul A {font-size:3.5vw;font-family:Arial;height:35vw;color:#333;text-decoration:none}
+#icons_ul A, #icons_ul A:hover {font-size:3.5vw;font-family:"Cronos Pro";height:35vw;color:#333;text-decoration:none; border:none;}
 #icons_ul IMG {width:22vw}
 
 #text_cont_div {padding:2vw}
-#text_cont_div H2 {font-family:Arial;color:#B68A35;font-weight:bold;font-size:4vw;margin:0;padding:0}
-#text_cont_div P {color:#333;font-family:Arial;    font-size: 3vw; text-align:justify;
+#text_cont_div H2 {font-family:"Cronos Pro";color:#B68A35;font-weight:bold;font-size:4vw;margin:0;padding:0}
+#text_cont_div P {color:#333;font-family:"Cronos Pro";    font-size: 3vw; text-align:justify;
     line-height: 1.2em;padding-top:0;margin-top:0.8vw}
 
 
@@ -134,9 +135,9 @@ padding: 1vw;
 <div id='map_div'>
 
 <div class='pie_div' style='left:1vw'>
-<div style='color:white;padding-top:8vw;font-family:Arial;text-align:center'>
+<div style='color:white;padding-top:8vw;font-family:"Cronos Pro";text-align:center'>
 	<img src='img/fp/arab_map.png' style='width:25vw;height:auto;'>
-	<div style='font-size:3vw;font-family:Arial;line-height:3vw;padding-bottom:1vw'>United Arab Emirates</div>
+	<div style='font-size:3vw;font-family:"Cronos Pro";line-height:3vw;padding-bottom:1vw'>United Arab Emirates</div>
 	<img src='img/fp/arab_flag.jpg' style='width:10vw;height:auto' alt=''>
 </div>
 </div>
@@ -147,7 +148,7 @@ padding: 1vw;
 
 
 <div class='pie_div' style='right:1vw'>
-<div style='color:white;padding-top:8vw;font-family:Arial;text-align:center'>
+<div style='color:white;padding-top:8vw;font-family:"Cronos Pro";text-align:center'>
 
 	<div style='font-size:3vw' id="country_select">
 	<div style='padding-bottom:1vw'>Country</div><select   class="chosen-select"></select>
@@ -173,7 +174,6 @@ padding: 1vw;
 <div id='icons_cont_div'>
 
 <div id='icons_arr_div'>
-<a href='#'><img src='img/fp/arr.jpg'></a>
 </div>
 
 <ul id='icons_ul'>
@@ -192,8 +192,7 @@ padding: 1vw;
 
 
 <div id='text_cont_div'>
-<h2>About UAE Trade Relation Dashboard</h2>
-<p>An innovative interactive dashboard, that shows the UAE non-oil foreign trade information, and the most important bilateral indicators, agreements and investment between the UAE and the other countries around the world.</p>
+<p>An interactive and innovative Dashboard Which includes information on UAE Non-Oil Foreign Trade and the most important bilateral indicators, Agreements and investment; between UAE various all world countries</p>
 </div>
 
 		<script>

@@ -13,6 +13,8 @@
 @import "rickshaw/rickshaw.css";
 @import "dropzone/dropzone.css";
 @import "animate/animate.min.css";
+@import "fonts/fonts.css";
+
 
 
 /* PREDEFINED CLASSES */
@@ -46,7 +48,7 @@ body {
   margin: 0px;
   background: #f5f5f5 url('../img/bg.png') left top repeat;
   position: relative;
-  font-family: "Segoe UI",Tahoma,Arial,sans-serif;
+  font-family: "Cronos Pro",Tahoma,Arial,sans-serif;
   font-size: 12px;
   color: #22262e;
   overflow-x: hidden;
@@ -320,7 +322,6 @@ body.page-container-boxed .page-container {
   transition: color 200ms ease;
 }
 .x-navigation li > a:hover {
-  background: #262a33;
   color:#fff;
   -webkit-transition: all 200ms ease;
   -moz-transition: all 200ms ease;
@@ -886,7 +887,6 @@ body.page-container-boxed .page-container {
   display: none;
 }
 .x-navigation .x-navigation-control:hover {
-  background: #0c0d10;
   border-bottom: 0px;
 }
 .x-navigation .x-navigation-control:before {
@@ -3430,7 +3430,7 @@ background: #1caf9a !important;
   font-size: 32px;
   line-height: 40px;
   font-weight: bold;
-  font-family: "Segoe UI",Tahoma,Arial,sans-serif;
+  font-family: "Cronos Pro",Tahoma,Arial,sans-serif;
 }
 .widget .widget-big-int {
   font-size: 42px;
@@ -6175,7 +6175,7 @@ input.ui-editRangeSlider-inputValue {
   border-radius: 3px;
   background: #1b1e24;
   color: white;
-  font-family: "Segoe UI",Tahoma,Arial,sans-serif;
+  font-family: "Cronos Pro",Tahoma,Arial,sans-serif;
   font-size: smaller;
   padding: 3px;
   z-index: 15;
@@ -6400,7 +6400,7 @@ div.tagsinput div {
   color: #666;
   background: rgba(255, 255, 255, 0.8);
   border: solid 2px rgba(230, 230, 230, 0.8);
-  font-family: "Segoe UI",Tahoma,Arial,sans-serif;
+  font-family: "Cronos Pro",Tahoma,Arial,sans-serif;
   font-size: 12px;
   text-align: center;
 }
@@ -6613,7 +6613,7 @@ div.tagsinput div {
   display: table-cell;
   width: 150px;
   height: 150px;
-  font-family: "Segoe UI",Tahoma,Arial,sans-serif;
+  font-family: "Cronos Pro",Tahoma,Arial,sans-serif;
   font-size: 11px;
   vertical-align: middle;
   text-align: center;
@@ -7243,17 +7243,17 @@ li.ext_zip {
     padding-top: 0px;
   }
   .x-navigation {
-    max-height: 50px;
+    max-height: 15.625vw;
     overflow: hidden;
     background: #252525;
   }
   .x-navigation.x-navigation-panel {
-    height: 50px;
+    height: 15.625vw;
     max-height: auto;
     overflow: visible;
   }
   .x-navigation.x-navigation-panel li.xn-icon-button {
-    width: 50px;
+    width: 15.625vw;
   }
   .x-navigation.x-navigation-panel li.xn-search {
     width: auto;
@@ -7266,7 +7266,12 @@ li.ext_zip {
     overflow: visible;
   }
   .x-navigation .x-navigation-control {
-    display: block;width: 30px;
+    display: block;    right: 1vw;
+    width: 9.375vw;
+    height: 15.625vw;
+	    cursor: pointer;
+    background: url(../img/icons/menu_icon.png) center center no-repeat;
+    background-size: 87%;
   }
   .x-navigation-minimize {
     display: none !important;
@@ -7427,6 +7432,10 @@ display:none;
 	display:table-row;	
 }
 
+.FTItems .item:nth-child(even) {
+    background: #f1f1f0;
+}
+
 .FTItems .itemhead .name, .FTItems .itemhead .value{
 	display:table-cell;
 	position:relative;
@@ -7476,6 +7485,11 @@ display: block;
     height: 1.3em;
     line-height: 1.3em;
     margin-bottom: 2vw;
+	color:#aaa;
+}
+
+#donutlegend li.active{
+	color:#22262e;
 }
 
 #donutlegend li svg{
@@ -7593,9 +7607,7 @@ display: block;
 }
 
 .x-navigation .x-navigation-control:before {
-font-size: 16px;
-    top: 16px;
-    left: 9px;
+display:none;
 }
 
 #year_range_select{
@@ -7615,15 +7627,15 @@ font-size: 16px;
 
 .nav-tabs.nav-justified.w30>li{
 	float:left;
-	width: 33%;
+	width: 33.3333%;
 }
 
 .nav-tabs.nav-justified.w30>li > a{
-	opacity:.7;
+	opacity:.5;    font-size: 5vw;
 }
 
 .nav-tabs.nav-justified.w30>li.active > a{
-	opacity:1;
+	opacity:1;    margin-bottom: 10px;
 }
 
 .noUi-horizontal .noUi-tooltip{
@@ -7634,11 +7646,12 @@ font-size: 16px;
 .page-container .page-content{
     width: 100%;
     position: fixed;
-    top: 50px;
+    top: 15.625vw;
     bottom: 0;
     border: none;
 	min-height: auto;
 	    height: auto !important;
+	background:#fff;
 }
 
 
@@ -7767,7 +7780,7 @@ margin: 0;
     padding: 0 1vw;
     text-align: center;
     line-height: 1.3em;
-    font-family: "Segoe UI",Tahoma,Arial,sans-serif;
+    font-family: "Cronos Pro",Tahoma,Arial,sans-serif;
     font-size: 3.5vw;
     color: #fff;
 }
@@ -7802,9 +7815,29 @@ margin: 0;
 	display:none;
 }
 
+.FTV.landscape .col-md-4{
+	padding: 0 5px;
+}
+
+.FTV.landscape .col-md-4:first-child{
+	padding: 0 5px 0 10px;
+}
+
+.FTV.landscape .col-md-4:last-child{
+	padding: 0 10px 0 5px;
+}
+
 .FTV.landscape h3{
-	font-size:2.7vw;
-	    font-weight: normal;
+    font-size: 2vw;
+    font-weight: normal;
+    background: #b78a35;
+    color: #fff;
+	padding:.3em .3em .3em .3em;
+}
+.FTV.landscape h3:before{
+	content:" ";
+	display:inline-block;
+	
 }
 
 @media all and (orientation:landscape) {
@@ -7820,23 +7853,14 @@ margin: 0;
 
 .x-navigation .x-navigation-controlfilter {
     position: absolute;
-    right: 30px;
-    width: 30px;
-    height: 50px;
+    right: 11vw;
+    width: 9.375vw;
+    height: 15.625vw;
     cursor: pointer;
+    background: url(../img/icons/filter_icon.png) center center no-repeat;
+    background-size: 87%;
 }
 
-.x-navigation .x-navigation-controlfilter:before {
-font-size: 16px;
-    top: 16px;
-    left: 9px;
-    position: absolute;
-    font-family: "FontAwesome";
-    content: "\f0b0";
-    color: #FFF;
-    text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.3);
-
-}
 
 
 .message-box .mb-container .mb-middle .mb-title{
@@ -7866,7 +7890,7 @@ font-size: 16px;
     display: none;
     position: fixed;
     left: 0px;
-    top: 50px;
+    top: 15.625vw;
 	bottom:0;
     width: 100%;
     background: #f5f5f5 url('../img/bg.png') left top repeat;;
@@ -7946,7 +7970,7 @@ border-radius: 10px;
     color: #666;
     background: rgba(255, 255, 255, 0.8);
     border: solid 2px rgba(230, 230, 230, 0.8);
-    font-family: "Segoe UI",Tahoma,Arial,sans-serif;
+    font-family: "Cronos Pro",Tahoma,Arial,sans-serif;
     font-size: 12px;
     text-align: center;
     position: static;
@@ -7956,10 +7980,15 @@ border-radius: 10px;
 
 .progress {
     height: 2.2vw;
+    margin: 3.125vw 0;
+    background: #fff;
+    border: solid 1px #c1c1c0;
+    border-radius: 0;
+    box-shadow: none;
 }
 
 .page-container .page-content .page-content-wrap {
-    padding: 10px 0 30px;
+    padding: 0;
 }
 
 .x-navigation > li.xn-logo > a:first-child:hover,
@@ -7969,7 +7998,13 @@ border-radius: 10px;
 
 .x-navigation > li.xn-logo > a:first-child:hover,
 .x-navigation > li.xn-logo > a:first-child {
-    background: #b78a35;padding: 15px 50px 15px 15px;
+    background: url(../img/icons/GI_icon.png) left center no-repeat #b78a35;
+    padding: 5vw 20vw 5vw 15vw;
+    text-align: left;
+    background-size: 8%;
+    background-position-x: 5%;
+    font-size: 6vw;
+	    height: 15.625vw;
 }
 
 .GICountryTitle,
@@ -7994,11 +8029,12 @@ display: table-cell;
     color: #fff;
     font-size: 4.375vw;
     vertical-align: top;
+	    line-height: 1em;
 }
 
 .GICountryTitle .countryInfo.flag,
 .FTVTitle .countryInfo.flag{
-	width:15%;
+	width: 15%;
 }
 
 .GICountryTitle .countryInfo.population{
@@ -8013,11 +8049,11 @@ display: table-cell;
 
 
 .GICountryTitle .countryInfo .desc{
-	font-size:3.125vw;
+	font-size:3vw;line-height: 1.3em;
 }
 
 .GICountryTitle .countryInfo .value{
-	font-size:3.75vw;
+	font-size:3.75vw;line-height: 1em;
 }
 
 .FTVTitle .countryInfo .desc{
@@ -8031,6 +8067,13 @@ display: table-cell;
 
 @media all and (orientation:landscape) {
 
+.GICountryTitle .countryInfo.flag,
+.FTVTitle .countryInfo.flag{
+	width: 15%;
+    padding-left: 5vw;
+}
+
+
 .FTItems .itemhead .name{
 	padding-right: 4vw;
 }
@@ -8043,12 +8086,9 @@ display: table-cell;
 	
 .GICountryTitle .countryInfo.flag img,
 .FTVTitle .countryInfo.flag img{
-    top: -.3vw;
-    bottom: -.1vw;
 }
 	
 .FTVTitle .countryInfo.flag{
-	width:10%;
 }	
 	
 .FTVTitle .countryInfo{
@@ -8064,7 +8104,7 @@ display: table-cell;
 }
 
 .FTVTitle .countryInfo .value{
-	font-size:1.2vw;
+	font-size:1.9vw;    line-height: 1em;
 }	
 }
 
@@ -8090,9 +8130,13 @@ display: table-cell;
 
 #generalInfo .param,
 #generalInfo .value{
-	font-size:3.6vw;
+	font-size:3.7vw;
 }
 
+
+#generalInfo .value{
+	font-weight:bold;
+}
 @media all and (orientation:landscape) {
 .mapleft, .mapright{
     display: block;
@@ -8106,27 +8150,60 @@ display: table-cell;
 }
 
 #vector_world_map{
-	    height: calc(100vh - 90px - 6vw);
+    height: calc(100vh - 20px - 18vw);
 }
 
 .GICountryTitle .countryInfo {
-    font-size: 2.18vw;
+    font-size: 3vw;    line-height: 1.3em;
 }
 
 .GICountryTitle .countryInfo .desc {
-    font-size: 1.562vw;
+    font-size: 1.562vw;padding-top: .5em;
+}
+
+.x-navigation > li.xn-logo > a:first-child:hover, .x-navigation > li.xn-logo > a:first-child {
+    padding: 2.5vw 10vw 2.5vw 8vw;
+    font-size: 4vw;
+    height: 7.5vw;
+    background-size: 4.5%;
+    background-position-x: 2%;
+}
+
+.x-navigation .x-navigation-controlfilter {
+    right: 6.5vw;
+    width: 7.5vw;
+    height: 7.5vw;
+    background-size: 64%;
+}
+
+.x-navigation .x-navigation-control {
+    right: 0vw;
+    width: 7.5vw;
+    height: 7.5vw;
+    background-size: 64%;
+}
+
+.x-navigation {
+    max-height: 7.5vw;
+}
+
+.page-container .page-content {
+    top: 7.5vw;
+}
+
+
 }
 
 .GICountryTitle .countryInfo .value {
-    font-size: 1.875vw;
+    font-size: 4.375vw;    padding-top: .2em;
 }
 
 #generalInfo{
-	height: calc(100vh - 70px);
+	    height: calc(100vh - 85vw);
 }
 
 .GICountryTitle{
-	margin-bottom: 0px;
+	margin-bottom: 10px;
 }
 }
 
@@ -8135,7 +8212,7 @@ display: table-cell;
 }
 
 .categoryInfo .panel .panel-body {
-	font-size: 5vw;
+	font-size: 5vw;padding:0;
 }
 
 .panel {
@@ -8147,7 +8224,12 @@ display: table-cell;
 }
 
 .panel .panel-heading {
-    padding: 3.125vw;
+    padding: 3.125vw;background: #2c2c2c;
+    color: #fff;    border-radius: 0;
+}
+
+.panel .panel-heading .panel-title{
+	color:#fff;    font-size: 6vw;margin:0;
 }
 
 #country_select,
@@ -8159,20 +8241,26 @@ display: table-cell;
 
 
 @media all and (orientation:landscape) {
+#generalInfo {
+    height: calc(100vh - 19vw);
+}	
+
 #filter-box .mb-content .row{
 	    float: left;
 }	
-	
+.GICountryTitle .countryInfo .value {
+    font-size: 2.7vw;
+}	
 .panel .panel-heading {
-    padding: 1.5vw;
+    padding: .3em;
 }
 
 .progress {
-    height: 0.7vw;
+    height: 0.7vw;margin: 1.3vw 0;
 }
 
 .categoryInfo .panel .panel-title {
-	font-size: 2.1vw;
+	font-size: 2.1vw;    
 }
 
 .categoryInfo .panel .panel-body {
@@ -8183,11 +8271,16 @@ display: table-cell;
     margin-bottom: 3.7vw;
 }
 
+
+
 .nav-tabs > li > a {
 	font-size:1.4vw;
 }
 }
 
+.panel:last-child {
+    margin-bottom: 0;
+}
 .progress-bar.valueImport,
 .progress-bar.valueImport0,
 .progress-bar.valueImport1,
@@ -8247,10 +8340,9 @@ display: table-cell;
 
 
 .nav-tabs, .nav-tabs.nav-justified{
-    margin-left: -20px;
-    width: calc(100% + 40px);
-    padding-bottom: 15px;
-    background: #f5f5f5 url(../img/bg.png) left top repeat;
+
+    width: 100%;
+    background: #fff;
 }
 
 .nav-tabs.nav-justified > .active > a, .nav-tabs.nav-justified > .active > a:hover, .nav-tabs.nav-justified > .active > a:focus,
@@ -8311,4 +8403,49 @@ display: table-cell;
 #donutchart svg text{
 	font-weight: normal  !important;
 	font-size: 3.5vw  !important;
+}
+
+.FTV.portrait .panel.panel-default{
+	border: none;
+    box-shadow: none;
+}
+
+.FTV.portrait  .nav-tabs.nav-justified{
+	padding:0;
+}
+
+.FTV.portrait .panel.panel-default .tab-content{
+	padding:0;
+}
+
+.categoryInfo .panel .panel-body .FTVItem{
+	padding:10px;
+}
+
+
+.categoryInfo .panel .panel-body .FTVItem:nth-child(even){
+	background:#f1f1f0;
+}
+
+.categoryInfo .panel .panel-body .FTVItem span{
+	font-size: 5.5vw;
+}
+
+.categoryInfo .panel .panel-body .FTVItem span.pull-right{
+	font-weight: bold;
+}
+
+.panel.panel-default {
+    border-top-width: 0;
+    border: none;
+    box-shadow: none;
+}
+@media all and (orientation:landscape) {
+.categoryInfo .panel .panel-body .FTVItem span {
+    font-size: 2vw;
+}
+
+.categoryInfo .panel .panel-body .FTVItem{
+	padding: .3em;
+}
 }
