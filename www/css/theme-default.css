@@ -8364,6 +8364,11 @@ display: table-cell;
     font-weight: normal;
 }
 
+#balanceChart, #growthChart {
+    width:100%;
+	height:75vw;
+}
+
 
 @media all and (orientation:landscape) {
 .tradeGrowth .panel .panel-heading .panel-title,

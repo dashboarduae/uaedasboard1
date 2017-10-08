@@ -985,7 +985,7 @@ function updateFTBalanceInfo(){
 					
 			});
 			*/
-			
+			/*
 			showBalanceData = [['Year','', { role: 'style' }, {role: 'tooltip'}]];
 			
 			info.data.forEach(function(el, i) {
@@ -1001,6 +1001,19 @@ function updateFTBalanceInfo(){
 			});
 			
 			google.charts.load('current', {packages: ['corechart', 'bar'], callback: showBalanceChart});
+			*/
+			
+			showBalanceData = [];
+			
+			info.data.forEach(function(el, i) {
+				if(el.year >= years[0] && el.year <= years[1]){
+					var newEl = {x:0,y:0};
+					newEl.x=parseInt(el.year);
+					newEl.y=el.value;
+					showBalanceData.push(newEl);
+				}
+					
+			});
 			showBalanceChart();
 			//hideLoadingScreen();
 		};
@@ -1037,6 +1050,8 @@ function showBalanceChart(){
 			  return chart;
 			});
 	*/
+	
+	/*
 	 var data = google.visualization.arrayToDataTable(showBalanceData);
 		var chartTiks = [];
 		var chartWidth = $('#balanceChart svg').width()*0.6;
@@ -1061,6 +1076,24 @@ function showBalanceChart(){
 
       var materialChart = new google.visualization.ColumnChart(document.getElementById('balanceChart'));
       materialChart.draw(data, options);
+	  */
+	  
+	  var chart = new CanvasJS.Chart("balanceChart", {
+				title: {
+					text: ""
+				},
+				axisX: {
+					interval: 1,
+					valueFormatString: "#0.#",
+				},
+				animationEnabled: true,
+				animationDuration: 3000,
+				data: [{
+					type: "stackedColumn",
+					dataPoints: showBalanceData,
+				}]
+			});
+			chart.render();
 }
 
 function updateFTGrowthInfo(){
@@ -1078,7 +1111,7 @@ function updateFTGrowthInfo(){
 		if(status == 'success' && info.status == 0){
 			
 			var years = getActiveYearRange();
-
+/*
 			var showData =  new Array();
 			info.data.forEach(function(el, i) {
 				if(i>0 && el.year >= years[0] && el.year <= years[1]){
@@ -1106,7 +1139,37 @@ function updateFTGrowthInfo(){
 				lineColors:['#1caf9a'],
 				formatter: function (value, data) { return Math.round(value) + "%"; }
 			});
+*/			$('#growthChart').html('');
+			var showData =  [];
+			info.data.forEach(function(el, i) {
+				if(i>0 && el.year >= years[0] && el.year <= years[1]){
+					var newEl = {x:0, y:0};
+					newEl.x = parseInt(el.year);
+					newEl.y = Math.round((el.value - info.data[i-1].value)/info.data[i-1].value*100);
+					showData.push(newEl);
+				}
+					
+			});
+			var chart = new CanvasJS.Chart("growthChart", {
+				title: {
+					text: ""
+				},
+				axisX: {
+					interval: 1,
+					valueFormatString: "#0.#",
+				},
+				axisY: {
+					valueFormatString: "#0.#",
+				},
+				animationEnabled: true,
+				animationDuration: 3000,
 
+				data: [{
+					type: "area",
+					dataPoints: showData
+				}]
+			});
+			chart.render();
 			//hideLoadingScreen();
 		};
     })
