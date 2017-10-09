@@ -10,8 +10,10 @@
 if(!(window.innerWidth>window.innerHeight)) window.location = "index.html";
 </script>
 <link rel="stylesheet" type="text/css" id="theme" href="js/plugins/select2/css/select2.min.css"/>
+<link rel="stylesheet" type="text/css" id="theme" href="css/fonts/fons.css"/>
 <style>
-BODY {background:white;margin:0;padding:0;font-size:1vm;font-family:Arial}
+
+BODY {background:white;margin:0;padding:0;font-size:1vm;font-family:"Cronos Pro"}
 IMG {font-size:1vw;margin:0;border:0}
 A IMG {border:none}
 
@@ -21,11 +23,11 @@ A IMG {border:none}
 #hor_logo_div {padding:1vw;padding-left:4vw}
 #hor_logo_div IMG {width:35vw;height:auto}
 
-#hor_h1_div {text-align:center;color:#B58A31;font-family:Arial;font-size:5vw;margin-top:1vw;margin-bottom:2.5vw}
+#hor_h1_div {text-align:center;color:#B58A31;font-family:"Cronos Pro";font-size:5vw;margin-top:1vw;margin-bottom:2.5vw}
 #hor_h1_div TABLE {margin: 0 auto;border-collapse:collapse}
 #hor_h1_div TABLE TD SPAN {text-shadow: -2.5vw 0px 0px #D9B680;font-size:8vw}
 #hor_h1_div TABLE TD SPAN.s {text-shadow: 2.5vw 0px 0px #D9B680;}
-#hor_h1_div TABLE TD H1 {font-family:Arial;font-size:2.8vw;font-weight:normal;margin:0;padding:0}
+#hor_h1_div TABLE TD H1 {font-family:"Cronos Pro";font-size:2.8vw;font-weight:normal;margin:0;padding:0}
 
 #hor_map_div {height:27vw;background:url("img/fp/map.png") right top;background-size: 100%;position:relative;margin-top:1vw}
 .hor_pie_div {position:absolute;top:3.6vw;width:22vw;height:22vw;background:url("img/fp/pie.png");background-size: 100%;z-index:2}
@@ -43,12 +45,12 @@ A IMG {border:none}
 
 #hor_icons_ul {margin:0;padding:0;float:left;width:44vw}
 #hor_icons_ul LI {font-size:1.6vw;list-style-type:none;display:block;text-align:center;width:14vw;float:left;margin:0;padding:0;padding-bottom:1.2vw}
-#hor_icons_ul A {font-size:1.6vw;font-family:Arial;height:35vw;color:#333;text-decoration:none}
-#hor_icons_ul IMG {width:11vw}
+#hor_icons_ul A, #hor_icons_ul A:hover{font-size:1.6vw;font-family:"Cronos Pro";height:35vw;color:#333;text-decoration:none; border:none;}
+#hor_icons_ul IMG {width:11vw;border:none;}
 
 #hor_text_cont_div {padding:2vw;padding-top:1vw}
-#hor_text_cont_div H2 {font-family:Arial;color:#B68A35;font-weight:bold;font-size:1.6vw;margin:0;padding:0}
-#hor_text_cont_div P {color:#333;font-family:Arial;font-size:1.3vw;line-height:1.7vw;padding-top:0;margin-top:0.2vw;text-align:justify;}
+#hor_text_cont_div H2 {font-family:"Cronos Pro";color:#B68A35;font-weight:bold;font-size:1.6vw;margin:0;padding:0}
+#hor_text_cont_div P {color:#333;font-family:"Cronos Pro";font-size:1.3vw;line-height:1.7vw;padding-top:0;margin-top:0.2vw;text-align:justify;}
 
 .select2-container{width:15vw !important;}
 .select2-container .select2-selection--single{height:auto;}
@@ -93,7 +95,6 @@ padding: 1vw;
 }
 
 .select2-search--dropdown {
-    display: none;
 }
 </style>
 
@@ -122,7 +123,6 @@ padding: 1vw;
 <div id='hor_icons_cont_div'>
 
 <div id='hor_icons_arr_div'>
-<a href='#'><img src='img/fp/arr2.jpg'></a>
 </div>
 
 <ul id='hor_icons_ul'>
@@ -164,9 +164,9 @@ padding: 1vw;
 <div id='hor_map_div'>
 
 <div class='hor_pie_div' style='left:0'>
-<div style='color:white;padding-top:3.5vw;font-family:Arial;text-align:center'>
+<div style='color:white;padding-top:3.5vw;font-family:"Cronos Pro";text-align:center'>
  <img src='img/fp/arab_map.png' style='width:11vw;height:auto;'>
-  <div style='font-size:1.5vw;font-family:Arial;line-height:3vw'>United Arab Emirates<br><img src='img/fp/arab_flag.jpg' style='width:4.8vw;height:auto' alt=''></div>
+  <div style='font-size:1.5vw;font-family:"Cronos Pro";line-height:3vw'>United Arab Emirates<br><img src='img/fp/arab_flag.jpg' style='width:4.8vw;height:auto' alt=''></div>
 
 </div>
 </div>
@@ -177,7 +177,7 @@ padding: 1vw;
 
 
 <div class='hor_pie_div' style='right:1vw'>
-<div style='color:white;padding-top:4vw;font-family:Arial;text-align:center'>
+<div style='color:white;padding-top:4vw;font-family:"Cronos Pro";text-align:center'>
 
 	<div style='font-size:1.5vw' id="country_select">
 	<div style='padding-bottom:0.3vw'>Country</div><select   class="chosen-select"></select>
@@ -199,8 +199,7 @@ padding: 1vw;
 
 
 <div id='hor_text_cont_div'>
-<h2>About UAE Trade Relation Dashboard</h2>
-<p>An innovative interactive dashboard, that shows the UAE non-oil foreign trade information, and the most important bilateral indicators, agreements and investment between the UAE and the other countries around the world.</p>
+<p>An interactive and innovative Dashboard Which includes information on UAE Non-Oil Foreign Trade and the most important bilateral indicators, Agreements and investment; between UAE various all world countries</p>
 </div>
 
 
@@ -289,7 +288,17 @@ $(document).ready(function(){
 				image.src = 'img/flags/' + curCountry.name + '.png';
 		});
 	
-	
+	$('#hor_icons_ul A').click(function(){
+		var curC = window.localStorage.getItem('appCurCountry');
+			if(curC == undefined) {
+				curC = -1;
+			}
+		if(curC == -1) {
+			alert('Please select country');
+			return false;
+		}
+		
+	});
 	
 	$('#currency_select .chosen-select').on('select2:select', function (e) {
 			if(crrncySelect.val() == 'AED Millions') setCurCurrency('0');
@@ -300,6 +309,15 @@ $(document).ready(function(){
 	
 	$(window).resize(function(){
 		//if(!(window.innerWidth>window.innerHeight)) window.location = "index.html";
+		function onSuccess(heading) {
+			alert('Heading: ' + heading.magneticHeading);
+		};
+
+		function onError(error) {
+			alert('CompassError: ' + error.code);
+		};
+
+		navigator.compass.getCurrentHeading(onSuccess, onError);
 	});
 });
 		</script>

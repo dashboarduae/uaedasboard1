@@ -11,7 +11,8 @@
         <!-- END META SECTION -->
         
         <!-- CSS INCLUDE -->        
-        <link rel="stylesheet" type="text/css" id="theme" href="css/theme-default.css"/>
+        <link rel="stylesheet" type="text/css" id="theme" href="css/theme-default.css"/><script src='https://api.mapbox.com/mapbox-gl-js/v0.40.0/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v0.40.0/mapbox-gl.css' rel='stylesheet' />
         <!-- EOF CSS INCLUDE --> 
 		<!-- START PLUGINS -->
         <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
@@ -85,20 +86,7 @@
 
                 <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap">
-				<div class="mapleft">
-					<div class="row">
-							<div class="col-md-12">                        
-								<!-- START jVectorMap World -->
-								<div class="panel panel-default" style="margin-bottom:10px;">
-									<div class="panel-body panel-body-map">
-										<div id="vector_world_map" ></div>
-									</div>
-								</div>
-
-								<!-- END jVectorMap World -->
-							</div>                                   
-					</div>
-					<div  class="row GICountryTitle"  style="margin-bottom:10px;">
+				<div  class="row GICountryTitle">
 						<div class="countryInfo flag"><img src="img/flags/_defFlag.jpg"></div> 
 						<div class="countryInfo name"></div>
 						<div class="countryInfo capital"><div class="desc">Capital</div><div class="value"></div></div>
@@ -106,6 +94,49 @@
 
 						
 					</div>
+				<div class="mapleft">
+					<div class="row">
+
+					</div>
+					
+					<div class="row">
+							<div class="col-md-12">                        
+								<!-- START jVectorMap World -->
+								<div class="panel panel-default" style="margin-bottom:10px;">
+									<div class="panel-body panel-body-map">
+										<!--<div id="vector_world_map" ></div>-->
+										<div id='vector_world_map' ></div>
+										<script>
+										mapboxgl.accessToken = 'pk.eyJ1IjoiYmFzaGFyYWhtYWQiLCJhIjoiY2l6cDh6bG1mMDAwYjMydXF1a2VvMHNtaiJ9.Wu9fpxoGbi8TpCQ_Jma6Rw';
+										var map = new mapboxgl.Map({
+										container: 'vector_world_map',
+										style: 'mapbox://styles/basharahmad/cizp3f4ek00cj2snu9lcnln1o'
+										});
+										map.on('load', function() {
+											 map.on('click', function(e) {
+												// set bbox as 5px reactangle area around clicked point
+												var bbox = [[e.point.x - 5, e.point.y - 5], [e.point.x + 5, e.point.y + 5]];
+												var features = map.queryRenderedFeatures(bbox, { layers: ['counties'] });
+
+												// Run through the selected features and set a filter
+												// to match features with unique FIPS codes to activate
+												// the `counties-highlighted` layer.
+												var filter = features.reduce(function(memo, feature) {
+													memo.push(feature.properties.FIPS);
+													return memo;
+												}, ['in', 'FIPS']);
+
+												map.setFilter("counties-highlighted", filter);
+											});
+										});										
+										</script>
+									</div>
+								</div>
+
+								<!-- END jVectorMap World -->
+							</div>                                   
+					</div>
+					
 				</div>
 				<div class="mapright ">
 					<div class="row">
@@ -164,7 +195,6 @@
         <script type="text/javascript" src="js/actions.js"></script>
         
         
-		<script type="text/javascript" src="js/front_map.js"></script>
         <!-- END TEMPLATE -->
 		
 		<script>

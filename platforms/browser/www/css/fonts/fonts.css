@@ -1,0 +1,21 @@
+@font-face {
+    font-family: "Cronos Pro";
+    src: url('Cronos Pro Regular.otf');
+}
+
+@font-face {
+    font-family: "Cronos Pro";
+    src: url('Cronos Pro Bold.otf');
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: "GE SS";
+    src: url('GE SS Medium.otf');
+}
+
+@font-face {
+    font-family: "GE SS";
+    src: url('GE SS Bold.otf');
+    font-weight: bold;
+}

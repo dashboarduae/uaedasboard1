@@ -46,7 +46,7 @@ A IMG {border:none}
 #hor_icons_ul {margin:0;padding:0;float:left;width:44vw}
 #hor_icons_ul LI {font-size:1.6vw;list-style-type:none;display:block;text-align:center;width:14vw;float:left;margin:0;padding:0;padding-bottom:1.2vw}
 #hor_icons_ul A, #hor_icons_ul A:hover{font-size:1.6vw;font-family:"Cronos Pro";height:35vw;color:#333;text-decoration:none; border:none;}
-#hor_icons_ul IMG {width:11vw}
+#hor_icons_ul IMG {width:11vw;border:none;}
 
 #hor_text_cont_div {padding:2vw;padding-top:1vw}
 #hor_text_cont_div H2 {font-family:"Cronos Pro";color:#B68A35;font-weight:bold;font-size:1.6vw;margin:0;padding:0}
@@ -95,7 +95,6 @@ padding: 1vw;
 }
 
 .select2-search--dropdown {
-    display: none;
 }
 </style>
 
@@ -310,6 +309,15 @@ $(document).ready(function(){
 	
 	$(window).resize(function(){
 		//if(!(window.innerWidth>window.innerHeight)) window.location = "index.html";
+		function onSuccess(heading) {
+			alert('Heading: ' + heading.magneticHeading);
+		};
+
+		function onError(error) {
+			alert('CompassError: ' + error.code);
+		};
+
+		navigator.compass.getCurrentHeading(onSuccess, onError);
 	});
 });
 		</script>

@@ -1,5 +1,5 @@
-//const baseServiceUrl = "http://localhost:8080/trs"; 
-const baseServiceUrl = "http://trservice3562.cloudapp.net:8080/trs"; 
+const baseServiceUrl = "http://localhost:8080/trs"; 
+//const baseServiceUrl = "http://trservice3562.cloudapp.net:8080/trs"; 
 
 var curCountry;
 var countryList;
@@ -8,6 +8,7 @@ var countryMap = null;
 
 $(document).ready(function(){
 	setCurCurrency(parseInt(getCurCurrency()));
+	setFTItemsLimit(getFTItemsLimit());
 	$(".page-container .bottom_menu .menu_item").click(function(){
 		if($(this).hasClass("active")){
 			$(".page-content-wrap .bsubmenuwrapper").css({opacity: 0});
@@ -258,10 +259,10 @@ function setActiveCountry(id, fromMap){
 
 function updateMap(){
 	if(!countrySelectedFromMap ) {
-		try{
+		try{/*
 			countryMap.clearSelectedRegions()
 			countryMap.setSelectedRegions(curCountry.iso2);
-			$('#vector_world_map').vectorMap('set', 'focus',curCountry.iso2);
+			$('#vector_world_map').vectorMap('set', 'focus',curCountry.iso2);*/
 		}catch(err){
 			
 		}
@@ -361,6 +362,29 @@ function updateFTYearsList(){
 var FTItems;
 var donutChart;
 
+function getFTItemsLimit(){
+	var limit = window.localStorage.getItem('FTItemsLimit');
+	if(limit == undefined) {
+		limit = "5";
+	}
+	return limit;
+}
+
+function setFTItemsLimit(limit){
+	
+	if(isNormalInteger(limit)){
+		window.localStorage.setItem('FTItemsLimit', limit);
+		$('#item_count input').val(limit);
+		return limit;
+	}
+	return getFTItemsLimit();
+	
+}
+
+function isNormalInteger(str) {
+    return str >>> 0 === parseFloat(str);
+}
+
 function updateFTItems(){
 	//showLoadingScreen();
 	$.post(baseServiceUrl + "/gettradeitems",
@@ -368,7 +392,7 @@ function updateFTItems(){
         lang: getAppLang(),
         country: curCountry.id,
 		year:getCurYear(),
-		limit: 5,
+		limit: getFTItemsLimit(),
 		currency:getCurCurrency()
     },
     function(info, status){
@@ -377,7 +401,7 @@ function updateFTItems(){
 			FTItems = info.data;
 			updateFTItemsTitle();
 			
-			initDonutChart();
+			
 			
 			showActiveFTData(-1);
 		
@@ -385,10 +409,7 @@ function updateFTItems(){
 			updateCategoriesData(1, ".FTItemsCategories .Export");
 			updateCategoriesData(2, ".FTItemsCategories .ReExport");
 			setSameHeight(".FTItemsCategories .panel-body");
-			
-			$(".toggleTitles").click(function(){
-				$(".FTItems .itemhead .name").toggleClass("expand");setSameHeight(".FTItemsCategories .panel-body");
-			});
+			setSameHeight(".FTItemsSummary .panel-body");
 		}
 		//hideLoadingScreen();
 		
@@ -398,7 +419,7 @@ function updateFTItems(){
 	
 }
 
-function initDonutChart(){
+function initDonutChart(index){
 	$('#donutchart').html('');
 			donutChart = Morris.Donut({
 				element: 'donutchart',
@@ -419,7 +440,7 @@ function initDonutChart(){
 			$("#donutchart text tspan").first().html("Total");
 			$("#donutchart text tspan").last().html(setValuesFormats(FTItems.totalFT));
 			try{
-				donutChart.select(-1);
+				donutChart.select(index);
 			}catch(err){
 				
 			}
@@ -484,7 +505,7 @@ function updateCategoriesData(index, selector){
 	
 // Create the donut pie chart and insert it onto the page
 nv.addGraph(function() {
-  var donutChart = nv.models.pieChart()
+  var dntChart = nv.models.pieChart()
   		.x(function(d) {
         return d.label
       })
@@ -540,10 +561,10 @@ nv.addGraph(function() {
       "value": FTItems.totalFT - totalValue
     }])
     .transition().duration(300)
-    .call(donutChart)
+    .call(dntChart)
     .call(centerText());
     
-  return donutChart;
+  return dntChart;
 });
 
 
@@ -560,10 +581,10 @@ function setSameHeight(selector){
 var activeFTItemsIndex = -1;
 
 function showActiveFTData(index){
-
-	$(".FTItemsSummary .panel-title").hide();
-	$(".FTItemsSummary .panel-title.title"+index).show();
-	var panelBody = $(".FTItemsSummary .panel-body");
+	$(".FTItemsSummary").hide();
+	$(".FTItemsSummary .front .panel-title").hide();
+	$(".FTItemsSummary .front .panel-title.title"+index).show();
+	var panelBody = $(".FTItemsSummary .front .panel-body");
 	panelBody.html("");
 	
 	var tiSize = FTItems.totalItems.length;
@@ -573,34 +594,39 @@ function showActiveFTData(index){
 	var progressBarClass;
 	
 	if(activeFTItemsIndex == index) index = -1;
-	
+	$('#donutlegend li').removeClass('active');
+	initDonutChart(index);
 	
 	switch(index){
 		case -1: 
 			itemsToDisplay = FTItems.totalItems;
 			totalValue = FTItems.totalFT;
 			progressBarClass = "valueTotal";
-			initDonutChart();
 			break;
 		case 0: ;
 			itemsToDisplay = FTItems.importsItems;
 			totalValue = FTItems.totalImports;
 			progressBarClass = "valueImport";
+			$('#donutlegend li:eq(0)').addClass('active');
 			break;
 		case 1: 
 			itemsToDisplay = FTItems.nonOilExportsItems;
 			totalValue = FTItems.totalNonOilExports;
 			progressBarClass = "valueExport";
+			$('#donutlegend li:eq(1)').addClass('active');
 			break;
 		case 2: 
 			itemsToDisplay = FTItems.reExportsItems;
 			totalValue = FTItems.totalReExports;
 			progressBarClass = "valueReExport";
+			$('#donutlegend li:eq(2)').addClass('active');
 			break;
 	}
-	
 	itemsToDisplay.forEach(function(el, ind, array) {
 			var item = $("<div class='item item1'><div class='itemhead' ><span class='name' >" + HtmlEncode(el.title) + "<span class='toggleTitles'>&nbsp;>>>&nbsp;</span></span><span class='value'>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success " + progressBarClass + " value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
+			$(item).find('.toggleTitles').click(function(){
+				showFTIFullText(".FTItemsSummary.flipBlock" ,HtmlEncode(el.title));
+			});
 			panelBody.append(item);
 			
 	});
@@ -611,9 +637,13 @@ function showActiveFTData(index){
 			}, 300);
 				
 	});
-	
-	$('[data-toggle="popover"]').popover();
 	activeFTItemsIndex = index;
+	$(".FTItemsSummary").show();
+}
+
+function showFTIFullText(selector, text){
+	$(selector).find(".back .panel-body").text(text);
+	$(selector).flip('toggle');
 }
 
 
@@ -886,21 +916,28 @@ function showFTCategoryInfo(index){
 			}
 			
 			var panelBody = '<div class="panel-body">';
-
+			
+			panelBody += '<div class="FTVItem">';
 			panelBody += '<span>Import</span>';
 			panelBody += '<span class="pull-right">' + setValuesFormats(category.imports) + '</span>';
 			
+
 			panelBody += "<div class='progress'><div  class='progress-bar progress-bar-success valueImport" + index + " year" + el.year + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
+			panelBody += '</div>';
 			
+			panelBody += '<div class="FTVItem">';
 			panelBody += '<span>Non-Oil Export</span>';
 			panelBody += '<span class="pull-right">' + setValuesFormats(category.nonOilExports) + '</span>';
 			
 			panelBody += "<div class='progress'><div  class='progress-bar progress-bar-success valueExport" + index + " year" + el.year + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
+			panelBody += '</div>';
 			
+			panelBody += '<div class="FTVItem">';
 			panelBody += '<span>Re-Export</span>';
 			panelBody += '<span class="pull-right">' + setValuesFormats(category.reExports) + '</span>';
 			
 			panelBody += "<div class='progress'><div class='progress-bar progress-bar-success valueReExport" + index + " year" + el.year + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
+			panelBody += '</div>';
 			
 			panelBody += '</div>';
 			var panel = '<div class="panel panel-default"><div class="panel-heading"><span class="panel-title">'+el.year +'</span><span class="panel-title pull-right">' + setValuesFormats(value) + '</span></div>' +panelBody+ '</div>';
@@ -948,7 +985,7 @@ function updateFTBalanceInfo(){
 					
 			});
 			*/
-			
+			/*
 			showBalanceData = [['Year','', { role: 'style' }, {role: 'tooltip'}]];
 			
 			info.data.forEach(function(el, i) {
@@ -962,17 +999,30 @@ function updateFTBalanceInfo(){
 				}
 					
 			});
-			//showBalanceChart();
-			google.charts.load('current', {packages: ['corechart', 'bar'], callback: showBalanceChart});
 			
+			google.charts.load('current', {packages: ['corechart', 'bar'], callback: showBalanceChart});
+			*/
+			
+			showBalanceData = [];
+			
+			info.data.forEach(function(el, i) {
+				if(el.year >= years[0] && el.year <= years[1]){
+					var newEl = {x:0,y:0};
+					newEl.x=parseInt(el.year);
+					newEl.y=el.value;
+					showBalanceData.push(newEl);
+				}
+					
+			});
+			showBalanceChart();
 			//hideLoadingScreen();
 		};
     })
 }
 
-function showBalanceChart(){/*
+function showBalanceChart(){
 	$('#balanceChart svg').html('');
-			nv.addGraph(function() {
+		/*	nv.addGraph(function() {
 
 			  var chart = nv.models.discreteBarChart()
 				  .x(function(d) { return d.label })    //Specify the data accessors.
@@ -1000,11 +1050,15 @@ function showBalanceChart(){/*
 			  return chart;
 			});
 	*/
+	
+	/*
 	 var data = google.visualization.arrayToDataTable(showBalanceData);
 		var chartTiks = [];
-		
+		var chartWidth = $('#balanceChart svg').width()*0.6;
+		var maxTicksCount = Math.floor(chartWidth/30);
+		var everyNYear = Math.ceil((showBalanceData.length - 1)/maxTicksCount);
 		for(var i = 1;i< showBalanceData.length; i++){
-			if(showBalanceData[i][0]%3 == 0) chartTiks.push(showBalanceData[i][0]);
+			if(i%everyNYear == 1) chartTiks.push(showBalanceData[i][0]);
 		}
       var options = {
         title: '',
@@ -1014,14 +1068,32 @@ function showBalanceChart(){/*
                 startup: true //This is the new option
             },
 		hAxis: {
-			viewWindowMode:'maximized',
+			viewWindowMode:'pretty',
 			format: '',
-			//ticks: chartTiks
+			ticks: chartTiks
 		}
       };
 
       var materialChart = new google.visualization.ColumnChart(document.getElementById('balanceChart'));
       materialChart.draw(data, options);
+	  */
+	  
+	  var chart = new CanvasJS.Chart("balanceChart", {
+				title: {
+					text: ""
+				},
+				axisX: {
+					interval: 1,
+					valueFormatString: "#0.#",
+				},
+				animationEnabled: true,
+				animationDuration: 3000,
+				data: [{
+					type: "stackedColumn",
+					dataPoints: showBalanceData,
+				}]
+			});
+			chart.render();
 }
 
 function updateFTGrowthInfo(){
@@ -1039,7 +1111,7 @@ function updateFTGrowthInfo(){
 		if(status == 'success' && info.status == 0){
 			
 			var years = getActiveYearRange();
-
+/*
 			var showData =  new Array();
 			info.data.forEach(function(el, i) {
 				if(i>0 && el.year >= years[0] && el.year <= years[1]){
@@ -1067,7 +1139,37 @@ function updateFTGrowthInfo(){
 				lineColors:['#1caf9a'],
 				formatter: function (value, data) { return Math.round(value) + "%"; }
 			});
+*/			$('#growthChart').html('');
+			var showData =  [];
+			info.data.forEach(function(el, i) {
+				if(i>0 && el.year >= years[0] && el.year <= years[1]){
+					var newEl = {x:0, y:0};
+					newEl.x = parseInt(el.year);
+					newEl.y = Math.round((el.value - info.data[i-1].value)/info.data[i-1].value*100);
+					showData.push(newEl);
+				}
+					
+			});
+			var chart = new CanvasJS.Chart("growthChart", {
+				title: {
+					text: ""
+				},
+				axisX: {
+					interval: 1,
+					valueFormatString: "#0.#",
+				},
+				axisY: {
+					valueFormatString: "#0.#",
+				},
+				animationEnabled: true,
+				animationDuration: 3000,
 
+				data: [{
+					type: "area",
+					dataPoints: showData
+				}]
+			});
+			chart.render();
 			//hideLoadingScreen();
 		};
     })
