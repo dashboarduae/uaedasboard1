@@ -101,7 +101,7 @@ padding: 1vw;
 
 
 .select2-search--dropdown {
-    
+    pointer-events:none;
 }
 
 </style>
@@ -304,11 +304,11 @@ $(document).ready(function(){
 	$(window).resize(function(){
 		//if(window.innerWidth>window.innerHeight) window.location = "index_land.html";
 		function onSuccess(heading) {
-			alert('Heading: ' + heading.magneticHeading);
+			//alert('Heading: ' + heading.magneticHeading);
 		};
 
 		function onError(error) {
-			alert('CompassError: ' + error.code);
+			//alert('CompassError: ' + error.code);
 		};
 
 		navigator.compass.getCurrentHeading(onSuccess, onError);
