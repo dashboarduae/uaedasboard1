@@ -101,7 +101,7 @@ padding: 1vw;
 
 
 .select2-search--dropdown {
-    pointer-events:none;
+
 }
 
 </style>
@@ -189,8 +189,9 @@ padding: 1vw;
 <li><a href='foreign_trade_volume.html'><img src='img/fp/i2.jpg'><br>Trade<br>Volume</a></li>
 <li><a href='general_information.html'><img src='img/fp/i1.jpg'><br>General<br>Information</a></li>
 
-<li><a href='#'><img src='img/fp/i5.jpg'><br>Investments<br>Facts</a></li>
 <li><a href='#'><img src='img/fp/i6.jpg'><br>Joint<br>Agreements</a></li>
+<li><a href='#'><img src='img/fp/i5.jpg'><br>Investments<br>and Committees</a></li>
+
 <li><a href='direct_foreign_trade_items.html'><img src='img/fp/i4.jpg'><br>Direct<br>Trade Items</a></li>
 
 </ul>
@@ -262,7 +263,14 @@ $(document).ready(function(){
 		break;
 	}
 	crrncySelect.trigger('change');
-	
+	$('#country_select .chosen-select').on('select2:open', function (e) {
+		$('.select2-search--dropdown').show();
+		$('.select2-search input').prop('focus',false);
+	});
+	$('#currency_select .chosen-select').on('select2:open', function (e) {
+		$('.select2-search--dropdown').hide();
+		$('.select2-search input').prop('focus',false);
+	});
 	$('#country_select .chosen-select').on('select2:select', function (e) {
 	  var cCountry = getCountryFromListName(cntrySelect.val());
 	  setActiveCountry(cCountry.id, false);
@@ -302,16 +310,8 @@ $(document).ready(function(){
 	});
 	
 	$(window).resize(function(){
-		//if(window.innerWidth>window.innerHeight) window.location = "index_land.html";
-		function onSuccess(heading) {
-			//alert('Heading: ' + heading.magneticHeading);
-		};
 
-		function onError(error) {
-			//alert('CompassError: ' + error.code);
-		};
-
-		navigator.compass.getCurrentHeading(onSuccess, onError);
+		if(window.innerWidth>window.innerHeight) window.location = "index_land.html";
 	});
 	
 	

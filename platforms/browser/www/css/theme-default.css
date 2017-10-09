@@ -7429,7 +7429,7 @@ display:none;
 
 
 .FTItems .item{
-	display:table-row;	
+	    padding: 10px;	
 }
 
 .FTItems .item:nth-child(even) {
@@ -7507,7 +7507,12 @@ display: block;
 }
 
 .FTItemsCategories .panel.panel-default{
-	position: relative;    top: 20vw;margin-bottom: 14vw;
+	position: relative;    top: 20vw;margin-bottom: 20vw;
+}
+
+.FTItemsCategories .panel.panel-default .panel-body,
+.FTItemsSummary .panel.panel-default .panel-body{
+	padding:0;
 }
 
 .FTItemsCategories .itemhead{
@@ -7897,6 +7902,10 @@ margin: 0;
     z-index: 9999;
 }
 
+.message-box.ginf {
+    top: 15.625vw;
+}
+
 .btn.btn-lg, .btn-group-lg > .btn {
     font-size: 14px;
     padding: .3em 1em;
@@ -7932,11 +7941,30 @@ margin: 0;
     overflow: hidden;
     display: block;
 	position:relative;
-	padding-right: 9vw;
+}
+
+.FTItems .itemhead .name .short{
+	position:absolute;
+	top:0;
+}
+
+.FTItems .itemhead .name .full{
+	position:relative;
+	top:0;
+	bottom:0;
+	display:none;
 }
 
 .FTItems .itemhead .name.expand{
 	height: auto;
+}
+
+.FTItems .itemhead .name.expand .short{
+	display:none;
+}
+
+.FTItems .itemhead .name.expand .full{
+	display:block;
 }
 
 .FTItems .itemhead .name .toggleTitles{
@@ -7962,19 +7990,13 @@ margin: 0;
 #growthChart svg{
     height: 35vw;
 }
+
+.message-box {
+	top:7.5vw;
+}
 }
 
-.morris-hover.morris-default-style {/*
-border-radius: 10px;
-    padding: 6px;
-    color: #666;
-    background: rgba(255, 255, 255, 0.8);
-    border: solid 2px rgba(230, 230, 230, 0.8);
-    font-family: "Cronos Pro",Tahoma,Arial,sans-serif;
-    font-size: 12px;
-    text-align: center;
-    position: static;
-    display: inline-block;*/
+.morris-hover.morris-default-style {
 }
 
 
@@ -8075,7 +8097,6 @@ display: table-cell;
 
 
 .FTItems .itemhead .name{
-	padding-right: 4vw;
 }
 	
 .GICountryTitle,
@@ -8256,7 +8277,7 @@ display: table-cell;
 }
 
 .progress {
-    height: 0.7vw;margin: 1.3vw 0;
+    height: 0.7vw;margin: .7vw 0;
 }
 
 .categoryInfo .panel .panel-title {

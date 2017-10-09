@@ -149,18 +149,6 @@
 								</div>
 							  </div>
 						  </div>						  
-						  <div class="back">
-						  <div class="col-md-12  clearfix">
-						    <div class="panel panel-default">
-								<div class="panel-heading">
-									<h3 class="panel-title">Item description</h3>   
-								</div>
-								<div class="panel-body">
-									Item full text
-								</div>
-							</div>
-						  </div>	
-						  </div> 
 						
 					
 				</div>
@@ -244,7 +232,6 @@
         
         <script type="text/javascript" src="js/plugins.js"></script>        
         <script type="text/javascript" src="js/actions.js"></script>
-		<script type="text/javascript" src="js/plugins/jquery.flip.min.js"></script>
         
         <!-- END TEMPLATE -->
 		
@@ -252,15 +239,7 @@
 $(document).ready(function(){
 	//showLoadingScreen();
 	$(".FTItemsSummary").hide();
-	$(".flipBlock").flip({
-	  trigger: 'manual'
-	});
-	
-	$(".FTItemsSummary.flipBlock .back").click(function(){
-		$(".FTItemsSummary.flipBlock").flip('toggle');
-	});
-	
-	$(".flipBlock .back").show();
+
 	
 	
 	$.post(baseServiceUrl + "/list",

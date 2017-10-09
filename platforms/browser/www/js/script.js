@@ -1,5 +1,5 @@
-const baseServiceUrl = "http://localhost:8080/trs"; 
-//const baseServiceUrl = "http://trservice3562.cloudapp.net:8080/trs"; 
+//const baseServiceUrl = "http://localhost:8080/trs"; 
+const baseServiceUrl = "http://trservice3562.cloudapp.net:8080/trs"; 
 
 var curCountry;
 var countryList;
@@ -489,7 +489,17 @@ function updateCategoriesData(index, selector){
 	}
 	
 	itemsToDisplay.forEach(function(el, ind, array) {
-			var item = $("<div class='item item1'><div class='itemhead'><span class='name' >" + HtmlEncode(el.title) + "<span class='toggleTitles'>&nbsp;>>>&nbsp;</span></span><span class='value'>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success " + progressBarClass + " value"  + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
+			var string = el.title
+			var length = 25;
+			var trimmedString = string.length > length ? 
+								string.substring(0, length - 3) + "..." : 
+								string;
+		
+			var item = $("<div class='item item1'><div class='itemhead'><span class='name' ><div class='full'>" + HtmlEncode(string) + "</div><div class='short'>"  + HtmlEncode(trimmedString) + "</div></span><span class='value'>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success " + progressBarClass + " value"  + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
+			$(item).click(function(){
+				$('.FTItems .item .name').toggleClass('expand');
+				setSameHeight(".FTItemsCategories .panel-body");
+			});
 			panelBody.append(item);
 			
 	});
@@ -523,7 +533,7 @@ nv.addGraph(function() {
   
   	// Insert text into the center of the donut
   	function centerText() {
-			return function() {
+			return function() { console.log('centerText');
         var svg = d3.select("#" + chartId +" svg");
 
     		var donut = svg.selectAll("g.nv-slice").filter(
@@ -623,9 +633,16 @@ function showActiveFTData(index){
 			break;
 	}
 	itemsToDisplay.forEach(function(el, ind, array) {
-			var item = $("<div class='item item1'><div class='itemhead' ><span class='name' >" + HtmlEncode(el.title) + "<span class='toggleTitles'>&nbsp;>>>&nbsp;</span></span><span class='value'>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success " + progressBarClass + " value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
-			$(item).find('.toggleTitles').click(function(){
-				showFTIFullText(".FTItemsSummary.flipBlock" ,HtmlEncode(el.title));
+			var string = el.title
+			var length = 30;
+			var trimmedString = string.length > length ? 
+								string.substring(0, length - 3) + "..." : 
+								string;
+								
+			var item = $("<div class='item item1'><div class='itemhead' ><span class='name' ><div class='full'>" + HtmlEncode(string) + "</div><div class='short'>"  + HtmlEncode(trimmedString) + "</div></span><span class='value'>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success " + progressBarClass + " value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
+			$(item).click(function(){
+				$('.FTItems .item .name').toggleClass('expand');
+				setSameHeight(".FTItemsSummary .panel-body");
 			});
 			panelBody.append(item);
 			
@@ -973,35 +990,6 @@ function updateFTBalanceInfo(){
 		if(status == 'success' && info.status == 0){
 			
 			var years = getActiveYearRange();
-			/*showBalanceData = [{key:'', values: []}];
-			
-			info.data.forEach(function(el, i) {
-				if(el.year >= years[0] && el.year <= years[1]){
-					var newEl = {label:'', value:0};
-					newEl.label = el.year;
-					newEl.value = el.value;
-					showBalanceData[0].values.push(newEl);
-				}
-					
-			});
-			*/
-			/*
-			showBalanceData = [['Year','', { role: 'style' }, {role: 'tooltip'}]];
-			
-			info.data.forEach(function(el, i) {
-				if(el.year >= years[0] && el.year <= years[1]){
-					var newEl = [];
-					newEl.push(parseInt(el.year));
-					newEl.push(el.value);
-					newEl.push(el.value < 0 ? "#E04B4A":"#95B75D");
-					newEl.push("" + el.year + "\u000D\u000A" + setValuesFormats(el.value) + "");
-					showBalanceData.push(newEl);
-				}
-					
-			});
-			
-			google.charts.load('current', {packages: ['corechart', 'bar'], callback: showBalanceChart});
-			*/
 			
 			showBalanceData = [];
 			
