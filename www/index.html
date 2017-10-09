@@ -214,7 +214,8 @@ $(document).ready(function(){
     function(data, status){
 		countryList  = data;
 		if(status == 'success' && countryList.status == 0) {
-			
+			alert(status);
+			alert(data);
 			$('#country_select .chosen-select').html('');
 			countryList.data.sort(compareCountry);
 			countryList.data.forEach(function(el) {
