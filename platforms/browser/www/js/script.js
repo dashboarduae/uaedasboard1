@@ -408,7 +408,7 @@ function updateFTItems(){
 			updateCategoriesData(0, ".FTItemsCategories .Import");
 			updateCategoriesData(1, ".FTItemsCategories .Export");
 			updateCategoriesData(2, ".FTItemsCategories .ReExport");
-			setSameHeight(".FTItemsCategories .panel-body");
+			setSameHeight(".FTItemsCategories .FTItems  .name .full");
 			setSameHeight(".FTItemsSummary .panel-body");
 		}
 		//hideLoadingScreen();
@@ -490,15 +490,15 @@ function updateCategoriesData(index, selector){
 	
 	itemsToDisplay.forEach(function(el, ind, array) {
 			var string = el.title
-			var length = 25;
+			var length = 27;
 			var trimmedString = string.length > length ? 
 								string.substring(0, length - 3) + "..." : 
 								string;
 		
-			var item = $("<div class='item item1'><div class='itemhead'><span class='name' ><div class='full'>" + HtmlEncode(string) + "</div><div class='short'>"  + HtmlEncode(trimmedString) + "</div></span><span class='value'>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success " + progressBarClass + " value"  + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
+			var item = $("<div class='item item1'><div class='itemhead'><div class='progress'><div class='progress-bar progress-bar-success " + progressBarClass + " value"  + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div><div class='value'>" + setValuesFormats(el.value) +"</div></div><div class='name' ><div class='full'>" + HtmlEncode(string) + "</div><div class='short'>"  + HtmlEncode(trimmedString) + "</div></div></div>");
 			$(item).click(function(){
 				$('.FTItems .item .name').toggleClass('expand');
-				setSameHeight(".FTItemsCategories .panel-body");
+				setSameHeight(".FTItemsCategories .FTItems  .name .full");
 			});
 			panelBody.append(item);
 			
@@ -570,7 +570,7 @@ nv.addGraph(function() {
       "label": "",
       "value": FTItems.totalFT - totalValue
     }])
-    .transition().duration(300)
+    .transition().duration(1200)
     .call(dntChart)
     .call(centerText());
     
@@ -634,12 +634,12 @@ function showActiveFTData(index){
 	}
 	itemsToDisplay.forEach(function(el, ind, array) {
 			var string = el.title
-			var length = 30;
+			var length = 40;
 			var trimmedString = string.length > length ? 
 								string.substring(0, length - 3) + "..." : 
 								string;
 								
-			var item = $("<div class='item item1'><div class='itemhead' ><span class='name' ><div class='full'>" + HtmlEncode(string) + "</div><div class='short'>"  + HtmlEncode(trimmedString) + "</div></span><span class='value'>" + setValuesFormats(el.value) +"</span></div><div class='progress'><div class='progress-bar progress-bar-success " + progressBarClass + " value" + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div></div>");
+			var item = $("<div class='item item1'><div class='itemhead'><div class='progress'><div class='progress-bar progress-bar-success " + progressBarClass + " value"  + ind + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div><div class='value'>" + setValuesFormats(el.value) +"</div></div><div class='name' ><div class='full'>" + HtmlEncode(string) + "</div><div class='short'>"  + HtmlEncode(trimmedString) + "</div></div></div>");
 			$(item).click(function(){
 				$('.FTItems .item .name').toggleClass('expand');
 				setSameHeight(".FTItemsSummary .panel-body");

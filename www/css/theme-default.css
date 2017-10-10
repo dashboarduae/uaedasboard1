@@ -7436,14 +7436,20 @@ display:none;
     background: #f1f1f0;
 }
 
-.FTItems .itemhead .name, .FTItems .itemhead .value{
+ .FTItems .itemhead .value{
 	display:table-cell;
 	position:relative;
 }
 
 .FTItems .itemhead .value{
-	text-align: right;
+    text-align: right;
     width: 25%;
+    font-size: 5.5vw;
+    font-weight: bold;
+}
+
+.FTItems .name{
+	
 }
 
 .FTItemsSummary .panel-title{
@@ -7536,6 +7542,11 @@ display: block;
     width: 33.33333333%;
 	float: left;
    }
+   
+.FTItems .itemhead .value{
+    font-size: 2.5vw;
+
+}
 }
 
 
@@ -7622,7 +7633,7 @@ display:none;
 }
 
 #year_range_select .noUi-connect {
-    background: #1b1e24;
+    background: #b78a35;
 }
 
 
@@ -7935,39 +7946,44 @@ margin: 0;
 }
 
 
-.FTItems .itemhead .name{
+.FTItems  .name{
 	line-height: 1.3em;
     height: 1.3em;
     overflow: hidden;
     display: block;
 	position:relative;
+	    font-size: 5vw;
 }
 
-.FTItems .itemhead .name .short{
+.FTItems  .name .short{
 	position:absolute;
 	top:0;
+	    font-size: 5vw;
+    line-height: 1.2em;
 }
 
-.FTItems .itemhead .name .full{
-	position:relative;
-	top:0;
-	bottom:0;
-	display:none;
+.FTItems  .name .full{
+    position: relative;
+    top: 0;
+    bottom: 0;
+    display: none;
+    font-size: 5vw;
+    line-height: 1.2em;
 }
 
-.FTItems .itemhead .name.expand{
+.FTItems  .name.expand{
 	height: auto;
 }
 
-.FTItems .itemhead .name.expand .short{
+.FTItems  .name.expand .short{
 	display:none;
 }
 
-.FTItems .itemhead .name.expand .full{
+.FTItems  .name.expand .full{
 	display:block;
 }
 
-.FTItems .itemhead .name .toggleTitles{
+.FTItems  .name .toggleTitles{
 	cursor:pointer;
 }
 
@@ -7986,6 +8002,13 @@ margin: 0;
 }
 
 @media all and (orientation:landscape) {
+.FTItems  .name,
+.FTItems  .name .short,
+.FTItems  .name .full{
+	font-size: 2.5vw;
+}
+	
+	
 #balanceChart svg,
 #growthChart svg{
     height: 35vw;
@@ -8002,7 +8025,7 @@ margin: 0;
 
 .progress {
     height: 2.2vw;
-    margin: 3.125vw 0;
+    margin: 1.125vw 0;
     background: #fff;
     border: solid 1px #c1c1c0;
     border-radius: 0;
@@ -8332,7 +8355,7 @@ display: table-cell;
 
 
 .FTItemsCategories .panel .panel-title{
-	font-size: 2vw;
+	font-size: 2.5vw;
     line-height: 1.3em;
 }
 
@@ -8466,6 +8489,13 @@ display: table-cell;
     border: none;
     box-shadow: none;
 }
+
+#filter-box .mb-control-close{
+	background:#b78a35;
+	color:#fff;
+	border: none;
+}
+
 @media all and (orientation:landscape) {
 .categoryInfo .panel .panel-body .FTVItem span {
     font-size: 2vw;
