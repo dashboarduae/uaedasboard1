@@ -7647,7 +7647,7 @@ display:none;
 }
 
 .nav-tabs.nav-justified.w30>li > a{
-	opacity:.5;    font-size: 5vw;
+	opacity:.5;    font-size: 5vw;padding: 1vw 0;
 }
 
 .nav-tabs.nav-justified.w30>li.active > a{
@@ -8514,3 +8514,29 @@ display: table-cell;
 }
 }
 
+.FTV.portrait .progress{
+	    margin: 0;
+    height: 1.5vw;
+	
+}
+
+.FTV.portrait .categoryInfo .panel .panel-body .FTVItem{
+	padding: 7px;
+}
+
+.FTItemsSummary .FTItems .item {
+       padding: 3px 7px;
+}
+
+.FTItemsSummary .progress{
+	height: 2.2vw;
+    margin: 0.5vw 0;
+}
+
+.FTItemsSummary .panel .panel-heading{
+	    padding: 1.5vw;
+}
+
+.FTItemsSummary .FTItems .itemhead .value{
+	    font-size: 4.5vw;
+}
