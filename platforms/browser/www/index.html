@@ -113,6 +113,7 @@ padding: 1vw;
         <script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
         <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script> 
 		<script type="text/javascript" src="js/plugins/select2/js/select2.min.js"></script> 
+		<script type="text/javascript" src="js/strings.js"></script>
 		<script type="text/javascript" src="js/script.js"></script>	
 <!-- START PHONEGAP -->
 		 <script type="text/javascript" src="cordova.js"></script>
@@ -131,7 +132,7 @@ padding: 1vw;
 <div id='h1_div'>
 
 <table><tr><td><span>&bull;</span></td>
-<td><h1>UAE Trade Relation Dashboard</h1></td>
+<td><h1><script>document.write(tr('UAE Trade Relation Dashboard'));</script></h1></td>
 <td><span class='s'>&bull;</span></td></tr>
 </table>
 
@@ -144,7 +145,7 @@ padding: 1vw;
 <div class='pie_div' style='left:1vw'>
 <div style='color:white;padding-top:8vw;font-family:"Cronos Pro";text-align:center'>
 	<img src='img/fp/arab_map.png' style='width:25vw;height:auto;'>
-	<div style='font-size:3vw;font-family:"Cronos Pro";line-height:3vw;padding-bottom:1vw'>United Arab Emirates</div>
+	<div style='font-size:3vw;font-family:"Cronos Pro";line-height:3vw;padding-bottom:1vw'><script>document.write(tr('United Arab Emirates'));</script></div>
 	<img src='img/fp/arab_flag.jpg' style='width:10vw;height:auto' alt=''>
 </div>
 </div>
@@ -158,15 +159,17 @@ padding: 1vw;
 <div style='color:white;padding-top:8vw;font-family:"Cronos Pro";text-align:center'>
 
 	<div style='font-size:3vw' id="country_select">
-	<div style='padding-bottom:1vw'>Country</div><select   class="chosen-select"></select>
+	<div style='padding-bottom:1vw'><script>document.write(tr('Country'));</script></div><select   class="chosen-select"></select>
 	</div>
 
-	<div id="currency_select" style='font-size:3vw;padding-top:2.7vw;padding-bottom:2.3vw'><div style='padding-bottom:1vw'>Currency</div>
+	<div id="currency_select" style='font-size:3vw;padding-top:2.7vw;padding-bottom:2.3vw'><div style='padding-bottom:1vw'><script>document.write(tr('Currency'));</script></div>
     <select   class="chosen-select">
-		<option>AED Millions</option>
-		<option>USD Millions</option>
-		<option>AED Billions</option>
-		<option>USD Billions</option>
+		<script>
+			document.write('<option>'+ tr('AED Millions') + '</option>');
+			document.write('<option>'+ tr('USD Millions') + '</option>');	
+			document.write('<option>'+ tr('AED Billions') + '</option>');	
+			document.write('<option>'+ tr('USD Billions') + '</option>');	
+		</script>
 	</select></div>
 
   <img class="flag" src='img/flags/_defFlag.png' style='width:10vw;height:auto' alt=''>
@@ -185,14 +188,14 @@ padding: 1vw;
 
 <ul id='icons_ul'>
 
-<li><a href='trade_balance.html'><img src='img/fp/i3.jpg'><br>Trade Growth<br>and Balance</a></li>
-<li><a href='foreign_trade_volume.html'><img src='img/fp/i2.jpg'><br>Trade<br>Volume</a></li>
-<li><a href='general_information.html'><img src='img/fp/i1.jpg'><br>General<br>Information</a></li>
-<li><a href='#'><img src='img/fp/i5.jpg'><br>Committees &amp;<br> Agreements</a></li>
-<li><a href='#'><img src='img/fp/i6.jpg'><br>Joint<br>Agreements</a></li>
+<li><a href='trade_balance.html'><img src='img/fp/i3.jpg'><br><script>document.write(tr('Trade Growth<br>and Balance'));</script></a></li>
+<li><a href='foreign_trade_volume.html'><img src='img/fp/i2.jpg'><br><script>document.write(tr('Trade<br>Volume'));</script></a></li>
+<li><a href='general_information.html'><img src='img/fp/i1.jpg'><br><script>document.write(tr('General<br>Information'));</script></a></li>
+<li><a href='#'><img src='img/fp/i5.jpg'><br><script>document.write(tr('Committees <br>&amp; Agreements'));</script></a></li>
+<li><a href='#'><img src='img/fp/i6.jpg'><br><script>document.write(tr('Joint<br>Agreements'));</script></a></li>
 
 
-<li><a href='direct_foreign_trade_items.html'><img src='img/fp/i4.jpg'><br>Direct<br>Trade Items</a></li>
+<li><a href='direct_foreign_trade_items.html'><img src='img/fp/i4.jpg'><br><script>document.write(tr('Direct<br>Trade Items'));</script></a></li>
 
 </ul>
 <div style='clear:both'></div>
@@ -200,7 +203,7 @@ padding: 1vw;
 
 
 <div id='text_cont_div'>
-<p>An interactive and innovative Dashboard Which includes information on UAE Non-Oil Foreign Trade and the most important bilateral indicators, Agreements and investment; between UAE various all world countries</p>
+<p><script>document.write(tr('An interactive and innovative Dashboard Which includes information on UAE Non-Oil Foreign Trade and the most important bilateral indicators, Agreements and investment; between UAE various all world countries'));</script></p>
 </div>
 
 		<script>
@@ -253,13 +256,13 @@ $(document).ready(function(){
 	var cc = parseInt(getCurCurrency());
 
 	switch(cc){
-		case 0:crrncySelect.val("AED Millions");
+		case 0:crrncySelect.val(tr("AED Millions"));
 		break;
-		case 1:crrncySelect.val("USD Millions");
+		case 1:crrncySelect.val(tr("USD Millions"));
 		break;
-		case 2:crrncySelect.val("AED Billions");
+		case 2:crrncySelect.val(tr("AED Billions"));
 		break;
-		case 3:crrncySelect.val("USD Billions");
+		case 3:crrncySelect.val(tr("USD Billions"));
 		break;
 	}
 	crrncySelect.trigger('change');
@@ -291,10 +294,10 @@ $(document).ready(function(){
 	
 	
 	$('#currency_select .chosen-select').on('select2:select', function (e) {
-			if(crrncySelect.val() == 'AED Millions') setCurCurrency('0');
-			if(crrncySelect.val() == 'USD Millions') setCurCurrency('1');
-			if(crrncySelect.val() == 'AED Billions') setCurCurrency('2');
-			if(crrncySelect.val() == 'USD Billions') setCurCurrency('3');
+			if(crrncySelect.val() == tr('AED Millions')) setCurCurrency('0');
+			if(crrncySelect.val() == tr('USD Millions')) setCurCurrency('1');
+			if(crrncySelect.val() == tr('AED Billions')) setCurCurrency('2');
+			if(crrncySelect.val() == tr('USD Billions')) setCurCurrency('3');
 	});
 	
 	$('#icons_ul A').click(function(){
@@ -303,7 +306,7 @@ $(document).ready(function(){
 				curC = -1;
 			}
 		if(curC == -1) {
-			alert('Please select country');
+			alert(tr('Please select country'));
 			return false;
 		}
 		

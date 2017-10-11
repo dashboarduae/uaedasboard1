@@ -21,6 +21,7 @@
         <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script> 
 		<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-select.js"></script> 
 		<script type="text/javascript" src="js/plugins/canvasjs.min.js"></script> 
+		<script type="text/javascript" src="js/strings.js"></script>
 		<script type="text/javascript" src="js/script.js"></script>		
         <!-- END PLUGINS -->
 <!-- START PHONEGAP -->
@@ -42,16 +43,16 @@
                 <!-- START X-NAVIGATION -->
                 <ul class="x-navigation">
                     <li class="xn-logo">
-                        <a href="index.html">Trade Growth & Balance</a>
+                        <a href="index.html"><script>document.write(tr('Trade Growth and Balance'));</script></a>
 						<a href="#" class="x-navigation-controlfilter mb-control" data-box="#filter-box"></a>
                         <a href="#" class="x-navigation-control"></a>
                     </li>
-                    <li><a href="general_information.html"> <span class="xn-text">General Information</span></a></li>
-					<li><a href="foreign_trade_volume.html"><span class="xn-text">Trade Volume</span></a></li>
-					<li><a href="trade_balance.html"> <span class="xn-text">Trade Growth and Balance</span></a></li>
-					<li><a href="direct_foreign_trade_items.html"><span class="xn-text">Direct Trade Items</span></a></li>
-					<li><a href="#"><span class="xn-text">Joint Agreements</span></a></li>
-					<li><a href="#"><span class="xn-text">Committees &amp; Agreements</span></a></li>
+                    <li><a href="general_information.html"> <span class="xn-text"><script>document.write(tr('General Information'));</script></span></a></li>
+					<li><a href="foreign_trade_volume.html"><span class="xn-text"><script>document.write(tr('Trade Volume'));</script></span></a></li>
+					<li><a href="trade_balance.html"> <span class="xn-text"><script>document.write(tr('Trade Growth and Balance'));</script></span></a></li>
+					<li><a href="direct_foreign_trade_items.html"><span class="xn-text"><script>document.write(tr('Direct Trade Items'));</script></span></a></li>
+					<li><a href="#"><span class="xn-text"><script>document.write(tr('Joint Agreements'));</script></span></a></li>
+					<li><a href="#"><span class="xn-text"><script>document.write(tr('Committees &amp; Agreements'));</script></span></a></li>
                     
                 </ul>
                 <!-- END X-NAVIGATION -->
@@ -64,7 +65,7 @@
                     <div class="mb-title"></div>
                     <div class="mb-content">
                         <div class="row w50">
-							<h3>Country</h3>
+							<h3><script>document.write(tr('Country'));</script></h3>
 							<div id="country_select" class="btn-group">
 
 								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"> <span class="caret"></span></a>
@@ -74,19 +75,19 @@
 							</div>
 						</div> 
 						<div class="row w50">
-							<h3>Currency</h3>
+							<h3><script>document.write(tr('Currency'));</script></h3>
 							<div id="currency_select" class="btn-group">
-								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false">AED Millions <span class="caret"></span></a>
+								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"><script>document.write(tr('AED Millions'));</script> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="#" onClick="setCurCurrency(0);updateYearRangeFTBalance();">AED Millions</a></li>
-									<li><a href="#" onClick="setCurCurrency(1);updateYearRangeFTBalance();">USD Millions</a></li>
-									<li><a href="#" onClick="setCurCurrency(2);updateYearRangeFTBalance();">AED Billions</a></li>
-									<li><a href="#" onClick="setCurCurrency(3);updateYearRangeFTBalance();">USD Billions</a></li>
+									<li><a href="#" onClick="setCurCurrency(0);updateFTItems();"><script>document.write(tr('AED Millions'));</script></a></li>
+									<li><a href="#" onClick="setCurCurrency(1);updateFTItems();"><script>document.write(tr('USD Millions'));</script></a></li>
+									<li><a href="#" onClick="setCurCurrency(2);updateFTItems();"><script>document.write(tr('AED Billions'));</script></a></li>
+									<li><a href="#" onClick="setCurCurrency(3);updateFTItems();"><script>document.write(tr('USD Billions'));</script></a></li>
 								</ul>
 							</div>
 						</div>
 						<div class="row">
-							<h3>Year 
+							<h3><script>document.write(tr('Year'));</script>
 							<div id="year_range_select">
 								
 							</div>
@@ -95,7 +96,7 @@
 							
                     </div>
                     <div class="mb-footer">
-                        <button class="btn btn-default btn-lg pull-right mb-control-close">Apply</button>
+                        <button class="btn btn-default btn-lg pull-right mb-control-close"><script>document.write(tr('Apply'));</script></button>
                     </div>
                 </div>
             </div>
@@ -114,7 +115,7 @@
 					<div class="row"><div class="col-md-12 clearfix tradeGrowth">
 						<div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title title-1">Non-Oil Trade Growth</h3>     
+                                <h3 class="panel-title title-1"><script>document.write(tr('Non-Oil Trade Growth'));</script></h3>     
                             </div>
                             <div class="panel-body nopadding">
                                 <div id="growthChart"></div>
@@ -126,7 +127,7 @@
 					<div class="row"><div class="col-md-12 clearfix tradeBalance">
 						<div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title title-1">Non-Oil Trade Balance</h3>     
+                                <h3 class="panel-title title-1"><script>document.write(tr('Non-Oil Trade Balance'));</script></h3>     
                             </div>
                             <div class="panel-body nopadding">
                                 <div id="balanceChart" class="clearfix"></div>

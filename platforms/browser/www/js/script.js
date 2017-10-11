@@ -89,18 +89,18 @@ function getCurCurrency(){
 
 function setCurCurrency(currency){
 	window.localStorage.setItem('appCurCurrency', currency);
-	var title = "AED Millions ";
+	var title = tr("AED Millions");
 	switch(currency){
-		case 0: title = "AED Millions ";
+		case 0: title = tr("AED Millions");
 			break;
-		case 1: title = "USD Millions ";
+		case 1: title = tr("USD Millions");
 			break;
-		case 2: title = "AED Billions ";
+		case 2: title = tr("AED Billions");
 			break;
-		case 3: title = "USD Billions ";
+		case 3: title = tr("USD Billions");
 			break;
 	}
-	$("#currency_select #active_value").html(HtmlEncode(title) + " <span class=\"caret\"></span>");
+	$("#currency_select #active_value").html(title + " <span class=\"caret\"></span>");
 	return currency;
 }
 
@@ -132,6 +132,7 @@ function getAppLang(){
 
 function switchAppLang(){
 	window.localStorage.setItem('appLang', getAppLang() == "EN"? "AR":"EN");
+	location.reload();
 }
 
 
@@ -374,8 +375,13 @@ function setFTItemsLimit(limit){
 	
 	if(isNormalInteger(limit)){
 		window.localStorage.setItem('FTItemsLimit', limit);
-		$('#item_count input').val(limit);
+		$('#item_count #active_value').html(limit + " <span class=\"caret\"></span>");
 		return limit;
+	}
+	
+	if(limit == -1) {
+		window.localStorage.setItem('FTItemsLimit', limit);
+		$('#item_count #active_value').html(tr('All') + " <span class=\"caret\"></span>");
 	}
 	return getFTItemsLimit();
 	
@@ -424,9 +430,9 @@ function initDonutChart(index){
 			donutChart = Morris.Donut({
 				element: 'donutchart',
 				data: [
-					{label: "Import", value: FTItems.totalImports},
-					{label: "Non-Oil Export", value: FTItems.totalNonOilExports},
-					{label: "Re-Export", value: FTItems.totalReExports}
+					{label: tr("Import"), value: FTItems.totalImports},
+					{label: tr("Non-Oil Export"), value: FTItems.totalNonOilExports},
+					{label: tr("Re-Export"), value: FTItems.totalReExports}
 				],
 				colors: chartColors,
 				resize: true,
@@ -437,7 +443,7 @@ function initDonutChart(index){
 				
 			});
 			
-			$("#donutchart text tspan").first().html("Total");
+			$("#donutchart text tspan").first().html(tr("Total"));
 			$("#donutchart text tspan").last().html(setValuesFormats(FTItems.totalFT));
 			try{
 				donutChart.select(index);
@@ -468,21 +474,21 @@ function updateCategoriesData(index, selector){
 		case 0: ;
 			itemsToDisplay = FTItems.importsItems;
 			totalValue = FTItems.totalImports;
-			chartLabel = "Import";
+			chartLabel = tr("Import");
 			chartId = "chartImport";
 			progressBarClass = "valueImport";
 			break;
 		case 1: 
 			itemsToDisplay = FTItems.nonOilExportsItems;
 			totalValue = FTItems.totalNonOilExports;
-			chartLabel = "Export";
+			chartLabel = tr("Export");
 			chartId = "chartExport";
 			progressBarClass = "valueExport";
 			break;
 		case 2: 
 			itemsToDisplay = FTItems.reExportsItems;
 			totalValue = FTItems.totalReExports;
-			chartLabel = "Re-Export";
+			chartLabel = tr("Re-Export");
 			chartId = "chartReExport";
 			progressBarClass = "valueReExport";
 			break;
@@ -533,7 +539,7 @@ nv.addGraph(function() {
   
   	// Insert text into the center of the donut
   	function centerText() {
-			return function() { console.log('centerText');
+			return function() { 
         var svg = d3.select("#" + chartId +" svg");
 
     		var donut = svg.selectAll("g.nv-slice").filter(
@@ -660,7 +666,7 @@ function showActiveFTData(index){
 
 function showFTIFullText(selector, text){
 	$(selector).find(".back .panel-body").text(text);
-	$(selector).flip('toggle');
+	//$(selector).flip('toggle');
 }
 
 
@@ -874,7 +880,7 @@ function updateFTVolumeTitle(){
 		currString = "USD Billions";
 			break;
 	}
-	$('.inlineCurrency').text(currString);
+	$('.inlineCurrency').text(tr(currString));
 }
 
 function updateFTItemsTitle(){
@@ -911,7 +917,7 @@ function updateFTItemsTitle(){
 		currString = "USD Billions";
 			break;
 	}
-	$('.inlineCurrency').text(currString);
+	$('.inlineCurrency').text(tr(currString));
 }
 
 function showFTCategoryInfo(index){
@@ -935,7 +941,7 @@ function showFTCategoryInfo(index){
 			var panelBody = '<div class="panel-body">';
 			
 			panelBody += '<div class="FTVItem">';
-			panelBody += '<span>Import</span>';
+			panelBody += '<span>' + tr('Import') + '</span>';
 			panelBody += '<span class="pull-right">' + setValuesFormats(category.imports) + '</span>';
 			
 
@@ -943,14 +949,14 @@ function showFTCategoryInfo(index){
 			panelBody += '</div>';
 			
 			panelBody += '<div class="FTVItem">';
-			panelBody += '<span>Non-Oil Export</span>';
+			panelBody += '<span>' + tr('Non-Oil Export') + '</span>';
 			panelBody += '<span class="pull-right">' + setValuesFormats(category.nonOilExports) + '</span>';
 			
 			panelBody += "<div class='progress'><div  class='progress-bar progress-bar-success valueExport" + index + " year" + el.year + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
 			panelBody += '</div>';
 			
 			panelBody += '<div class="FTVItem">';
-			panelBody += '<span>Re-Export</span>';
+			panelBody += '<span>' + tr('Re-Export') + '</span>';
 			panelBody += '<span class="pull-right">' + setValuesFormats(category.reExports) + '</span>';
 			
 			panelBody += "<div class='progress'><div class='progress-bar progress-bar-success valueReExport" + index + " year" + el.year + "' role='progressbar' aria-valuenow='0' aria-valuemin='0' aria-valuemax='100' style='width: 0%'></div></div>";
@@ -1010,61 +1016,7 @@ function updateFTBalanceInfo(){
 
 function showBalanceChart(){
 	$('#balanceChart svg').html('');
-		/*	nv.addGraph(function() {
 
-			  var chart = nv.models.discreteBarChart()
-				  .x(function(d) { return d.label })    //Specify the data accessors.
-				  .y(function(d) { return d.value })
-				  .valueFormat(function(d) { return setValuesFormats(d)})
-				  .staggerLabels(false)    //Too many bars and not enough room? Try staggering labels.
-				  .tooltips(true)        //Don't show tooltips
-				  .showValues(false)       //...instead, show the bar value right on top of each bar.
-				  .transitionDuration(3500);
-				
-				chart.xAxis.tickValues(function(d) {
-					var dataset = ['0000', '', '', '1234'];
-
-					return dataset;
-				});
-			  balanceGraph = d3.select('#balanceChart svg')
-				  .datum(showBalanceData).transition().duration(3000)
-				  .call(chart);
-				d3.selectAll("rect.discreteBar")
-				.style("fill", function(d, i){
-					return d.value < 0 ? "#E04B4A":"#95B75D";
-				});			
-			  nv.utils.windowResize(chart.update);
-
-			  return chart;
-			});
-	*/
-	
-	/*
-	 var data = google.visualization.arrayToDataTable(showBalanceData);
-		var chartTiks = [];
-		var chartWidth = $('#balanceChart svg').width()*0.6;
-		var maxTicksCount = Math.floor(chartWidth/30);
-		var everyNYear = Math.ceil((showBalanceData.length - 1)/maxTicksCount);
-		for(var i = 1;i< showBalanceData.length; i++){
-			if(i%everyNYear == 1) chartTiks.push(showBalanceData[i][0]);
-		}
-      var options = {
-        title: '',
-		legend: {position: 'none'},
-		animation: {
-                duration: 3000,
-                startup: true //This is the new option
-            },
-		hAxis: {
-			viewWindowMode:'pretty',
-			format: '',
-			ticks: chartTiks
-		}
-      };
-
-      var materialChart = new google.visualization.ColumnChart(document.getElementById('balanceChart'));
-      materialChart.draw(data, options);
-	  */
 	  
 	  var chart = new CanvasJS.Chart("balanceChart", {
 				title: {
@@ -1099,35 +1051,7 @@ function updateFTGrowthInfo(){
 		if(status == 'success' && info.status == 0){
 			
 			var years = getActiveYearRange();
-/*
-			var showData =  new Array();
-			info.data.forEach(function(el, i) {
-				if(i>0 && el.year >= years[0] && el.year <= years[1]){
-					var newEl = {label:'', value:0};
-					newEl.year = el.year;
-					newEl.value = Math.round((el.value - info.data[i-1].value)/info.data[i-1].value*100);
-					showData.push(newEl);
-				}
-					
-			});
-			$('#growthChart').html('');
-			balanceGraph = Morris.Area({
-				element: 'growthChart',
-				data: showData,
-				xkey: 'year',
-				ykeys: ['value'],
-				labels: ['Growth'],
-				yLabelFormat:function (y) { return Math.round(y) + "%"; },
-				fillOpacity: 0.6,
-				hideHover: 'auto',
-				behaveLikeLine: true,
-				resize: true,
-				pointFillColors:['#39c3b0'],
-				pointStrokeColors: ['#39c3b0'],
-				lineColors:['#1caf9a'],
-				formatter: function (value, data) { return Math.round(value) + "%"; }
-			});
-*/			$('#growthChart').html('');
+	$('#growthChart').html('');
 			var showData =  [];
 			info.data.forEach(function(el, i) {
 				if(i>0 && el.year >= years[0] && el.year <= years[1]){
@@ -1161,4 +1085,17 @@ function updateFTGrowthInfo(){
 			//hideLoadingScreen();
 		};
     })
+}
+
+
+function tr(string){
+	var stringsLength = appStrings.length;
+	for(var i = 0;i<stringsLength;i++){
+		if(appStrings[i][0] === string){
+			if(getAppLang() == 'AR'){
+				return appStrings[i][1];
+			}
+		}
+	}
+	return string;
 }

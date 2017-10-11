@@ -18,6 +18,7 @@
         <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
         <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script> 
+		<script type="text/javascript" src="js/strings.js"></script>
 		<script type="text/javascript" src="js/script.js"></script>		
         <!-- END PLUGINS -->
 <!-- START PHONEGAP -->
@@ -38,16 +39,16 @@
                 <!-- START X-NAVIGATION -->
                 <ul class="x-navigation">
                     <li class="xn-logo">
-                        <a href="index.html">General Information</a>
+                        <a href="index.html"><script>document.write(tr('General Information'));</script></a>
 						<a href="#" class="x-navigation-controlfilter mb-control" data-box="#filter-box"></a>
                         <a href="#" class="x-navigation-control"></a>
                     </li>
-                    <li><a href="general_information.html"> <span class="xn-text">General Information</span></a></li>
-					<li><a href="foreign_trade_volume.html"><span class="xn-text">Trade Volume</span></a></li>
-					<li><a href="trade_balance.html"> <span class="xn-text">Trade Growth and Balance</span></a></li>
-					<li><a href="direct_foreign_trade_items.html"><span class="xn-text">Direct Trade Items</span></a></li>
-					<li><a href="#"><span class="xn-text">Joint Agreements</span></a></li>
-					<li><a href="#"><span class="xn-text">Committees &amp; Agreements</span></a></li>
+                    <li><a href="general_information.html"> <span class="xn-text"><script>document.write(tr('General Information'));</script></span></a></li>
+					<li><a href="foreign_trade_volume.html"><span class="xn-text"><script>document.write(tr('Trade Volume'));</script></span></a></li>
+					<li><a href="trade_balance.html"> <span class="xn-text"><script>document.write(tr('Trade Growth and Balance'));</script></span></a></li>
+					<li><a href="direct_foreign_trade_items.html"><span class="xn-text"><script>document.write(tr('Direct Trade Items'));</script></span></a></li>
+					<li><a href="#"><span class="xn-text"><script>document.write(tr('Joint Agreements'));</script></span></a></li>
+					<li><a href="#"><span class="xn-text"><script>document.write(tr('Committees &amp; Agreements'));</script></span></a></li>
                     
                 </ul>
                 <!-- END X-NAVIGATION -->
@@ -57,7 +58,7 @@
 			
 			<div class="mb-container">
                 <div class="mb-middle">
-                    <div class="mb-title">Select Country</div>
+                    <div class="mb-title"><script>document.write(tr('Select Country'));</script></div>
                     <div class="mb-content">
                         <div class="row gi">
 							
@@ -70,7 +71,7 @@
 						</div>                   
                     </div>
                     <div class="mb-footer">
-                        <button class="btn btn-default btn-lg pull-right mb-control-close">Apply</button>
+                        <button class="btn btn-default btn-lg pull-right mb-control-close"><script>document.write(tr('Apply'));</script></button>
                     </div>
                 </div>
             </div>
@@ -87,8 +88,8 @@
 				<div  class="row GICountryTitle">
 						<div class="countryInfo flag"><img src="img/flags/_defFlag.jpg"></div> 
 						<div class="countryInfo name"></div>
-						<div class="countryInfo capital"><div class="desc">Capital</div><div class="value"></div></div>
-						<div class="countryInfo population"><div class="desc">Population</div><div class="value"></div></div>					
+						<div class="countryInfo capital"><div class="desc"><script>document.write(tr('Capital'));</script></div><div class="value"></div></div>
+						<div class="countryInfo population"><div class="desc"><script>document.write(tr('Population'));</script></div><div class="value"></div></div>					
 
 						
 					</div>

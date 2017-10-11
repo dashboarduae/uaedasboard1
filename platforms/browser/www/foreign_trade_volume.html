@@ -17,7 +17,8 @@
 		<!-- START PLUGINS -->
         <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script> 
+        <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/strings.js"></script>
 		<script type="text/javascript" src="js/script.js"></script>		
         <!-- END PLUGINS -->
 <!-- START PHONEGAP -->
@@ -38,16 +39,16 @@
                 <!-- START X-NAVIGATION -->
                 <ul class="x-navigation">
                     <li class="xn-logo">
-                        <a href="index.html">Trade Volume</a>
+                        <a href="index.html"><script>document.write(tr('Trade Volume'));</script></a>
 						<a href="#" class="x-navigation-controlfilter mb-control" data-box="#filter-box"></a>
                         <a href="#" class="x-navigation-control"></a>
                     </li>
-                    <li><a href="general_information.html"> <span class="xn-text">General Information</span></a></li>
-					<li><a href="foreign_trade_volume.html"><span class="xn-text">Trade Volume</span></a></li>
-					<li><a href="trade_balance.html"> <span class="xn-text">Trade Growth and Balance</span></a></li>
-					<li><a href="direct_foreign_trade_items.html"><span class="xn-text">Direct Trade Items</span></a></li>
-					<li><a href="#"><span class="xn-text">Joint Agreements</span></a></li>
-					<li><a href="#"><span class="xn-text">Committees &amp; Agreements</span></a></li>
+                    <li><a href="general_information.html"> <span class="xn-text"><script>document.write(tr('General Information'));</script></span></a></li>
+					<li><a href="foreign_trade_volume.html"><span class="xn-text"><script>document.write(tr('Trade Volume'));</script></span></a></li>
+					<li><a href="trade_balance.html"> <span class="xn-text"><script>document.write(tr('Trade Growth and Balance'));</script></span></a></li>
+					<li><a href="direct_foreign_trade_items.html"><span class="xn-text"><script>document.write(tr('Direct Trade Items'));</script></span></a></li>
+					<li><a href="#"><span class="xn-text"><script>document.write(tr('Joint Agreements'));</script></span></a></li>
+					<li><a href="#"><span class="xn-text"><script>document.write(tr('Committees &amp; Agreements'));</script></span></a></li>
                     
                 </ul>
                 <!-- END X-NAVIGATION -->
@@ -61,7 +62,7 @@
                     <div class="mb-title"></div>
                     <div class="mb-content">
                         <div class="row w50">
-							<h3>Country</h3>
+							<h3><script>document.write(tr('Country'));</script></h3>
 							<div id="country_select" class="btn-group">
 								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
@@ -70,19 +71,19 @@
 							</div>
 						</div> 
 						<div class="row w50">
-							<h3>Currency</h3>
+							<h3><script>document.write(tr('Currency'));</script></h3>
 							<div id="currency_select" class="btn-group">
-								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false">AED Millions <span class="caret"></span></a>
+								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"><script>document.write(tr('AED Millions'));</script> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="#" onClick="setCurCurrency(0);updateYearRangeFTVolume();">AED Millions</a></li>
-									<li><a href="#" onClick="setCurCurrency(1);updateYearRangeFTVolume();">USD Millions</a></li>
-									<li><a href="#" onClick="setCurCurrency(2);updateYearRangeFTVolume();">AED Billions</a></li>
-									<li><a href="#" onClick="setCurCurrency(3);updateYearRangeFTVolume();">USD Billions</a></li>
+									<li><a href="#" onClick="setCurCurrency(0);updateYearRangeFTVolume();"><script>document.write(tr('AED Millions'));</script></a></li>
+									<li><a href="#" onClick="setCurCurrency(1);updateYearRangeFTVolume();"><script>document.write(tr('USD Millions'));</script></a></li>
+									<li><a href="#" onClick="setCurCurrency(2);updateYearRangeFTVolume();"><script>document.write(tr('AED Billions'));</script></a></li>
+									<li><a href="#" onClick="setCurCurrency(3);updateYearRangeFTVolume();"><script>document.write(tr('USD Billions'));</script></a></li>
 								</ul>
 							</div>
 						</div>	
 						<div class="row">
-							<h3>Year 
+							<h3><script>document.write(tr('Year'));</script> 
 							<div id="year_range_select">
 								
 							</div>
@@ -91,7 +92,7 @@
 						
                     </div>
                     <div class="mb-footer">
-                        <button class="btn btn-default btn-lg pull-right mb-control-close">Apply</button>
+                        <button class="btn btn-default btn-lg pull-right mb-control-close"><script>document.write(tr('Apply'));</script></button>
                     </div>
                 </div>
             </div>
@@ -113,9 +114,9 @@
 						<div class="col-md-12">
 							<div class="panel panel-default tabs">
                                 <ul class="nav nav-tabs nav-justified w30">
-                                    <li class="active"><a href="#tab0" data-toggle="tab" aria-expanded="true">Total</a></li>
-                                    <li class=""><a href="#tab1" data-toggle="tab" aria-expanded="false">Direct</a></li>
-                                    <li class=""><a href="#tab2" data-toggle="tab" aria-expanded="false">Free Zone</a></li>
+                                    <li class="active"><a href="#tab0" data-toggle="tab" aria-expanded="true"><script>document.write(tr('Total'));</script></a></li>
+                                    <li class=""><a href="#tab1" data-toggle="tab" aria-expanded="false"><script>document.write(tr('Direct'));</script></a></li>
+                                    <li class=""><a href="#tab2" data-toggle="tab" aria-expanded="false"><script>document.write(tr('Free Zone'));</script></a></li>
                                 </ul>
                                 <div class="panel-body tab-content">
                                     <div class="tab-pane active categoryInfo cat0" id="tab0">
@@ -135,7 +136,7 @@
 				<div class="row  FTV landscape">
 				
 					<div class="col-md-4">
-                                <h3>Total</h3>
+                                <h3><script>document.write(tr('Total'));</script></h3>
                                 <div class="tab-pane active categoryInfo cat0" >
                                         
                                 </div>                        
@@ -143,7 +144,7 @@
 					</div>
 					
 					<div class="col-md-4">
-                                <h3>Direct</h3>
+                                <h3><script>document.write(tr('Direct'));</script></h3>
                                 <div class="tab-pane active categoryInfo cat1" >
                                         
                                 </div>                        
@@ -151,7 +152,7 @@
 					</div>
 					
 					<div class="col-md-4">
-                                <h3>Free Zone</h3>
+                                <h3><script>document.write(tr('Free Zone'));</script></h3>
                                 <div class="tab-pane active categoryInfo cat2" >
                                         
                                 </div>                        

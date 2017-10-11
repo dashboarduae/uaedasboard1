@@ -7480,14 +7480,14 @@ display:none;
 }
 
 #donutlegend ul{
-	    padding-left: 5vw;
+	    padding-left: 1vw;
 }
 
 #donutlegend li{
 display: block;
     list-style: none;
     padding: 1vw;
-    font-size: 3.75vw;
+    font-size: 5vw;
     height: 1.3em;
     line-height: 1.3em;
     margin-bottom: 2vw;
@@ -7499,9 +7499,9 @@ display: block;
 }
 
 #donutlegend li svg{
-	display:inline-block;
-	width:3.75vw;
-	    margin-right: 2vw;
+    display: inline-block;
+    width: 4.5vw;
+    margin: 0 .5vw 0;
 }
 
 #chartImport,
@@ -7825,6 +7825,14 @@ margin: 0;
 
 .FTV.portrait{
 	display:block;
+}
+
+.FTV.portrait .panel .panel-heading .panel-title{
+	font-size: 4vw;
+}
+
+.FTV.portrait .panel .panel-heading{
+	    padding: 2vw;
 }
 
 .FTV.landscape{
@@ -8277,7 +8285,7 @@ display: table-cell;
 }
 
 #country_select,
-#currency_select,#year_select,
+#currency_select,#year_select, #item_count,
 #filter-box .mb-content .row{
 	width:100%;
 }
@@ -8426,7 +8434,7 @@ display: table-cell;
     float: right;
 }
 
-#filter-box .row.w50:first-child{
+#filter-box .row.w50:nth-child(even){
     width: 46%;
     float: left;
 }
@@ -8457,6 +8465,7 @@ display: table-cell;
 .FTV.portrait .panel.panel-default{
 	border: none;
     box-shadow: none;
+    margin-bottom: 1vw;
 }
 
 .FTV.portrait  .nav-tabs.nav-justified{
@@ -8471,13 +8480,12 @@ display: table-cell;
 	padding:10px;
 }
 
-
 .categoryInfo .panel .panel-body .FTVItem:nth-child(even){
 	background:#f1f1f0;
 }
 
 .categoryInfo .panel .panel-body .FTVItem span{
-	font-size: 5.5vw;
+	font-size: 5vw;
 }
 
 .categoryInfo .panel .panel-body .FTVItem span.pull-right{
