@@ -298,7 +298,7 @@ function updateGeneralInformation(){
 				$(".GICountryTitle .flag img").attr('src', 'img/flags/_defFlag.png');
 			}
 
-			image.src = 'img/flags/' + curCountry.name + '.png';
+			image.src = 'img/flags/' + curCountry.id + '.png';
 			
 			$(".GICountryTitle .name").text(curCountry.name);
 			
@@ -309,18 +309,20 @@ function updateGeneralInformation(){
 			info.data.forEach(function(el) {
 				var addElement = true;
 				
-				if(el.name == 'Capital') {
+				if(el.weight == 1) {
 					$(".GICountryTitle .capital .value").text(el.value);
 					addElement = false;
 				}
 				
-				if(el.name == 'Population, in Millions') {
-					$(".GICountryTitle .population .value").text(Math.round(el.value) + ' Millions');
+				if(el.weight == 3) {
+					$(".GICountryTitle .population .value").text(Math.round(el.value) + ' ' + tr('Millions'));
 					addElement = false;
 				}
 				if(addElement){
-					var giEl = $('<tr><td class="param">'+HtmlEncode(el.name)+'</td><td class="value">'+(el.value ==null || isNaN(el.value) ?el.value:setValuesFormats(el.value))+'</td></tr>');
-					giWrapper.append(giEl);
+					var title = HtmlEncode(el.name);
+					var value = (el.value ==null || isNaN(el.value) ?el.value:setValuesFormats(el.value));
+					var giEl = getAppLang() !='AR' ? '<tr><td class="param">'+title+'</td><td class="value">'+value+'</td></tr>' : '<tr><td class="value">'+value+'</td><td class="param">'+title+'</td></tr>'
+					giWrapper.append($(giEl));
 				}
 				
 				
@@ -712,6 +714,7 @@ function updateYearRangeFTVolume(){
 					connect: true,
 					behaviour: 'tap-drag', 
 					step: 1,
+					direction: getAppLang('EN')? 'ltr':'rtl',
 					tooltips: true,
 					format: wNumb({
 						decimals: 0
@@ -774,6 +777,7 @@ function updateYearRangeFTBalance(){
 					connect: true,
 					behaviour: 'tap-drag', 
 					step: 1,
+					direction: getAppLang('EN')? 'ltr':'rtl',
 					tooltips: true,
 					format: wNumb({
 						decimals: 0
@@ -857,10 +861,16 @@ function updateFTVolumeTitle(){
 				$(".FTVTitle .flag img").attr('src', 'img/flags/_defFlag.png');
 			}
 
-			image.src = 'img/flags/' + curCountry.name + '.png';
+			image.src = 'img/flags/' + curCountry.id + '.png';
 	
 	
 	var years = getActiveYearRange();
+	var lang = getAppLang();
+	if(lang == 'EN')
+		$('.FTVTitle .value.FTVText').html('<span class="inlineYearFrom"></span> to <span class="inlineYearTo"></span> (in <span class="inlineCurrency"></span>)');
+	else
+		$('.FTVTitle .value.FTVText').html('<span class="inlineYearFrom"></span> حتى <span class="inlineYearTo"></span> (<span class="inlineCurrency"></span>)');
+	
 	$('.inlineYearFrom').text(years[0]);
 	$('.inlineYearTo').text(years[1]);
 	
@@ -883,6 +893,21 @@ function updateFTVolumeTitle(){
 	$('.inlineCurrency').text(tr(currString));
 }
 
+function updateInvestmentFactsTitle(){
+	$(".FTVTitle .flag img").attr('src', '');
+			var image = new Image();
+
+			image.onload = function() {
+				$(".FTVTitle .flag img").attr('src', image.src);
+			}
+			image.onerror = function() {
+				// image did not load
+				$(".FTVTitle .flag img").attr('src', 'img/flags/_defFlag.png');
+			}
+
+			image.src = 'img/flags/' + curCountry.id + '.png';
+}
+
 function updateFTItemsTitle(){
 	$(".FTVTitle .flag img").attr('src', '');
 			var image = new Image();
@@ -895,8 +920,12 @@ function updateFTItemsTitle(){
 				$(".FTVTitle .flag img").attr('src', 'img/flags/_defFlag.png');
 			}
 
-			image.src = 'img/flags/' + curCountry.name + '.png';
-	
+			image.src = 'img/flags/' + curCountry.id + '.png';
+	var lang = getAppLang();
+	if(lang == 'EN')
+		$('.FTVTitle .value.FTIText').html('<span class="inlineYear"></span>  (in <span class="inlineCurrency"></span>), top items');
+	else
+		$('.FTVTitle .value.FTIText').html('<span class="inlineYear"></span>  (<span class="inlineCurrency"></span>)');
 	
 	var year = getCurYear()
 	$('.inlineYear').text(year);
@@ -1001,9 +1030,11 @@ function updateFTBalanceInfo(){
 			
 			info.data.forEach(function(el, i) {
 				if(el.year >= years[0] && el.year <= years[1]){
-					var newEl = {x:0,y:0};
-					newEl.x=parseInt(el.year);
-					newEl.y=el.value;
+					var newEl = {label:'',y:0,x:0,color:"#b0c986"};
+					newEl.label = el.year;
+					newEl.x = parseInt(el.year);
+					newEl.y = el.value;
+					newEl.color = el.value > 0 ? "#b0c986":"#f44040";
 					showBalanceData.push(newEl);
 				}
 					
@@ -1023,14 +1054,15 @@ function showBalanceChart(){
 					text: ""
 				},
 				axisX: {
-					interval: 1,
+					interval: showBalanceData.length<7?1:2,
 					valueFormatString: "#0.#",
 				},
 				animationEnabled: true,
-				animationDuration: 3000,
+				animationDuration: 1500,
 				data: [{
 					type: "stackedColumn",
 					dataPoints: showBalanceData,
+					toolTipContent:"<div style='text-align:center;'>{label}</br>{y}",
 				}]
 			});
 			chart.render();
@@ -1055,8 +1087,9 @@ function updateFTGrowthInfo(){
 			var showData =  [];
 			info.data.forEach(function(el, i) {
 				if(i>0 && el.year >= years[0] && el.year <= years[1]){
-					var newEl = {x:0, y:0};
+					var newEl = {x:0, y:0, label:''};
 					newEl.x = parseInt(el.year);
+					newEl.label = el.year;
 					newEl.y = Math.round((el.value - info.data[i-1].value)/info.data[i-1].value*100);
 					showData.push(newEl);
 				}
@@ -1067,21 +1100,34 @@ function updateFTGrowthInfo(){
 					text: ""
 				},
 				axisX: {
-					interval: 1,
+					interval: showData.length<7?1:2,
 					valueFormatString: "#0.#",
+					minimum: showData[0].x,
+					maximum: showData[showData.length-1].x
 				},
 				axisY: {
+					         
+					suffix: "%",
+					interlacedColor: "#F5F5F5",
+					gridColor: "transparent",
+					tickColor: "transparent",
 					valueFormatString: "#0.#",
 				},
+				theme: "theme2",
 				animationEnabled: true,
-				animationDuration: 3000,
+				animationDuration: 1500,
+				
 
 				data: [{
-					type: "area",
+					type: "area",color: "#7fdfd1",
+					toolTipContent: "<div style='text-align:center;'>{label}</br>{y}%</div>",
+					lineThickness: 2,
 					dataPoints: showData
 				}]
 			});
 			chart.render();
+			
+			
 			//hideLoadingScreen();
 		};
     })

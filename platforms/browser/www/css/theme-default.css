@@ -295,17 +295,17 @@ body.page-container-boxed .page-container {
   position: relative;
 }
 .x-navigation li > a {
-  display: block;
-  float: left;
-  width: 100%;
-  line-height: 19px;
-  color: #8b91a0;
-  font-size: 13px;
-  font-weight: 400;
-  padding: 15px 10px 15px 15px;
-  text-decoration: none;
-  border-bottom: 1px solid #17191e;
-  vertical-align: text-bottom;
+    display: block;
+    float: left;
+    width: 100%;
+    line-height: 1.3em;
+    color: #8b91a0;
+    font-size: 4.375vw;
+    font-weight: 400;
+    padding: .7em;
+    text-decoration: none;
+    border-bottom: 1px solid #17191e;
+    vertical-align: text-bottom;
 }
 .x-navigation li > a .fa,
 .x-navigation li > a .glyphicon {
@@ -2436,9 +2436,9 @@ label.valid {
   margin: 8px 0px 0px;
 }
 .dropdown-menu > li > a {
-  padding: 8px 15px;
+  padding: 2.5vw 4.68vw;
   border-bottom: 1px solid #E9E9E9;
-  line-height: 20px;
+  line-height: 6.25vw;
 }
 .dropdown-menu > li:last-child > a {
   border-bottom: 0px;
@@ -6336,7 +6336,7 @@ div.tagsinput div {
 }
 .fc-text-arrow,
 .fc-text-arrow {
-  font-family: arial;
+   font-family: "Cronos Pro",Tahoma,Arial,sans-serif;
   font-size: 16px;
 }
 .fc-state-hover {
@@ -7429,7 +7429,7 @@ display:none;
 
 
 .FTItems .item{
-	    padding: 10px;	
+	    padding: .3em;	
 }
 
 .FTItems .item:nth-child(even) {
@@ -7544,7 +7544,7 @@ display: block;
    }
    
 .FTItems .itemhead .value{
-    font-size: 2.5vw;
+    font-size: 2vw;
 
 }
 }
@@ -7966,7 +7966,7 @@ margin: 0;
 .FTItems  .name .short{
 	position:absolute;
 	top:0;
-	    font-size: 5vw;
+	    font-size: 4.5vw;
     line-height: 1.2em;
 }
 
@@ -7975,7 +7975,7 @@ margin: 0;
     top: 0;
     bottom: 0;
     display: none;
-    font-size: 5vw;
+    font-size: 4.5vw;
     line-height: 1.2em;
 }
 
@@ -8010,10 +8010,15 @@ margin: 0;
 }
 
 @media all and (orientation:landscape) {
+.x-navigation li > a{
+	    font-size: 2.5vw;
+}	
+	
+	
 .FTItems  .name,
 .FTItems  .name .short,
 .FTItems  .name .full{
-	font-size: 2.5vw;
+	font-size: 2vw;
 }
 	
 	
@@ -8214,7 +8219,7 @@ display: table-cell;
 }
 
 .x-navigation > li.xn-logo > a:first-child:hover, .x-navigation > li.xn-logo > a:first-child {
-    padding: 2.5vw 10vw 2.5vw 8vw;
+    padding: 1.5vw 10vw 2.5vw 8vw;
     font-size: 4vw;
     height: 7.5vw;
     background-size: 4.5%;
@@ -8281,7 +8286,7 @@ display: table-cell;
 }
 
 .panel .panel-heading .panel-title{
-	color:#fff;    font-size: 6vw;margin:0;
+	color:#fff;    font-size: 4vw;margin:0;
 }
 
 #country_select,
@@ -8363,7 +8368,7 @@ display: table-cell;
 
 
 .FTItemsCategories .panel .panel-title{
-	font-size: 2.5vw;
+	font-size: 2.1vw;
     line-height: 1.3em;
 }
 
@@ -8429,6 +8434,10 @@ display: table-cell;
     font-weight: normal;
 }
 
+#balanceChart, #growthChart {
+    height: calc(100vh - 20px - 20vw);
+}
+
 #filter-box .row.w50{
     width: 46%;
     float: right;
@@ -8485,7 +8494,7 @@ display: table-cell;
 }
 
 .categoryInfo .panel .panel-body .FTVItem span{
-	font-size: 5vw;
+	font-size: 4.5vw;
 }
 
 .categoryInfo .panel .panel-body .FTVItem span.pull-right{

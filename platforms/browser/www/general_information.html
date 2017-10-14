@@ -13,6 +13,7 @@
         <!-- CSS INCLUDE -->        
         <link rel="stylesheet" type="text/css" id="theme" href="css/theme-default.css"/><script src='https://api.mapbox.com/mapbox-gl-js/v0.40.0/mapbox-gl.js'></script>
 <link href='https://api.mapbox.com/mapbox-gl-js/v0.40.0/mapbox-gl.css' rel='stylesheet' />
+<link rel="stylesheet" type="text/css" href="css/theme-AR.css">
         <!-- EOF CSS INCLUDE --> 
 		<!-- START PLUGINS -->
         <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
@@ -47,8 +48,8 @@
 					<li><a href="foreign_trade_volume.html"><span class="xn-text"><script>document.write(tr('Trade Volume'));</script></span></a></li>
 					<li><a href="trade_balance.html"> <span class="xn-text"><script>document.write(tr('Trade Growth and Balance'));</script></span></a></li>
 					<li><a href="direct_foreign_trade_items.html"><span class="xn-text"><script>document.write(tr('Direct Trade Items'));</script></span></a></li>
-					<li><a href="#"><span class="xn-text"><script>document.write(tr('Joint Agreements'));</script></span></a></li>
 					<li><a href="#"><span class="xn-text"><script>document.write(tr('Committees &amp; Agreements'));</script></span></a></li>
+					<li><a href="investement_facts.html"><span class="xn-text"><script>document.write(tr('Investment Facts'));</script></span></a></li>
                     
                 </ul>
                 <!-- END X-NAVIGATION -->
@@ -198,6 +199,7 @@
 		
 		<script>
 $(document).ready(function(){
+$(document.body).addClass('lng'+ getAppLang());
 	//showLoadingScreen();
 	$.post(baseServiceUrl + "/list",
     {

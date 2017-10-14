@@ -12,6 +12,7 @@
         
         <!-- CSS INCLUDE -->        
         <link rel="stylesheet" type="text/css" id="theme" href="css/theme-default.css"/>
+		<link rel="stylesheet" type="text/css" href="css/theme-AR.css">
         <!-- EOF CSS INCLUDE --> 
 		<!-- START PLUGINS -->
         <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
@@ -45,9 +46,9 @@
                     <li><a href="general_information.html"> <span class="xn-text"><script>document.write(tr('General Information'));</script></span></a></li>
 					<li><a href="foreign_trade_volume.html"><span class="xn-text"><script>document.write(tr('Trade Volume'));</script></span></a></li>
 					<li><a href="trade_balance.html"> <span class="xn-text"><script>document.write(tr('Trade Growth and Balance'));</script></span></a></li>
-					<li><a href="direct_foreign_trade_items.html"><span class="xn-text"><script>document.write(tr('Direct Trade Items'));</script></span></a></li>
-					<li><a href="#"><span class="xn-text"><script>document.write(tr('Joint Agreements'));</script></span></a></li>
+					<li><a href="direct_foreign_trade_items.html"><span class="xn-text"><script>document.write(tr('Direct Trade Items'));</script></span></a></li>					
 					<li><a href="#"><span class="xn-text"><script>document.write(tr('Committees &amp; Agreements'));</script></span></a></li>
+					<li><a href="investement_facts.html"><span class="xn-text"><script>document.write(tr('Investment Facts'));</script></span></a></li>
                     
                 </ul>
                 <!-- END X-NAVIGATION -->
@@ -112,9 +113,9 @@
 			</div>
             <!-- PAGE CONTENT -->
             <div class="page-content scroll">
-                <div  class="row FTVTitle"  style="margin-bottom:10px;">
+                <div  class="row FTVTitle"  style="margin-bottom:0">
 						<div class="countryInfo flag"><img src="img/flags/_defFlag.jpg"></div> 
-						<div class="countryInfo"><div class="desc inlineCountryTitle"></div><div class="value"><span class="inlineYear"></span>  (in <span class="inlineCurrency"></span>), top items</div></div>						
+						<div class="countryInfo"><div class="desc inlineCountryTitle"></div><div class="value FTIText"><span class="inlineYear"></span>  (in <span class="inlineCurrency"></span>), top items</div></div>						
 				</div>
                 <!-- START X-NAVIGATION VERTICAL -->
                 <!-- END X-NAVIGATION VERTICAL -->                     
@@ -122,15 +123,15 @@
                 <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap">
 				<div  class="row">
-					<div class="col-md-12" style="margin: 0;">
+					<div class="col-md-12 donutchartWrapper" style="margin: 0;">
 
                             <!-- START DONUT CHART -->
 							<div id="donutchart"></div>
                             <div id="donutlegend">
 							<ul>
-								<li onClick="showActiveFTData(0);"><svg ><circle cx="1.8vw" cy="2.7vw" r="1.5vw" fill="#e04b4a"></circle></svg><script>document.write(tr('Import Items'));</script></li>
-								<li onClick="showActiveFTData(1);"><svg ><circle cx="1.8vw" cy="2.7vw" r="1.5vw" fill="#1caf9a"></circle></svg><script>document.write(tr('Non-Oil Export Items'));</script></li>
-								<li onClick="showActiveFTData(2);"><svg ><circle cx="1.8vw" cy="2.7vw" r="1.5vw" fill="#95b75d"></circle></svg><script>document.write(tr('Re-Export Items'));</script></li>
+								<li onClick="showActiveFTData(0);"><svg ><circle cx="1.8vw" cy="2vw" r="1.2vw" fill="#e04b4a"></circle></svg><script>document.write(tr('Import'));</script></li>
+								<li onClick="showActiveFTData(1);"><svg ><circle cx="1.8vw" cy="2vw" r="1.2vw" fill="#1caf9a"></circle></svg><script>document.write(tr('Non-Oil Export'));</script></li>
+								<li onClick="showActiveFTData(2);"><svg ><circle cx="1.8vw" cy="2vw" r="1.2vw" fill="#95b75d"></circle></svg><script>document.write(tr('Re-Export'));</script></li>
 							</ul>
 							</div>
                             <!-- END DONUT CHART -->                        
@@ -243,6 +244,7 @@
 		
 		<script>
 $(document).ready(function(){
+$(document.body).addClass('lng'+ getAppLang());
 	//showLoadingScreen();
 	$(".FTItemsSummary").hide();
 

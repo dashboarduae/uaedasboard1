@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>UAE Trade Relation Dashboard</title>
+<title>UAE Trade Relation Dashboard'));</script></title>
 <script>
 if(!(window.innerWidth>window.innerHeight)) window.location = "index.html";
 </script>
@@ -21,7 +21,8 @@ A IMG {border:none}
 #right_half_div {float:right;width:49vw}
 
 #hor_logo_div {padding:1vw;padding-left:4vw}
-#hor_logo_div IMG {width:35vw;height:auto}
+#hor_logo_div IMG {width:35vw;height:auto;display:block;}
+#hor_logo_div IMG.ar {display:none;}
 
 #hor_h1_div {text-align:center;color:#B58A31;font-family:"Cronos Pro";font-size:5vw;margin-top:1vw;margin-bottom:2.5vw}
 #hor_h1_div TABLE {margin: 0 auto;border-collapse:collapse}
@@ -56,7 +57,7 @@ A IMG {border:none}
 
 #hor_text_cont_div {padding:2vw;padding-top:1vw}
 #hor_text_cont_div H2 {font-family:"Cronos Pro";color:#B68A35;font-weight:bold;font-size:1.6vw;margin:0;padding:0}
-#hor_text_cont_div P {color:#333;font-family:"Cronos Pro";font-size:1.3vw;line-height:1.7vw;padding-top:0;margin-top:0.2vw;text-align:justify;}
+#hor_text_cont_div P {color:#333;font-family:"Cronos Pro";font-size:1.3vw;line-height:1.7vw;padding-top:0;margin-top:0.2vw;text-align: center;}
 
 .select2-container{width:15vw !important;}
 .select2-container .select2-selection--single{height:auto;}
@@ -102,6 +103,109 @@ padding: 1vw;
 
 .select2-search--dropdown {
 }
+
+body.lngAR,
+body.lngAR #hor_h1_div,
+body.lngAR #hor_h1_div TABLE TD H1,
+body.lngAR #hor_icons_ul A, 
+body.lngAR #hor_icons_ul A:hover,
+body.lngAR #hor_text_cont_div H2, 
+body.lngAR #hor_text_cont_div P {
+  font-family: "DroidArabicKufi",Tahoma,Arial,sans-serif;
+}
+
+body.lngAR #hor_logo_div IMG {display:none;}
+body.lngAR #hor_logo_div IMG.ar {display:block;}
+
+#langSwitch{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    text-align: center;
+}
+
+
+#langSwitch a, #langSwitch a:hover, #langSwitch a:visited{
+	color:#000;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);  
+-webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  text-decoration:none;
+}
+
+body.lngAR #hor_h1_div TABLE TD SPAN{
+    font-size: 5vw;
+}
+
+body.lngAR #hor_h1_div TABLE TD H1 {
+    font-size: 2.2vw;
+}
+
+body.lngAR #hor_icons_ul A, 
+body.lngAR #hor_icons_ul A:hover{
+    font-size: 1.4vw;
+    line-height: 1.5em;
+    display: block;
+    height: auto;
+}
+
+body.lngAR .select2-container--default .select2-selection--single .select2-selection__rendered{
+    font-size: 1.3vw;
+	text-align:right;
+}
+
+body.lngAR .select2-container--default .select2-selection--single .select2-selection__arrow{
+left: 0px;
+right: auto;
+}
+
+body.lngAR .select2-container--default .select2-results>.select2-results__options{
+    direction: rtl;
+}
+
+body.lngAR .select2-container--default .select2-results__option--highlighted[aria-selected],
+body.lngAR  .select2-results__option[aria-selected]{
+font-size: 1.3vw;
+    text-align: right;
+}
+
+body.lngAR  .select2-container--default .select2-search--dropdown .select2-search__field {
+    padding: .5vw;
+    font-size: 1.3vw;
+    text-align: right;
+}
+
+body.lngAR .hor_pie_div.map{
+    left: auto !important;
+    right: 1vw;
+}
+
+body.lngAR .hor_pie_div.map > div,
+body.lngAR .hor_pie_div.filters > div{
+	padding-top:3vw !important;
+}
+
+body.lngAR .hor_pie_div.filters{
+    right: auto !important;
+    left: 0;
+}
+
+body.lngAR #currency_select{
+    padding: 1.2vw 0!important;
+}
+
+body.lngAR #hor_ani_arr1_div {
+    bottom: 14.5vw;
+}
+
+body.lngAR #hor_ani_arr2_div {
+    bottom: 6.5vw;
+}
 </style>
 
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -124,7 +228,7 @@ padding: 1vw;
 
 <div id='left_half_div'>
 
-<div id='hor_logo_div'><img src='img/fp/logo2.jpg' alt=''></div>
+<div id='hor_logo_div'><img class="en" src='img/fp/logo2.jpg' alt=''><img class="ar"src='img/fp/logo2ar.jpg' alt=''></div>
 
 
 <div id='hor_icons_cont_div'>
@@ -138,8 +242,8 @@ padding: 1vw;
 <li><a href='trade_balance.html'><img src='img/fp/i3.jpg'><br><script>document.write(tr('Trade Growth<br>and Balance'));</script></a></li>
 
 <li><a href='direct_foreign_trade_items.html'><img src='img/fp/i4.jpg'><br><script>document.write(tr('Direct<br>Trade Items'));</script></a></li>
-<li><a href='#'><img src='img/fp/i6.jpg'><br><script>document.write(tr('Joint<br>Agreements'));</script></a></li>
-<li><a href='#'><img src='img/fp/i5.jpg'><br><script>document.write(tr('Committees &amp;<br> Agreements'));</script></a></li>
+<li><a href='#'><img src='img/fp/i6.jpg'><br><script>document.write(tr('Committees &amp;<br> Agreements'));</script></a></li>
+<li><a href='investement_facts_land.html'><img src='img/fp/i5.jpg'><br><script>document.write(tr('Investment<br>Facts'));</script></a></li>
 
 
 </ul>
@@ -170,8 +274,8 @@ padding: 1vw;
 
 <div id='hor_map_div'>
 
-<div class='hor_pie_div' style='left:0'>
-<div style='color:white;padding-top:3.5vw;font-family:"Cronos Pro";text-align:center'>
+<div class='hor_pie_div map' style='left:0'>
+<div style='color:white;padding-top:2.5vw;font-family:"Cronos Pro";text-align:center'>
  <img src='img/fp/arab_map.png' style='width:11vw;height:auto;'>
   <div style='font-size:1.5vw;font-family:"Cronos Pro";line-height:3vw'><script>document.write(tr('United Arab Emirates'));</script><br><img src='img/fp/arab_flag.jpg' style='width:4.8vw;height:auto' alt=''></div>
 
@@ -181,16 +285,16 @@ padding: 1vw;
 
 <div id='hor_ani_arr1_div'><img src='img/fp/ani_arr1.gif' alt=''></div>
 <div id='hor_ani_arr2_div'><img src='img/fp/ani_arr2.gif' alt=''></div>
+<div id='langSwitch'><a href="#" onClick="switchAppLang();return false;"><script>getAppLang() == 'EN'?document.write('عربي'):document.write('English');</script></a></div>
 
-
-<div class='hor_pie_div' style='right:1vw'>
-<div style='color:white;padding-top:4vw;font-family:"Cronos Pro";text-align:center'>
+<div class='hor_pie_div filters' style='right:1vw'>
+<div style='color:white;padding-top:3.7vw;font-family:"Cronos Pro";text-align:center'>
 
 	<div style='font-size:1.5vw' id="country_select">
 	<div style='padding-bottom:0.3vw'><script>document.write(tr('Country'));</script></div><select   class="chosen-select"></select>
 	</div>
 
-	<div id="currency_select" style='font-size:1.5vw;padding-top:0.8vw;padding-bottom:0.8vw'><div style='padding-bottom:0.3vw'><script>document.write(tr('Currency'));</script></div>
+	<div id="currency_select" style='font-size:1.5vw;padding:0.5vw 0;'><div style='padding-bottom:0.3vw'><script>document.write(tr('Currency'));</script></div>
     <select   class="chosen-select">
 		<script>
 			document.write('<option>'+ tr('AED Millions') + '</option>');
@@ -208,7 +312,7 @@ padding: 1vw;
 
 
 <div id='hor_text_cont_div'>
-<p><script>document.write(tr('An interactive and innovative Dashboard Which includes information on UAE Non-Oil Foreign Trade and the most important bilateral indicators, Agreements and investment; between UAE various all world countries'));</script></p>
+<p><script>document.write(tr('An interactive Dashboard Which includes information on UAE Non-Oil Foreign Trade, Agreements and investment exchange between UAE and other countries around the world'));</script></p>
 </div>
 
 
@@ -221,7 +325,7 @@ padding: 1vw;
 
 		<script>
 $(document).ready(function(){
-	
+	$(document.body).addClass('lng'+ getAppLang());
 	//showLoadingScreen();
 	$.post(baseServiceUrl + "/list",
     {
@@ -258,7 +362,7 @@ $(document).ready(function(){
 					$("img.flag").attr('src', 'img/flags/_defFlag.png');
 				}
 
-				image.src = 'img/flags/' + curCountry.name + '.png';
+				image.src = 'img/flags/' + curCountry.id + '.png';
 			}
 		}
     });
@@ -301,7 +405,7 @@ $(document).ready(function(){
 					$("img.flag").attr('src', 'img/flags/_defFlag.png');
 				}
 
-				image.src = 'img/flags/' + curCountry.name + '.png';
+				image.src = 'img/flags/' + curCountry.id + '.png';
 		});
 	
 	$('#hor_icons_ul A').click(function(){

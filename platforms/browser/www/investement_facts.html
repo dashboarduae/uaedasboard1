@@ -2,7 +2,10 @@
 <html lang="en">
     <head>        
         <!-- META SECTION -->
-        <title>Trade Relations Dashboard</title>            
+        <title>UAE Non-Oil Trade</title>   
+<script>
+if(window.innerWidth>window.innerHeight) window.location = "investement_facts_land.html";
+</script>		
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -12,11 +15,14 @@
         
         <!-- CSS INCLUDE -->        
         <link rel="stylesheet" type="text/css" id="theme" href="css/theme-default.css"/>
+		<link rel="stylesheet" type="text/css" href="css/theme-AR.css">
+		<link rel="stylesheet" type="text/css"  href="js/plugins/noUiSlider/nouislider.min.css"/>
         <!-- EOF CSS INCLUDE --> 
 		<!-- START PLUGINS -->
         <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script> 
+        <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script>
+		<script type="text/javascript" src="js/strings.js"></script>
 		<script type="text/javascript" src="js/script.js"></script>		
         <!-- END PLUGINS -->
 <!-- START PHONEGAP -->
@@ -24,7 +30,44 @@
     <script type="text/javascript">
         app.initialize();
     </script>
-		<!-- END PHONEGAP -->		
+		<!-- END PHONEGAP -->	
+
+<style>#vert_flows_cont_div1 {    height: 13.5vw;    margin: 3vw 0 5vw;}
+#vert_flows_cont_div3 {    height: 13.5vw;    margin: .5vw 0 5vw;}
+
+.vert_flow_div_left {float:left;padding:0.5vw;padding-left:0;width:48vw}
+.vert_flow_div_right {float:left;width:42vw;font-size:1.5vw;text-align:left;margin-left:2vw}
+
+#vert_flow_div3 {float:left;padding:0.5vw;padding-left:0;padding-top:1vw;width:48vw}
+#vert_flows_cont_div1 TABLE {width:100%;border-collapse: collapse}
+#vert_flows_cont_div3 TABLE {width:100%;border-collapse: collapse}
+.vert_icon_flow_td {background:#2c2c2c;width:5.5vw;padding:1vw}
+.vert_icon_flow_td IMG {width:8.5vw;height:auto}
+.vert_label_flow_td {background:#b78a35;font-size:1.5vw;padding:0.5vw;padding-left:2vw;}
+.vert_label_flow_td BIG {color:white;font-size:4vw;display:block;font-weight:normal;line-height:5.5vw}
+.vert_label_flow_td SPAN {color:white;font-size:2.4vw;line-height:3.5vw}
+.vert_flow_div_right BIG {color:black;font-size:9vw;line-height:1.3em}
+.vert_flow_div_right SPAN {font-size:2.6vw;color:black}
+
+#vert_stats_cont_div1 {clear:both;}
+
+#vert_stats_cont_div2 {clear:both;}
+#vert_stats_cont_div4 {clear:both;}
+#vert_stats_cont_div5 {clear:both;}
+
+DIV.vert_stats_p1_part {float:left;width:28.5vw;font-size:2.2vw;text-align:center;margin-bottom:2vw;margin-right:2.5vw;line-height: 1em;}
+DIV.vert_stats_p1_part DIV {background:#2c2c2c;font-size:5.5vw;text-align:center;color:white;margin-bottom:0.5vw;    line-height: 1.3em;}
+DIV.vert_stats_p1_part B {    font-size: 2.8vw;
+    line-height: 2em;}
+
+DIV.vert_stats_wnd_head {background:#b78a35;height:4.6vw}
+DIV.vert_stats_wnd_lbl1 {float:left;width:2vw;background:#2c2c2c;height:4.6vw;width:10vw}
+DIV.vert_stats_wnd_lbl2 {float:left;background:#b78a35;font-size:3vw;line-height:1.7em;height:4.6vw;text-indent:1vw;color:white}
+#vert_stats_wnd_content1 {background:#e2e2e2;height:20vw;overflow-y: auto}
+#vert_stats_wnd_content2 {background:#e2e2e2;height:12.9vw;overflow-y: auto}
+#vert_stats_wnd_content3 {background:#e2e2e2;height:12.9vw;overflow-y: auto}
+
+DIV.vert_fx {clear:both}</style>		
     </head>
     <body>
 	
@@ -37,114 +80,170 @@
                 <!-- START X-NAVIGATION -->
                 <ul class="x-navigation">
                     <li class="xn-logo">
-                        <a href="index.html">Trade Relations Dashboard</a>
+                        <a href="index.html"><script>document.write(tr('Foreign Investments Facts'));</script></a>
+						<a href="#" class="x-navigation-controlfilter mb-control" data-box="#filter-box"></a>
                         <a href="#" class="x-navigation-control"></a>
                     </li>
-                    <li><a href="general_information.html"> <span class="xn-text">General Information</span></a></li>
-					<li><a href="foreign_trade_volume.html"><span class="xn-text">Trade Volume</span></a></li>
-					<li><a href="trade_balance.html"> <span class="xn-text">Trade Growth and Balance</span></a></li>
-					<li><a href="direct_foreign_trade_items.html"><span class="xn-text">Direct Trade Items</span></a></li>
-					<li><a href="#"><span class="xn-text">Joint Agreements</span></a></li>
-					<li><a href="#"><span class="xn-text">Committees &amp; Agreements</span></a></li> 
+                    <li><a href="general_information.html"> <span class="xn-text"><script>document.write(tr('General Information'));</script></span></a></li>
+					<li><a href="foreign_trade_volume.html"><span class="xn-text"><script>document.write(tr('Trade Volume'));</script></span></a></li>
+					<li><a href="trade_balance.html"> <span class="xn-text"><script>document.write(tr('Trade Growth and Balance'));</script></span></a></li>
+					<li><a href="direct_foreign_trade_items.html"><span class="xn-text"><script>document.write(tr('Direct Trade Items'));</script></span></a></li>
+					<li><a href="#"><span class="xn-text"><script>document.write(tr('Committees &amp; Agreements'));</script></span></a></li>
+					<li><a href="investement_facts.html"><span class="xn-text"><script>document.write(tr('Investment Facts'));</script></span></a></li>
                     
                 </ul>
                 <!-- END X-NAVIGATION -->
             </div>
+
             <!-- END PAGE SIDEBAR -->
-            
-            <!-- PAGE CONTENT -->
-            <div class="page-content">
-                
-                <!-- START X-NAVIGATION VERTICAL -->
-                <ul class="x-navigation x-navigation-horizontal x-navigation-panel">
-                    <!-- TOGGLE NAVIGATION -->
-                    <li class="xn-icon-button">
-                        <a href="#" class="x-navigation-minimize"><span class="fa fa-dedent"></span></a>
-                    </li>
-                    <!-- END TOGGLE NAVIGATION -->
-                    <!-- SEARCH 
-                    <li class="xn-search">
-                        <form role="form">
-                            <input type="text" name="search" placeholder="Search..."/>
-                        </form>
-                    </li>   
-                     END SEARCH -->
-                    <!-- SIGN OUT -->
-                    <li class="xn-icon-button pull-right">
-                        <a id="exitBtn" onClick="navigator.app.exitApp();return false;" href="#" class="mb-control" data-box="#mb-signout" ><span class="fa fa-sign-out"></span></a>                        
-                    </li> 
-                    <!-- END SIGN OUT -->
-                </ul>
-                <!-- END X-NAVIGATION VERTICAL -->                     
-
-                <!-- START BREADCRUMB -->
-                <ul class="breadcrumb">
-                    <!--<li><a href="#">Home</a></li>                    
-                    <li class="active">Dashboard</li>-->
-                </ul>
-                <!-- END BREADCRUMB --> 
-				<!-- PAGE TITLE -->
-				<div class="page-title">                    
-                    <h2><span class="fa "></span>General Information</h2>
-                </div>
-                <!-- END PAGE TITLE -->
-                <!-- PAGE CONTENT WRAPPER -->
-                <div class="page-content-wrap">
-				<div id="loadingscreen"><img src="/img/loading.svg"></div>
-				<div class="row">
-					<div class="col-md-12"> 
-						<div id="country_select" class="btn-group">
-                                                    <a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"> <span class="caret"></span></a>
-                                                    <ul class="dropdown-menu" role="menu">
-                                                   
-                                                    </ul>
-                                                </div>
-					</div>
-				</div>
-				<div class="row">
-                        <div class="col-md-12">                        
-                            <!-- START jVectorMap World -->
-                            <div class="panel panel-default">
-                                <div class="panel-body panel-body-map">
-                                    <div id="vector_world_map" style="width: 100%; height: 300px"></div>
-                                </div>
-                            </div>
-
-                            <!-- END jVectorMap World -->
-                        </div>                                   
-                </div>
-				
-				<div class="row">
-					<div id="generalInfo" class="col-md-12">
-						<table class="table table-striped">
-						</table>
-					</div>
-				</div>
-                <!-- END PAGE CONTENT WRAPPER -->                                
-            </div>            
-            <!-- END PAGE CONTENT -->
-        </div>
-        <!-- END PAGE CONTAINER -->
-
-        <!-- MESSAGE BOX
-        <div class="message-box animated fadeIn" data-sound="alert" id="mb-signout">
-            <div class="mb-container">
+            <div id="filter-box"  class="message-box animated fadeIn">
+			
+			<div class="mb-container">
                 <div class="mb-middle">
-                    <div class="mb-title"><span class="fa fa-sign-out"></span> Log <strong>Out</strong> ?</div>
+                    <div class="mb-title"></div>
                     <div class="mb-content">
-                        <p>Are you sure you want to log out?</p>                    
-                        <p>Press No if youwant to continue work. Press Yes to logout current user.</p>
+                        <div class="row w50">
+							<h3><script>document.write(tr('Country'));</script></h3>
+							<div id="country_select" class="btn-group">
+								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"> <span class="caret"></span></a>
+								<ul class="dropdown-menu" role="menu">
+													   
+								</ul>
+							</div>
+						</div> 
+						<div class="row w50">
+							<h3><script>document.write(tr('Currency'));</script></h3>
+							<div id="currency_select" class="btn-group">
+								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"><script>document.write(tr('AED Millions'));</script> <span class="caret"></span></a>
+								<ul class="dropdown-menu" role="menu">
+									<li><a href="#" onClick="setCurCurrency(0);updateYearRangeFTVolume();"><script>document.write(tr('AED Millions'));</script></a></li>
+									<li><a href="#" onClick="setCurCurrency(1);updateYearRangeFTVolume();"><script>document.write(tr('USD Millions'));</script></a></li>
+									<li><a href="#" onClick="setCurCurrency(2);updateYearRangeFTVolume();"><script>document.write(tr('AED Billions'));</script></a></li>
+									<li><a href="#" onClick="setCurCurrency(3);updateYearRangeFTVolume();"><script>document.write(tr('USD Billions'));</script></a></li>
+								</ul>
+							</div>
+						</div>	
+						<div class="row">
+							<h3><script>document.write(tr('Year'));</script> 
+							<div id="year_range_select">
+								
+							</div>
+							</h3>
+						</div>	
+						
                     </div>
                     <div class="mb-footer">
-                        <div class="pull-right">
-                            <a href="pages-login.html" class="btn btn-success btn-lg">Yes</a>
-                            <button class="btn btn-default btn-lg mb-control-close">No</button>
-                        </div>
+                        <button class="btn btn-default btn-lg pull-right mb-control-close"><script>document.write(tr('Apply'));</script></button>
                     </div>
                 </div>
             </div>
+			</div>
+            <!-- PAGE CONTENT -->
+            <div class="page-content scroll">
+                
+				<div  class="row FTVTitle" style="margin-bottom:0;">
+						<div class="countryInfo flag"><img src="img/flags/_defFlag.jpg"></div> 
+						<div class="countryInfo"><div class="desc inlineCountryTitle"></div><div class="value FTVText"></div></div>						
+				</div>
+                <!-- START X-NAVIGATION VERTICAL -->
+                <!-- END X-NAVIGATION VERTICAL -->                     
+
+                <!-- PAGE CONTENT WRAPPER -->
+                <div class="page-content-wrap">
+
+
+<div class="row"><div class="col-md-12">				
+<div id='vert_flows_cont_div1'>
+
+<div class='vert_flow_div_left'>
+<table><tr>
+<td class='vert_icon_flow_td'><img src='img/if/but1.png' alt=''></td>
+<td class='vert_label_flow_td'><big><script>document.write(tr('Inflow FDI Value'));</script></big><span><script>document.write(tr('into the UAE'));</script> (2011&minus;2016)</span></td>
+</tr></table>
+</div>
+
+<div class='vert_flow_div_right'>
+<big>1,200</big> <span>(<script>document.write(tr('USD Millions'));</script>)</span>
+</div>
+
+</div></div></div><!-- /flows_cont_div1 -->
+
+<div class="row"><div class="col-md-12 clearfix">
+<div id='vert_stats_cont_div1'>
+
+
+<div class='vert_stats_p1_part'>
+<div>1500</div><b><script>document.write(tr('Companies'));</script></b><br><script>document.write(tr('registered in the UAE'));</script> (2015)
+</div>
+
+<div class='vert_stats_p1_part'>
+<div>1500</div><b><script>document.write(tr('Commercial Agencies'));</script></b><br><script>document.write(tr('registered in the UAE'));</script> (2015)
+</div>
+
+<div class='vert_stats_p1_part'>
+<div>1500</div><b><script>document.write(tr('Trademarks'));</script></b><br><script>document.write(tr('registered in the UAE'));</script> (2015)
+</div>
+
+
+</div></div></div><!-- /stats_cont_div1 -->
+
+
+<div class="row"><div class="col-md-12">
+<div id='vert_stats_cont_div2'>
+
+<div>
+<div class='vert_stats_wnd_head'><div class='vert_stats_wnd_lbl1'>&nbsp;</div><div class='vert_stats_wnd_lbl2'><script>document.write(tr('Main Sectors'));</script></div></div>
+<div id='vert_stats_wnd_content1'></div>
+</div>
+
+</div></div></div><!-- /stats_cont_div2 -->
+
+
+
+<div class="row"><div class="col-md-12">
+<div id='vert_flows_cont_div3'>
+
+<div class='vert_flow_div_left'>
+<table><tr>
+<td class='vert_icon_flow_td'><img src='img/if/but2.png' alt=''></td>
+<td class='vert_label_flow_td'><big><script>document.write(tr('Outflow FDI Value'));</script></big><span><script>document.write(tr('from the UAE'));</script>(2011&minus;2016)</span></td>
+</tr></table>
+</div>
+
+<div class='vert_flow_div_right'>
+<big>1,200</big> <span>(<script>document.write(tr('USD Millions'));</script>)</span>
+</div>
+
+</div></div></div><!-- /flows_cont_div3 -->
+
+
+<div class="row"><div class="col-md-12">
+<div id='vert_stats_cont_div4'>
+
+<div>
+<div class='vert_stats_wnd_head'><div class='vert_stats_wnd_lbl1'>&nbsp;</div><div class='vert_stats_wnd_lbl2'><script>document.write(tr('Main Companies'));</script></div></div>
+<div id='vert_stats_wnd_content1'></div>
+</div>
+
+</div></div></div><!-- /stats_cont_div4 -->
+
+
+<div class="row"><div class="col-md-12">
+<div id='vert_stats_cont_div5'>
+
+<div>
+<div class='vert_stats_wnd_head'><div class='vert_stats_wnd_lbl1'>&nbsp;</div><div class='vert_stats_wnd_lbl2'><script>document.write(tr('Main Sectors'));</script></div></div>
+<div id='vert_stats_wnd_content1'></div>
+</div>
+
+</div></div></div>
+				
+                <!-- END PAGE CONTENT WRAPPER -->                                
+				</div>            
+            <!-- END PAGE CONTENT -->
+			</div>
         </div>
-        END MESSAGE BOX-->
+        <!-- END PAGE CONTAINER -->
 
         <!-- START PRELOADS -->
         <audio id="audio-alert" src="audio/alert.mp3" preload="auto"></audio>
@@ -168,7 +267,9 @@
         <script type='text/javascript' src='js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js'></script>
         <script type='text/javascript' src='js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js'></script>                
         <script type='text/javascript' src='js/plugins/bootstrap/bootstrap-datepicker.js'></script>                
-        <script type="text/javascript" src="js/plugins/owl/owl.carousel.min.js"></script>                 
+        <script type="text/javascript" src="js/plugins/owl/owl.carousel.min.js"></script>    
+		<script type="text/javascript" src="js/plugins/noUiSlider/nouislider.min.js"></script>
+		<script type="text/javascript" src="js/plugins/wnumb/wNumb.js"></script>			
         
         <script type="text/javascript" src="js/plugins/moment.min.js"></script>
         <script type="text/javascript" src="js/plugins/daterangepicker/daterangepicker.js"></script>
@@ -178,27 +279,40 @@
         
         <script type="text/javascript" src="js/plugins.js"></script>        
         <script type="text/javascript" src="js/actions.js"></script>
-        
-        
-		<script type="text/javascript" src="js/front_map.js"></script>
         <!-- END TEMPLATE -->
 		
 		<script>
 $(document).ready(function(){
-	countryList  = getCountries("EN");
-	if(countryList.status == 0) {
-		curCountry = countryList.data[0];
-		$('#country_select #active_value').html(countryList.data[0].name + " <span class=\"caret\"></span>");
-		var menu  = $('#country_select .dropdown-menu');
-		menu.html('');
-		countryList.data.forEach(function(el) {
-			var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateMap();updateGeneralInformation();">' + el.name + '</a></li>');
-			menu.append(country);
-		});
-		setActiveCountry(curCountry.id, false);
-		updateMap();
-		updateGeneralInformation();
-	}
+$(document.body).addClass('lng'+ getAppLang());
+	//showLoadingScreen();
+	$.post(baseServiceUrl + "/list",
+    {
+        lang: getAppLang(),
+    },
+    function(data, status){
+		countryList  = data;
+		if(status == 'success' && countryList.status == 0) {
+			curCountry = countryList.data[0];
+			$('#country_select #active_value').html(countryList.data[0].name + " <span class=\"caret\"></span>");
+			var menu  = $('#country_select .dropdown-menu');
+			menu.html('');
+			countryList.data.sort(compareCountry);
+			countryList.data.forEach(function(el) {
+				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateYearRangeFTVolume();">' + el.name + '</a></li>');
+				menu.append(country);
+			});
+			var curC = window.localStorage.getItem('appCurCountry');
+			if(curC == undefined) {
+				curC = 156;
+			}
+			setActiveCountry(parseInt(curC), false);
+			//updateYearRangeFTVolume();
+			updateInvestmentFactsTitle();
+		}
+    });
+	$(window).resize(function(){
+		if(window.innerWidth>window.innerHeight) window.location = "investement_facts_land.html";
+	});
 	
 });
 		</script>

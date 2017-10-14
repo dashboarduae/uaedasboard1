@@ -1,0 +1,226 @@
+
+
+body.lngAR,
+body.lngAR .widget .widget-int,
+body.lngAR .jvectormap-label,
+body.lngAR .fc-text-arrow,
+body.lngAR .fc-text-arrow,
+body.lngAR .morris-hover.morris-default-style,
+body.lngAR .file-preview-other,
+body.lngAR .page-content-wrap .grid-item h3 {
+  font-family: "DroidArabicKufi",Arial,Tahoma,sans-serif;
+}
+
+body.lngAR .x-navigation > li.xn-logo > a:first-child:hover, body.lngAR .x-navigation > li.xn-logo > a:first-child{
+	direction: rtl;
+    text-align: right;
+	background: url(../img/icons/GI_icon.png) right center no-repeat #b78a35;
+	background-size: 8%;
+    background-position-x: 95%;
+	    padding: 5vw 15vw 5vw 20vw;
+}
+
+body.lngAR  .tradeGrowth .panel .panel-heading .panel-title,
+body.lngAR  .tradeBalance .panel .panel-heading .panel-title{
+	    font-size: 3.5vw;
+}
+
+body.lngAR .x-navigation li > a,
+body.lngAR  .message-box .mb-container .mb-middle .mb-title,
+body.lngAR  .GICountryTitle,
+body.lngAR .FTVTitle,
+body.lngAR  #generalInfo tr,
+body.lngAR  .FTV.landscape h3,
+body.lngAR  .FTItems .itemhead,
+body.lngAR .FTItems  .name .short,
+body.lngAR .FTItems  .name .full,
+body.lngAR .message-box .mb-container .mb-middle h3{
+		direction: rtl;
+    text-align: right;
+}
+
+body.lngAR .nav-tabs.nav-justified.w30>li,
+body.lngAR .FTV.portrait .panel .panel-heading .panel-title,
+body.lngAR .progress-bar,
+body.lngAR .categoryInfo .panel .panel-body .FTVItem span,
+body.lngAR .categoryInfo .panel .panel-title,
+body.lngAR  .tradeGrowth .panel .panel-heading .panel-title, 
+body.lngAR  .tradeBalance .panel .panel-heading .panel-title,
+body.lngAR  .donutchartWrapper,
+body.lngAR  .FTItems.panel .panel-heading .panel-title{
+	float:right;
+}
+
+body.lngAR .FTV.portrait .panel .panel-heading .panel-title.pull-right,
+body.lngAR .categoryInfo .panel .panel-body .FTVItem span.pull-right,
+body.lngAR .categoryInfo .panel .panel-title.pull-right{
+	float:none !important;
+}
+
+body.lngAR #generalInfo .value,
+body.lngAR .FTItemsSummary .FTItems .itemhead .value,
+body.lngAR .FTItems .itemhead .value {
+    text-align: left;
+}
+
+body.lngAR .FTItems  .name, body.lngAR  .FTItems  .name .short, body.lngAR  .FTItems  .name .full{
+	direction: rtl;
+    text-align: right;    font-size: 3vw;line-height: 1.3;
+}
+
+body.lngAR .FTItemsSummary .FTItems .itemhead .value {
+    font-size: 3.5vw;
+}
+
+body.lngAR .message-box .mb-container .mb-middle h3{
+	    font-size: 4vw;
+}
+
+body.lngAR .dropdown-menu > li > a {
+padding: 1vw 3vw;
+    border-bottom: 1px solid #E9E9E9;
+    line-height: 6.25vw;
+    text-align: right;
+    font-size: 3vw;
+}
+
+body.lngAR .dfti .col-md-2 .btn-group, 
+body.lngAR .btn-group>.btn:first-child, 
+body.lngAR .open>.dropdown-menu{
+	    direction: rtl;
+    font-size: 3vw;
+}
+
+body.lngAR #filter-box .mb-control-close{
+	font-size: 4vw;
+}
+
+body.lngAR  .x-navigation > li.xn-logo > a {
+    right: auto; 
+	left: 1vw;
+}
+
+body.lngAR  .x-navigation > li.xn-logo > a.x-navigation-controlfilter{
+	right: auto;
+    left: 11vw;
+}
+
+body.lngAR .mCSB_scrollTools {
+    left: -10px;
+    right: auto;
+}
+
+body.lngAR #donutlegend li,
+body.lngAR .donutchartWrapper{
+	text-align: right;
+    direction: rtl;    font-size: 4vw;
+}
+
+body.lngAR #donutlegend li svg {
+        margin: 0 0 0 1vw;
+}
+
+body.lngAR #donutlegend ul{
+	padding:0;
+}
+
+body.lngAR .x-navigation > li.xn-logo > a:first-child:hover,
+body.lngAR .x-navigation > li.xn-logo > a:first-child {
+    font-size: 4.5vw;
+}
+
+body.lngAR .FTVTitle .countryInfo .desc {
+    font-size: 4vw;
+    line-height: 1.5em;
+}
+
+body.lngAR .nav-tabs.nav-justified.w30>li > a {
+    font-size: 4vw;
+}
+
+body.lngAR .categoryInfo .panel .panel-body .FTVItem span{
+    font-size: 3.5vw;
+}
+
+body.lngAR  .message-box .mb-container .mb-middle .mb-title{
+	
+}
+
+@media (orientation: landscape){	
+
+body.lngAR .dropdown-menu > li > a {
+    padding: 1vw 2vw;
+    border-bottom: 1px solid #E9E9E9;
+    line-height: 4vw;
+    text-align: right;
+    font-size: 1.5vw;
+}
+
+body.lngAR .FTItems  .name, body.lngAR  .FTItems  .name .short, body.lngAR  .FTItems  .name .full,
+body.lngAR .FTItems .itemhead .value {
+	    font-size: 1.8vw;line-height: 1.3;
+}
+
+body.lngAR  .FTItems.panel .panel-heading .panel-title{
+	font-size: 2vw;
+}
+
+body.lngAR .dfti .col-md-2 .btn-group, 
+body.lngAR .btn-group>.btn:first-child, 
+body.lngAR .open>.dropdown-menu{
+	    direction: rtl;
+    font-size: 1.5vw;
+}
+
+body.lngAR #filter-box .mb-control-close{
+	font-size: 2.5vw;
+}
+
+body.lngAR .message-box .mb-container .mb-middle h3{
+	font-size: 2.5vw;
+}
+
+body.lngAR .FTVTitle .countryInfo .desc {
+    font-size: 2.5vw;
+    line-height: 1.5em;
+}
+
+body.lngAR .FTVTitle .countryInfo .value {
+    font-size: 2vw;
+    line-height: 1.3em;
+}
+
+body.lngAR .categoryInfo .panel .panel-body .FTVItem span {
+    font-size: 1.8vw;
+}
+
+body.lngAR .panel {
+        margin-bottom: 1.5vw;
+}
+	
+body.lngAR .mapleft, body.lngAR .mapright {
+    float: right;
+}
+
+
+body.lngAR  .x-navigation > li.xn-logo > a {
+    right: auto; 
+	left: 0vw;
+}
+
+body.lngAR  .x-navigation > li.xn-logo > a.x-navigation-controlfilter{
+	right: auto;
+    left: 6.5vw;
+}
+
+body.lngAR .x-navigation > li.xn-logo > a:first-child:hover,body.lngAR  .x-navigation > li.xn-logo > a:first-child {
+padding: 2vw 8vw 2.5vw 10vw;
+    font-size: 3vw;
+    height: 7.5vw;
+    background-size: 4.5%;
+    background-position-x: 98%;
+}
+
+}
+
+
