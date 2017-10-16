@@ -25,6 +25,8 @@ body.lngAR  .tradeBalance .panel .panel-heading .panel-title{
 	    font-size: 3.5vw;
 }
 
+
+
 body.lngAR .x-navigation li > a,
 body.lngAR  .message-box .mb-container .mb-middle .mb-title,
 body.lngAR  .GICountryTitle,
@@ -148,8 +150,21 @@ body.lngAR  .message-box .mb-container .mb-middle .mb-title{
 
 @media (orientation: landscape){	
 
+body.lngAR #filter-box .row.w50{
+    float: right;
+}
+
+body.lngAR  #filter-box .row.w50:nth-child(even){
+    float: left;
+}
+
+body.lngAR .GICountryTitle .countryInfo.flag, body.lngAR .FTVTitle .countryInfo.flag{
+	    padding-right: 5vw;    padding-left: 0vw;
+}
+
+
 body.lngAR .dropdown-menu > li > a {
-    padding: 1vw 2vw;
+    padding: .4vw 2vw;
     border-bottom: 1px solid #E9E9E9;
     line-height: 4vw;
     text-align: right;

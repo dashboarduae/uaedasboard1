@@ -55,6 +55,49 @@ DIV.stats_wnd_lbl2 {float:left;background:#b78a35;font-size:1.9vw;line-height:2.
 
 DIV.fx {clear:both}
 
+body.lngAR #flow_div1,
+body.lngAR #flow_div2,
+body.lngAR #flow_div3,
+body.lngAR #flow_div4{
+    float: right;
+    direction: rtl;
+}
+
+body.lngAR #stats_p1_div,
+body.lngAR #stats_p2_div,
+body.lngAR #stats_p3_div{
+float: right;
+}
+
+body.lngAR #flow_div3{
+padding: 1vw .5vw 0.5vw 0.5vw;
+    margin: 0 1vw 0 0;
+}
+
+body.lngAR #flow_div2,
+body.lngAR #flow_div4{
+padding: 1vw .5vw 0.5vw 0.5vw;
+}
+
+body.lngAR #stats_cont_div {
+    clear: both;
+	padding: 1vw 1.5vw 2vw 0;
+}
+
+body.lngAR #flows_cont_div {
+    height: 7vw;
+    padding: .5vw 1.5vw 0 0 ;
+}
+
+body.lngAR DIV.stats_wnd_lbl1,
+body.lngAR DIV.stats_wnd_lbl2{
+float:right;
+}
+
+body.lngAR DIV.stats_wnd_lbl2 {
+    direction: rtl;    font-size: 1.5vw;
+}
+
 </style>
         <!-- EOF CSS INCLUDE --> 
 		<!-- START PLUGINS -->
@@ -90,8 +133,9 @@ DIV.fx {clear:both}
 					<li><a href="foreign_trade_volume.html"><span class="xn-text"><script>document.write(tr('Trade Volume'));</script></span></a></li>
 					<li><a href="trade_balance.html"> <span class="xn-text"><script>document.write(tr('Trade Growth and Balance'));</script></span></a></li>
 					<li><a href="direct_foreign_trade_items.html"><span class="xn-text"><script>document.write(tr('Direct Trade Items'));</script></span></a></li>
-					<li><a href="#"><span class="xn-text"><script>document.write(tr('Committees &amp; Agreements'));</script></span></a></li>
 					<li><a href="investement_facts.html"><span class="xn-text"><script>document.write(tr('Investment Facts'));</script></span></a></li>
+					<li><a href="#"><span class="xn-text"><script>document.write(tr('Committees &amp; Agreements'));</script></span></a></li>
+					
                     
                 </ul>
                 <!-- END X-NAVIGATION -->
@@ -118,21 +162,13 @@ DIV.fx {clear:both}
 							<div id="currency_select" class="btn-group">
 								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"><script>document.write(tr('AED Millions'));</script> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="#" onClick="setCurCurrency(0);updateYearRangeFTVolume();"><script>document.write(tr('AED Millions'));</script></a></li>
-									<li><a href="#" onClick="setCurCurrency(1);updateYearRangeFTVolume();"><script>document.write(tr('USD Millions'));</script></a></li>
-									<li><a href="#" onClick="setCurCurrency(2);updateYearRangeFTVolume();"><script>document.write(tr('AED Billions'));</script></a></li>
-									<li><a href="#" onClick="setCurCurrency(3);updateYearRangeFTVolume();"><script>document.write(tr('USD Billions'));</script></a></li>
+									<li><a href="#" onClick="setCurCurrency(0);updateInvestmentFactsInfo();"><script>document.write(tr('AED Millions'));</script></a></li>
+									<li><a href="#" onClick="setCurCurrency(1);updateInvestmentFactsInfo();"><script>document.write(tr('USD Millions'));</script></a></li>
+									<li><a href="#" onClick="setCurCurrency(2);updateInvestmentFactsInfo();"><script>document.write(tr('AED Billions'));</script></a></li>
+									<li><a href="#" onClick="setCurCurrency(3);updateInvestmentFactsInfo();"><script>document.write(tr('USD Billions'));</script></a></li>
 								</ul>
 							</div>
-						</div>	
-						<div class="row">
-							<h3><script>document.write(tr('Year'));</script> 
-							<div id="year_range_select">
-								
-							</div>
-							</h3>
-						</div>	
-						
+						</div>							
                     </div>
                     <div class="mb-footer">
                         <button class="btn btn-default btn-lg pull-right mb-control-close"><script>document.write(tr('Apply'));</script></button>
@@ -145,7 +181,7 @@ DIV.fx {clear:both}
                 
 				<div  class="row FTVTitle"  style="margin-bottom:0px;">
 						<div class="countryInfo flag"><img src="img/flags/_defFlag.jpg"></div> 
-						<div class="countryInfo"><div class="desc inlineCountryTitle"></div><div class="value FTVText"></div></div>						
+						<div class="countryInfo"><div class="desc inlineCountryTitle"></div></div>						
 				</div>
                 <!-- START X-NAVIGATION VERTICAL -->
                 <!-- END X-NAVIGATION VERTICAL -->                     
@@ -158,23 +194,23 @@ DIV.fx {clear:both}
 <div id='flow_div1'>
 <table><tr>
 <td class='icon_flow_td'><img src='img/if/but1.png' alt=''></td>
-<td class='label_flow_td'><big><script>document.write(tr('Inflow FDI Value'));</script></big><span><script>document.write(tr('into the UAE'));</script>(2011&minus;2016)</span></td>
+<td class='label_flow_td'><big><script>document.write(tr('Inflow FDI Value'));</script></big><span><script>document.write(tr('into the UAE'));</script><span class="inflowFDIPeriod"><!--(2011&minus;2016)--></span></span></td>
 </tr></table>
 </div>
 
 <div id='flow_div2'>
-<big>1,200</big><span>(<script>document.write(tr('USD Millions'));</script>)</span>
+<big class="inflowFDIValue">0</big><span>(<span class="inlineCurrency"></span>)</span>
 </div>
 
 <div id='flow_div3'>
 <table><tr>
 <td class='icon_flow_td'><img src='img/if/but2.png' alt=''></td>
-<td class='label_flow_td'><big><script>document.write(tr('Outflow FDI Value'));</script></big><span><script>document.write(tr('from the UAE'));</script>(2011&minus;2016)</span></td>
+<td class='label_flow_td'><big><script>document.write(tr('Outflow FDI Value'));</script></big><span><script>document.write(tr('from the UAE'));</script><span class="outflowFDIPeriod"><!--(2011&minus;2016)--></span></span></td>
 </tr></table>
 </div>
 
 <div id='flow_div4'>
-<big>1,200</big><span>(<script>document.write(tr('USD Millions'));</script>)</span>
+<big class="outflowFDIValue">0</big><span>(<span class="inlineCurrency"></span>)</span>
 </div>
 
 </div><!-- /flows_cont_div -->
@@ -186,15 +222,15 @@ DIV.fx {clear:both}
 <div id='stats_p1_div'>
 
 <div class='stats_p1_part'>
-<div>1500</div><b><script>document.write(tr('Companies'));</script></b><br><script>document.write(tr('registered in the UAE'));</script> (2015)
+<div class="compCount">0</div><b><script>document.write(tr('Companies'));</script></b><br><script>document.write(tr('registered in the UAE'));</script> (2015)
 </div>
 
 <div class='stats_p1_part'>
-<div>1500</div><b><script>document.write(tr('Commercial Agencies'));</script></b><br><script>document.write(tr('registered in the UAE'));</script> (2015)
+<div class="agenCount">0</div><b><script>document.write(tr('Commercial Agencies'));</script></b><br><script>document.write(tr('registered in the UAE'));</script> (2015)
 </div>
 
 <div class='stats_p1_part'>
-<div>1500</div><b><script>document.write(tr('Trademarks'));</script></b><br><script>document.write(tr('registered in the UAE'));</script> (2015)
+<div class="tmCount">0</div><b><script>document.write(tr('Trademarks'));</script></b><br><script>document.write(tr('registered in the UAE'));</script> (2015)
 </div>
 
 </div>
@@ -289,7 +325,7 @@ $(document.body).addClass('lng'+ getAppLang());
 			menu.html('');
 			countryList.data.sort(compareCountry);
 			countryList.data.forEach(function(el) {
-				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateYearRangeFTVolume();">' + el.name + '</a></li>');
+				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateInvestmentFactsInfo();">' + el.name + '</a></li>');
 				menu.append(country);
 			});
 			var curC = window.localStorage.getItem('appCurCountry');
@@ -297,8 +333,7 @@ $(document.body).addClass('lng'+ getAppLang());
 				curC = 156;
 			}
 			setActiveCountry(parseInt(curC), false);
-			//updateYearRangeFTVolume();
-			updateInvestmentFactsTitle();
+			updateInvestmentFactsInfo();
 		}
     });
 	$(window).resize(function(){

@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-<title>UAE Trade Relation Dashboard'));</script></title>
+<title>UAE Trade Relation Dashboard</title>
 <script>
 if(!(window.innerWidth>window.innerHeight)) window.location = "index.html";
 </script>
@@ -26,9 +26,9 @@ A IMG {border:none}
 
 #hor_h1_div {text-align:center;color:#B58A31;font-family:"Cronos Pro";font-size:5vw;margin-top:1vw;margin-bottom:2.5vw}
 #hor_h1_div TABLE {margin: 0 auto;border-collapse:collapse}
-#hor_h1_div TABLE TD SPAN {text-shadow: -2.5vw 0px 0px #D9B680;font-size:8vw}
+#hor_h1_div TABLE TD SPAN {text-shadow: -2.5vw 0px 0px #D9B680;font-size:7vw}
 #hor_h1_div TABLE TD SPAN.s {text-shadow: 2.5vw 0px 0px #D9B680;}
-#hor_h1_div TABLE TD H1 {font-family:"Cronos Pro";font-size:2.8vw;font-weight:normal;margin:0;padding:0}
+#hor_h1_div TABLE TD H1 {font-family:"Cronos Pro";font-size:2.8vw;font-weight:normal;margin: .5em 0 0 0;padding:0}
 
 #hor_map_div {height:27vw;background:url("img/fp/map.png") right top;background-size: 100%;position:relative;margin-top:1vw}
 .hor_pie_div {position:absolute;top:3.6vw;width:22vw;height:22vw;background:url("img/fp/pie.png");background-size: 100%;z-index:2}
@@ -115,27 +115,36 @@ body.lngAR #hor_text_cont_div P {
 }
 
 body.lngAR #hor_logo_div IMG {display:none;}
-body.lngAR #hor_logo_div IMG.ar {display:block;}
+body.lngAR #hor_logo_div IMG.ar {display:inline-block;}
 
 #langSwitch{
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    top: 0vw;
+    left: 19vw;
     z-index: 1;
     text-align: center;
 }
 
 
 #langSwitch a, #langSwitch a:hover, #langSwitch a:visited{
-	color:#000;
-	-webkit-tap-highlight-color: rgba(0,0,0,0);  
--webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  text-decoration:none;
+    color: #000;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    text-decoration: none;
+    display: block;
+    background: url(img/fp/switchAr.png) center center no-repeat;
+    background-size: contain;
+    width: 10vw;
+    height: 6vw;
+}
+
+
+body.lngAR #langSwitch a{
+	background-image:url('img/fp/switchEn.png');
 }
 
 body.lngAR #hor_h1_div TABLE TD SPAN{
@@ -206,6 +215,45 @@ body.lngAR #hor_ani_arr1_div {
 body.lngAR #hor_ani_arr2_div {
     bottom: 6.5vw;
 }
+
+body.lngAR #hor_icons_ul LI{
+float: right;margin-right: .5vw;
+}
+
+body.lngAR #left_half_div {
+
+	float: right;
+}
+
+body.lngAR #right_half_div {
+    float: right;
+}
+
+body.lngAR #hor_logo_div {
+    padding: 1vw;
+    padding-right: 4vw;    text-align: right;
+}
+
+#subtitle{
+    background: #e0e0e0;
+    position: relative;
+    top: -4vw;
+}
+
+#subtitle .txt{
+    width: 28vw;
+    margin: 0 auto;
+    text-align: center;
+    background: #494949;
+    line-height: 1.7em;
+    color: #fff;
+    font-size: 2vw;
+}
+
+body.lngAR #subtitle .txt{
+width: 34vw;
+    font-size: 1.7vw;
+}
 </style>
 
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -242,8 +290,9 @@ body.lngAR #hor_ani_arr2_div {
 <li><a href='trade_balance.html'><img src='img/fp/i3.jpg'><br><script>document.write(tr('Trade Growth<br>and Balance'));</script></a></li>
 
 <li><a href='direct_foreign_trade_items.html'><img src='img/fp/i4.jpg'><br><script>document.write(tr('Direct<br>Trade Items'));</script></a></li>
-<li><a href='#'><img src='img/fp/i6.jpg'><br><script>document.write(tr('Committees &amp;<br> Agreements'));</script></a></li>
 <li><a href='investement_facts_land.html'><img src='img/fp/i5.jpg'><br><script>document.write(tr('Investment<br>Facts'));</script></a></li>
+<li><a href='#'><img src='img/fp/i6.jpg'><br><script>document.write(tr('Committees &amp;<br> Agreements'));</script></a></li>
+
 
 
 </ul>
@@ -262,13 +311,13 @@ body.lngAR #hor_ani_arr2_div {
 <div id='hor_h1_div'>
 
 <table><tr><td><span>&bull;</span></td>
-<td><h1><script>document.write(tr('UAE Non-Oil Foreign Trade'));</script></h1></td>
+<td><h1><script>document.write(tr('Trade Relation Dashboard'));</script></h1></td>
 <td><span class='s'>&bull;</span></td></tr>
 </table>
 
 </div>
 
-
+<div id="subtitle"><div class="txt"><script>document.write(tr('UAE Non-Oil Foreign Trade'));</script></div></div>
 
 
 
@@ -285,7 +334,7 @@ body.lngAR #hor_ani_arr2_div {
 
 <div id='hor_ani_arr1_div'><img src='img/fp/ani_arr1.gif' alt=''></div>
 <div id='hor_ani_arr2_div'><img src='img/fp/ani_arr2.gif' alt=''></div>
-<div id='langSwitch'><a href="#" onClick="switchAppLang();return false;"><script>getAppLang() == 'EN'?document.write('عربي'):document.write('English');</script></a></div>
+<div id='langSwitch'><a href="#" onClick="switchAppLang();return false;"></a></div>
 
 <div class='hor_pie_div filters' style='right:1vw'>
 <div style='color:white;padding-top:3.7vw;font-family:"Cronos Pro";text-align:center'>

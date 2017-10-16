@@ -48,8 +48,9 @@
 					<li><a href="foreign_trade_volume.html"><span class="xn-text"><script>document.write(tr('Trade Volume'));</script></span></a></li>
 					<li><a href="trade_balance.html"> <span class="xn-text"><script>document.write(tr('Trade Growth and Balance'));</script></span></a></li>
 					<li><a href="direct_foreign_trade_items.html"><span class="xn-text"><script>document.write(tr('Direct Trade Items'));</script></span></a></li>
-					<li><a href="#"><span class="xn-text"><script>document.write(tr('Committees &amp; Agreements'));</script></span></a></li>
 					<li><a href="investement_facts.html"><span class="xn-text"><script>document.write(tr('Investment Facts'));</script></span></a></li>
+					<li><a href="#"><span class="xn-text"><script>document.write(tr('Committees &amp; Agreements'));</script></span></a></li>
+					
                     
                 </ul>
                 <!-- END X-NAVIGATION -->
@@ -106,7 +107,7 @@
 									<div class="panel-body panel-body-map">
 										<!--<div id="vector_world_map" ></div>-->
 										<div id='vector_world_map' ></div>
-										<script>
+										<script>/*
 										mapboxgl.accessToken = 'pk.eyJ1IjoiYmFzaGFyYWhtYWQiLCJhIjoiY2l6cDh6bG1mMDAwYjMydXF1a2VvMHNtaiJ9.Wu9fpxoGbi8TpCQ_Jma6Rw';
 										var map = new mapboxgl.Map({
 										container: 'vector_world_map',
@@ -129,7 +130,7 @@
 												map.setFilter("counties-highlighted", filter);
 											});
 										});										
-										</script>
+										*/</script>
 									</div>
 								</div>
 
@@ -193,6 +194,7 @@
         
         <script type="text/javascript" src="js/plugins.js"></script>        
         <script type="text/javascript" src="js/actions.js"></script>
+		 <script type="text/javascript" src="js/front_map.js"></script>
         
         
         <!-- END TEMPLATE -->
@@ -212,7 +214,7 @@ $(document.body).addClass('lng'+ getAppLang());
 			menu.html('');
 			countryList.data.sort(compareCountry);
 			for(var i = 0;i<countryList.data.length; i++){
-				var country = $('<li><a href="#" onClick="setActiveCountry(' + countryList.data[i].id + ', false);updateMap();updateGeneralInformation();">' + countryList.data[i].name + '</a></li>');
+				var country = $('<li><a href="#" onClick="setActiveCountry(' + countryList.data[i].id + ', false);updateGeneralInformation();updateMap();">' + countryList.data[i].name + '</a></li>');
 				menu.append(country);console.log(countryList.data[i].name);
 			}
 			var curC = window.localStorage.getItem('appCurCountry');
@@ -220,8 +222,7 @@ $(document.body).addClass('lng'+ getAppLang());
 				curC = 156;
 			}
 			setActiveCountry(parseInt(curC), false);
-			updateMap();
-			updateGeneralInformation();
+			updateGeneralInformation();updateMap();
 		}
     });
 	

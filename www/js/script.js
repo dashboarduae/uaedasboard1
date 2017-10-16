@@ -1,5 +1,6 @@
 //const baseServiceUrl = "http://localhost:8080/trs"; 
-const baseServiceUrl = "http://trservice3562.cloudapp.net:8080/trs"; 
+//const baseServiceUrl = "http://trservice3562.cloudapp.net:8080/trs";
+const baseServiceUrl = "http://trservice.eastus.cloudapp.azure.com:8080/trs"; 
 
 var curCountry;
 var countryList;
@@ -260,22 +261,23 @@ function setActiveCountry(id, fromMap){
 
 function updateMap(){
 	if(!countrySelectedFromMap ) {
-		try{/*
+		try{
 			countryMap.clearSelectedRegions()
 			countryMap.setSelectedRegions(curCountry.iso2);
-			$('#vector_world_map').vectorMap('set', 'focus',curCountry.iso2);*/
+			countrySelectedFromMap = false;
+			
 		}catch(err){
 			
 		}
 		
 	}
-	
+	$('#vector_world_map').vectorMap('set', 'focus',curCountry.iso2);
 	countrySelectedFromMap = true;
-	
 }
 
 function updateGeneralInformation(){
 	//showLoadingScreen();
+	
 	$.post(baseServiceUrl + "/geninf",
     {
         lang: getAppLang(),
@@ -286,7 +288,6 @@ function updateGeneralInformation(){
 		var info = data;
 		
 		if(status == 'success' && info.status == 0){
-			
 			$(".GICountryTitle .flag img").attr('src', '');
 			var image = new Image();
 
@@ -599,9 +600,7 @@ function setSameHeight(selector){
 var activeFTItemsIndex = -1;
 
 function showActiveFTData(index){
-	$(".FTItemsSummary").hide();
-	$(".FTItemsSummary .front .panel-title").hide();
-	$(".FTItemsSummary .front .panel-title.title"+index).show();
+	
 	var panelBody = $(".FTItemsSummary .front .panel-body");
 	panelBody.html("");
 	
@@ -612,6 +611,11 @@ function showActiveFTData(index){
 	var progressBarClass;
 	
 	if(activeFTItemsIndex == index) index = -1;
+	
+	$(".FTItemsSummary").hide();
+	$(".FTItemsSummary .front .panel-title").hide();
+	$(".FTItemsSummary .front .panel-title.title"+index).show();
+	
 	$('#donutlegend li').removeClass('active');
 	initDonutChart(index);
 	
@@ -906,6 +910,78 @@ function updateInvestmentFactsTitle(){
 			}
 
 			image.src = 'img/flags/' + curCountry.id + '.png';
+			
+	var currString = "";
+	var curr = getCurCurrency();
+	switch(curr){
+		case 0:
+		currString = "AED Millions";
+			break;
+		case 1:
+		currString = "USD Millions";
+			break;
+		case 2:
+		currString = "AED Billions";
+			break;
+		case 3:
+		currString = "USD Billions";
+			break;
+	}
+	$('.inlineCurrency').text(tr(currString));
+}
+
+function updateInvestmentFactsInfo(){
+	updateInvestmentFactsTitle();
+	$(".inflowFDIValue").text("0");$(".inflowFDIPeriod").text("");
+	console.log("curCountry.id");
+	console.log(curCountry.id);
+	$.post(baseServiceUrl + "/inflowfdi",
+    {
+        lang: getAppLang(),
+        country: curCountry.id,
+    },
+    function(info, status){
+		
+		if(status == 'success' && info.status == 0){
+			console.log("INFlow");
+			console.log(info.data);
+			$(".inflowFDIPeriod").text("("+info.data[0].period+")");
+			$(".inflowFDIValue").text(setValuesFormats(info.data[0].value));
+		}
+    });
+	
+	
+	$(".outflowFDIValue").text("0");$(".outflowFDIPeriod").text("");
+	$.post(baseServiceUrl + "/outflowfdi",
+    {
+        lang: getAppLang(),
+        country: curCountry.id,
+    },
+    function(info, status){
+		
+		if(status == 'success' && info.status == 0){
+			console.log("OUTFlow");
+			console.log(info.data);
+			$(".outflowFDIPeriod").text("("+info.data[0].period+")");
+			$(".outflowFDIValue").text(setValuesFormats(info.data[0].value));
+		}
+    });
+	$(".compCount, .agenCount, .tmCount").text("0");
+	$.post(baseServiceUrl + "/act",
+    {
+        lang: getAppLang(),
+        country: curCountry.id,
+    },
+    function(info, status){
+		
+		if(status == 'success' && info.status == 0){
+			console.log("ACT");
+			console.log(info.data);
+			$(".agenCount").text(info.data[0].agencies);
+			$(".compCount").text(info.data[0].companies);
+			$(".tmCount").text(info.data[0].trademark);
+		}
+    });
 }
 
 function updateFTItemsTitle(){

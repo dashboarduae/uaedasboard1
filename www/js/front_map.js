@@ -13,20 +13,15 @@ if($("#vector_world_map").length > 0){
                                 onRegionSelected: function(){ 
 									if(countrySelectedFromMap){
 										var country = getCountryFromListISO2(countryMap.getSelectedRegions()[0]);
-										if(country!=null) {
-											setActiveCountry(country.id, false);
-											$('#vector_world_map').vectorMap('set', 'focus',curCountry.iso2);
-											updateGeneralInformation();
+										if( countryMap.getSelectedRegions()[0] != undefined && country!=null) {
+											setActiveCountry(country.id, false);updateGeneralInformation();updateMap();	
 										}
 										
 									}
-									countrySelectedFromMap = true;
+									
                                 }
                                 });
                                 
 }                            
 /* EOF jVectorMaps */                            
-
-
-
 });

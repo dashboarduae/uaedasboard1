@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="ae.gov.economy.trdashboard" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>UAE Trade</name>
+    <name>UAE F.Trade</name>
     <description>
-        UAE Non-Oil Trade
+        UAE F.Trade
     </description>
-    <author email="support@phonegap.com" href="http://phonegap.com">
-        PhoneGap Team
+    <author email="info@infostrategic.com" href="http://www.infostrategic.com/">
+         Info Strategic 
     </author>
     <content src="index.html" />
     <preference name="DisallowOverscroll" value="true" />

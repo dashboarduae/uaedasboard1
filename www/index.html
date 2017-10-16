@@ -22,7 +22,8 @@ A IMG {border:none}
 
 #h1_div {text-align:center;color:#B58A31;font-family:"Cronos Pro";font-size:5vw;}
 #h1_div TABLE {margin: 0 auto;border-collapse:collapse}
-#h1_div TABLE TD SPAN {text-shadow: -4vw 0px 0px #D9B680;font-size:14vw}
+#h1_div TABLE TD SPAN {text-shadow: -4vw 0px 0px #D9B680;font-size:14vw;
+    line-height: .5em;}
 #h1_div TABLE TD SPAN.s {text-shadow: 4vw 0px 0px #D9B680;}
 #h1_div TABLE TD H1 {font-family:"Cronos Pro";font-size:5vw;font-weight:normal;margin:0;padding:0}
 
@@ -106,9 +107,8 @@ padding: 1vw;
 
 #langSwitch{
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    top: 0;
+    left: 41.5vw;
     z-index: 1;
     text-align: center;
 }
@@ -123,6 +123,16 @@ padding: 1vw;
   -ms-user-select: none;
   user-select: none;
   text-decoration:none;
+  display:block;
+  background:url('img/fp/switchAr.png') center center no-repeat;
+  background-size:contain;
+  width:17vw;
+  height:10vw;
+}
+
+
+body.lngAR #langSwitch a{
+	background-image:url('img/fp/switchEn.png');
 }
 
 body.lngAR,
@@ -136,7 +146,7 @@ body.lngAR #text_cont_div P {
 }
 
 body.lngAR #h1_div TABLE TD H1{
-	font-size: 4vw;
+	font-size: 4vw;    margin-bottom: 2vw;
 }
 
 body.lngAR #h1_div TABLE TD SPAN{
@@ -204,6 +214,29 @@ body.lngAR .select2-container--default .select2-search--dropdown .select2-search
 body.lngAR .select2-results__option{
     font-size: 2.5vw;
 }
+
+body.lngAR #icons_ul LI{
+float:left;
+}
+#subtitle{
+    background: #e0e0e0;
+    position: relative;
+    top: -2vw;
+}
+
+#subtitle .txt{
+width: 53vw;
+    margin: 0 auto;
+    text-align: center;
+    background: #494949;
+    line-height: 1.7em;
+    color: #fff;
+    font-size: 3.5vw;
+}
+
+body.lngAR #subtitle .txt{
+width:65vw;    font-size: 3vw;
+}
 </style>
 
 
@@ -230,11 +263,13 @@ body.lngAR .select2-results__option{
 <div id='h1_div'>
 
 <table><tr><td><span>&bull;</span></td>
-<td><h1><script>document.write(tr('UAE Trade Relation Dashboard'));</script></h1></td>
+<td><h1><script>document.write(tr('Trade Relation Dashboard'));</script></h1></td>
 <td><span class='s'>&bull;</span></td></tr>
 </table>
 
 </div>
+
+<div id="subtitle"><div class="txt"><script>document.write(tr('UAE Non-Oil Foreign Trade'));</script></div></div>
 
 
 
@@ -252,7 +287,7 @@ body.lngAR .select2-results__option{
 <div id='ani_arr1_div'><img src='img/fp/ani_arr1.gif' alt=''></div>
 <div id='ani_arr2_div'><img src='img/fp/ani_arr2.gif' alt=''></div>
 
-<div id='langSwitch'><a href="#" onClick="switchAppLang();return false;"><script>getAppLang() == 'EN'?document.write('عربي'):document.write('English');</script></a></div>
+<div id='langSwitch'><a href="#" onClick="switchAppLang();return false;"></a></div>
 
 <div class='pie_div filters' style='right:1vw'>
 <div style='color:white;padding-top:7vw;text-align:center'>
@@ -290,8 +325,9 @@ body.lngAR .select2-results__option{
 <li><a href='trade_balance.html'><img src='img/fp/i3.jpg'><br><script>document.write(tr('Trade Growth<br>and Balance'));</script></a></li>
 <li><a href='foreign_trade_volume.html'><img src='img/fp/i2.jpg'><br><script>document.write(tr('Trade<br>Volume'));</script></a></li>
 <li><a href='general_information.html'><img src='img/fp/i1.jpg'><br><script>document.write(tr('General<br>Information'));</script></a></li>
-<li><a href='investement_facts.html'><img src='img/fp/i5.jpg'><br><script>document.write(tr('Investment<br>Facts'));</script></a></li>
 <li><a href='#'><img src='img/fp/i6.jpg'><br><script>document.write(tr('Committees &amp;<br> Agreements'));</script></a></li>
+<li><a href='investement_facts.html'><img src='img/fp/i5.jpg'><br><script>document.write(tr('Investment<br>Facts'));</script></a></li>
+
 
 
 <li><a href='direct_foreign_trade_items.html'><img src='img/fp/i4.jpg'><br><script>document.write(tr('Direct<br>Trade Items'));</script></a></li>

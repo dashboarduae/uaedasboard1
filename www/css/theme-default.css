@@ -8440,12 +8440,17 @@ display: table-cell;
 
 #filter-box .row.w50{
     width: 46%;
-    float: right;
+    float: left;
 }
 
 #filter-box .row.w50:nth-child(even){
     width: 46%;
-    float: left;
+    float: right;
+}
+
+.dropdown-menu > li > a {
+    padding: 1vw 1.5vw;
+    line-height: 1.3em;
 }
 
  .FTItemsSummary{display:none !important;}
