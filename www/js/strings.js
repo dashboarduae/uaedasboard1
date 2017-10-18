@@ -54,7 +54,7 @@ var appStrings = [
 ['Direct<br>Trade Items','سلع <br>التجارة المباشرة'],
 
 
-['Inflow FDI Value','تدفقات الاستثمار'],
+['Agreements','تدفقات الاستثمار'],
 ['Companies','الشركات'],
 ['Commercial Agencies','الوكالات التجارية'],
 ['Trademarks','العلامات التجارية'],
@@ -66,6 +66,10 @@ var appStrings = [
 ['Main Sectors','القطاعات الرئيسية'],
 ['Foreign Investments Facts','حقائق الاستثمار '],
 ['into the UAE','في دولة الإمارات العربية المتحدة'],
+
+
+
+
 ['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
 ['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
 ['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],

@@ -1,5 +1,4 @@
 //const baseServiceUrl = "http://localhost:8080/trs"; 
-//const baseServiceUrl = "http://trservice3562.cloudapp.net:8080/trs";
 const baseServiceUrl = "http://trservice.eastus.cloudapp.azure.com:8080/trs"; 
 
 var curCountry;
@@ -758,6 +757,156 @@ function updateYearRangeFTVolume(){
     });
 
 	
+}
+
+
+function updateYearRangeACV(){
+	yearSlider = document.getElementById('year_range_select');
+	
+	$.post(baseServiceUrl + "/acvyears",
+    {
+        lang: getAppLang(),
+        country: curCountry.id,
+    },
+    function(info, status){
+		
+		if(status == 'success' && info.status == 0 && info.data[0].minYear > 0){
+			var activeRange = getActiveYearRange();console.log(info.data[0]);console.log(activeRange);
+			var minYear = info.data[0].minYear;
+			var maxYear = info.data[0].maxYear;
+			
+			if(minYear = maxYear) maxYear++;
+			
+		if(activeRange[0] == activeRange[1]) {activeRange[0] = minYear; activeRange[1] = maxYear;}
+			
+			if(yearSlider.noUiSlider == undefined){
+				noUiSlider.create(yearSlider, {
+					start: [(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)],
+					connect: true,
+					behaviour: 'tap-drag', 
+					step: 1,
+					direction: getAppLang('EN')? 'ltr':'rtl',
+					tooltips: true,
+					format: wNumb({
+						decimals: 0
+					}),
+					range: {
+						'min': minYear,
+						'max': maxYear
+					}
+				});
+				var activeYears = yearSlider.noUiSlider.get();
+				setActiveYearRange(activeYears[0],activeYears[1]);
+				updateACVInfo();
+				yearSlider.noUiSlider.on('change', function(){
+					var activeYears = yearSlider.noUiSlider.get();
+					setActiveYearRange(activeYears[0],activeYears[1]);
+					updateACVInfo();
+				});
+			}else{
+				//yearSlider.noUiSlider.set([(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)]);
+				
+				yearSlider.noUiSlider.updateOptions({
+					start: [(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)],
+					connect: true,
+					behaviour: 'tap-drag', 
+					step: 1,
+					tooltips: true,
+					format: wNumb({
+						decimals: 0
+					}),
+					range: {
+						'min': minYear,
+						'max': maxYear
+					}
+				});
+				var activeYears = yearSlider.noUiSlider.get();
+				setActiveYearRange(activeYears[0],activeYears[1]);
+				updateACVInfo();
+			}
+			
+		}
+    });
+
+	
+}
+
+function updateACVInfo(){
+	var years = getActiveYearRange();
+	updateACVTitle();
+	$('.FTV .categoryInfo').html("");
+	$.post(baseServiceUrl + "/agreements",
+    {
+        lang: getAppLang(),
+        country: curCountry.id,
+		from:years[0],
+		to:years[1]
+    },
+    function(info, status){
+		
+		if(status == 'success' && info.status == 0){
+			console.log(info.data)
+			var dataLength = info.data.length;
+			for(var i = 0; i < dataLength; i++){
+				var panelBody = '<div class="panel-body"><div class="FTVItem">'+ HtmlEncode(info.data[i].name) +'</div></div>';
+				
+				var panel = '<div class="panel panel-default"><div class="panel-heading"><span class="panel-title">'+HtmlEncode(info.data[i].signDate) +'</span></div>' +panelBody+ '</div>';
+				
+				
+				$('.FTV .categoryInfo.cat0').prepend($(panel));
+			}
+		};
+    });
+	
+	
+	$.post(baseServiceUrl + "/acv",
+    {
+        lang: getAppLang(),
+        country: curCountry.id,
+		from:years[0],
+		to:years[1]
+    },
+    function(info, status){
+		
+		if(status == 'success' && info.status == 0){
+			console.log(info.data)
+			var dataLength = info.data.length;
+			for(var i = 0; i < dataLength; i++){
+				var panelBody = '<div class="panel-body"><div class="FTVItem">'+ HtmlEncode(info.data[i].subject) + '<br>' + HtmlEncode(info.data[i].explain) +'</div></div>';
+				
+				var panel = '<div class="panel panel-default"><div class="panel-heading"><span class="panel-title">'+HtmlEncode(info.data[i].date) +'</span></div>' +panelBody+ '</div>';
+				
+				
+				$('.FTV .categoryInfo.cat0').prepend($(panel));
+			}
+		};
+    })
+}
+
+function updateACVTitle(){
+	$(".FTVTitle .flag img").attr('src', '');
+			var image = new Image();
+
+			image.onload = function() {
+				$(".FTVTitle .flag img").attr('src', image.src);
+			}
+			image.onerror = function() {
+				// image did not load
+				$(".FTVTitle .flag img").attr('src', 'img/flags/_defFlag.png');
+			}
+
+			image.src = 'img/flags/' + curCountry.id + '.png';
+	
+	
+	var years = getActiveYearRange();
+	var lang = getAppLang();
+	if(lang == 'EN')
+		$('.FTVTitle .value.FTVText').html('<span class="inlineYearFrom"></span> to <span class="inlineYearTo"></span>');
+	else
+		$('.FTVTitle .value.FTVText').html('<span class="inlineYearFrom"></span> حتى <span class="inlineYearTo"></span>');
+	
+	$('.inlineYearFrom').text(years[0]);
+	$('.inlineYearTo').text(years[1]);
 }
 
 function updateYearRangeFTBalance(){

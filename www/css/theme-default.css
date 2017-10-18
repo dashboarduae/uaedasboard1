@@ -7647,11 +7647,14 @@ display:none;
 }
 
 .nav-tabs.nav-justified.w30>li > a{
-	opacity:.5;    font-size: 5vw;padding: 1vw 0;
+	opacity:.5;    font-size: 5vw;padding: 1vw;
 }
 
 .nav-tabs.nav-justified.w30>li.active > a{
 	opacity:1;    margin-bottom: 10px;
+	    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
 }
 
 .noUi-horizontal .noUi-tooltip{
@@ -7869,7 +7872,10 @@ margin: 0;
 	display:none;
 }
 
-.FTV.landscape{
+
+
+.FTV.landscape,
+.FTV.portrait.ACV{
 	display:block;
 }
 }
@@ -7928,6 +7934,7 @@ margin: 0;
 .btn.btn-lg, .btn-group-lg > .btn {
     font-size: 14px;
     padding: .3em 1em;
+	line-height: 1.3em;
 }
 
 .btn {font-size: 14px;}
@@ -8553,4 +8560,32 @@ display: table-cell;
 
 .FTItemsSummary .FTItems .itemhead .value{
 	    font-size: 4.5vw;
+}
+
+
+.FTV.portrait.ACV .categoryInfo .panel .panel-body .FTVItem{
+	    font-size: 4.5vw;    line-height: 1.1em;
+}
+
+.FTV.portrait.ACV  .nav-tabs.nav-justified.w30>li > a{
+	text-align:left;
+}
+@media all and (orientation:landscape) {
+.FTV.portrait.ACV .categoryInfo .panel .panel-body .FTVItem{
+	    font-size: 2vw;    
+}
+
+.FTV.portrait.ACV .panel .panel-heading .panel-title{
+	font-size: 2.1vw;
+}
+
+.FTV.portrait.ACV  .panel .panel-heading {
+   padding: .3em;
+}
+
+
+
+.FTV.portrait.ACV  .nav-tabs.nav-justified.w30>li > a{
+	    font-size: 2vw; padding:.3em;
+}
 }

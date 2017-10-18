@@ -148,6 +148,12 @@ body.lngAR  .message-box .mb-container .mb-middle .mb-title{
 	
 }
 
+body.lngAR .FTV.portrait.ACV  .nav-tabs.nav-justified.w30>li > a,
+body.lngAR .FTV.portrait  .nav-tabs.nav-justified,
+body.lngAR .FTV.portrait.ACV .categoryInfo .panel .panel-body .FTVItem{
+	text-align:right;direction:rtl;
+}
+
 @media (orientation: landscape){	
 
 body.lngAR #filter-box .row.w50{

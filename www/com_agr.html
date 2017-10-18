@@ -16,12 +16,9 @@
 		<link rel="stylesheet" type="text/css"  href="js/plugins/noUiSlider/nouislider.min.css"/>
         <!-- EOF CSS INCLUDE --> 
 		<!-- START PLUGINS -->
-		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script> 
-		<script type="text/javascript" src="js/plugins/bootstrap/bootstrap-select.js"></script> 
-		<script type="text/javascript" src="js/plugins/canvasjs.min.js"></script> 
+        <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script>
 		<script type="text/javascript" src="js/strings.js"></script>
 		<script type="text/javascript" src="js/script.js"></script>		
         <!-- END PLUGINS -->
@@ -29,7 +26,6 @@
 		 <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript">
         app.initialize();
-		
     </script>
 		<!-- END PHONEGAP -->		
     </head>
@@ -44,7 +40,7 @@
                 <!-- START X-NAVIGATION -->
                 <ul class="x-navigation">
                     <li class="xn-logo">
-                        <a href="index.html"><script>document.write(tr('Trade Growth and Balance'));</script></a>
+                        <a href="index.html"><script>document.write(tr('Committees &amp; Agreements'));</script></a>
 						<a href="#" class="x-navigation-controlfilter mb-control" data-box="#filter-box"></a>
                         <a href="#" class="x-navigation-control"></a>
                     </li>
@@ -59,6 +55,7 @@
                 </ul>
                 <!-- END X-NAVIGATION -->
             </div>
+
             <!-- END PAGE SIDEBAR -->
             <div id="filter-box"  class="message-box animated fadeIn">
 			
@@ -69,33 +66,20 @@
                         <div class="row w50">
 							<h3><script>document.write(tr('Country'));</script></h3>
 							<div id="country_select" class="btn-group">
-
 								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"> <span class="caret"></span></a>
-								<ul class="dropdown-menu"  role="menu">
+								<ul class="dropdown-menu" role="menu">
 													   
 								</ul>
 							</div>
 						</div> 
-						<div class="row w50">
-							<h3><script>document.write(tr('Currency'));</script></h3>
-							<div id="currency_select" class="btn-group">
-								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"><script>document.write(tr('AED Millions'));</script> <span class="caret"></span></a>
-								<ul class="dropdown-menu" role="menu">
-									<li><a href="#" onClick="setCurCurrency(0);updateFTItems();"><script>document.write(tr('AED Millions'));</script></a></li>
-									<li><a href="#" onClick="setCurCurrency(1);updateFTItems();"><script>document.write(tr('USD Millions'));</script></a></li>
-									<li><a href="#" onClick="setCurCurrency(2);updateFTItems();"><script>document.write(tr('AED Billions'));</script></a></li>
-									<li><a href="#" onClick="setCurCurrency(3);updateFTItems();"><script>document.write(tr('USD Billions'));</script></a></li>
-								</ul>
-							</div>
-						</div>
 						<div class="row">
-							<h3><script>document.write(tr('Year'));</script>
+							<h3><script>document.write(tr('Year'));</script> 
 							<div id="year_range_select">
 								
 							</div>
 							</h3>
 						</div>	
-							
+						
                     </div>
                     <div class="mb-footer">
                         <button class="btn btn-default btn-lg pull-right mb-control-close"><script>document.write(tr('Apply'));</script></button>
@@ -105,40 +89,42 @@
 			</div>
             <!-- PAGE CONTENT -->
             <div class="page-content scroll">
-                <div  class="row FTVTitle"  style="margin-bottom:10px;">
+                
+				<div  class="row FTVTitle"  style="margin-bottom:10px;">
 						<div class="countryInfo flag"><img src="img/flags/_defFlag.jpg"></div> 
-						<div class="countryInfo"><div class="desc inlineCountryTitle"></div><div class="value FTVText"></div></div>					
+						<div class="countryInfo"><div class="desc inlineCountryTitle"></div><div class="value FTVText"></div></div>						
 				</div>
                 <!-- START X-NAVIGATION VERTICAL -->
                 <!-- END X-NAVIGATION VERTICAL -->                     
 
                 <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap">
-					<div class="row"><div class="col-md-12 clearfix tradeGrowth">
-						<div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title title-1"><script>document.write(tr('Non-Oil Trade Growth'));</script></h3>     
+				
+				<div class="row FTV portrait ACV">
+						<div class="col-md-12">
+							<div class="panel panel-default tabs">
+                                <ul class="nav nav-tabs nav-justified w30">
+                                    <li class="active"><a href="#tab0" data-toggle="tab" aria-expanded="true"><script>document.write(tr('Agreements'));</script></a></li>
+                                    <li class=""><a href="#tab1" data-toggle="tab" aria-expanded="false"><script>document.write(tr('ACVTAB2'));</script></a></li>
+                                    <li class=""><a href="#tab2" data-toggle="tab" aria-expanded="false"><script>document.write(tr('AgrComVisits'));</script></a></li>
+                                </ul>
+                                <div class="panel-body tab-content">
+                                    <div class="tab-pane active categoryInfo cat0" id="tab0">
+                                        
+                                    </div>
+                                    <div class="tab-pane categoryInfo cat1" id="tab1">
+                                        
+                                    </div>
+                                    <div class="tab-pane categoryInfo cat2" id="tab2">
+                                       
+                                    </div>                        
+                                </div>
                             </div>
-                            <div class="panel-body nopadding">
-                                <div id="growthChart"></div>
-                            </div>
-                        </div>
-						
-					</div></div>
-					
-					<div class="row"><div class="col-md-12 clearfix tradeBalance">
-						<div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title title-1"><script>document.write(tr('Non-Oil Trade Balance'));</script></h3>     
-                            </div>
-                            <div class="panel-body nopadding">
-                                <div id="balanceChart" class="clearfix"></div>
-                            </div>
-                        </div>
-						
-					</div></div>
+						</div>
 				</div>
 				
+				
+				</div>
                 <!-- END PAGE CONTENT WRAPPER -->                                
             </div>            
             <!-- END PAGE CONTENT -->
@@ -169,14 +155,10 @@
         <script type='text/javascript' src='js/plugins/bootstrap/bootstrap-datepicker.js'></script>                
         <script type="text/javascript" src="js/plugins/owl/owl.carousel.min.js"></script>    
 		<script type="text/javascript" src="js/plugins/noUiSlider/nouislider.min.js"></script>
-		<script type="text/javascript" src="js/plugins/wnumb/wNumb.js"></script>	
+		<script type="text/javascript" src="js/plugins/wnumb/wNumb.js"></script>			
         
         <script type="text/javascript" src="js/plugins/moment.min.js"></script>
         <script type="text/javascript" src="js/plugins/daterangepicker/daterangepicker.js"></script>
-		
-		<script type="text/javascript" src="js/plugins/nvd3/lib/d3.v3.js"></script>
-		<script type="text/javascript" src="js/plugins/nvd3/nv.d3.min.js"></script>
-		
         <!-- END THIS PAGE PLUGINS-->        
 
         <!-- START TEMPLATE -->
@@ -186,8 +168,11 @@
         <!-- END TEMPLATE -->
 		
 		<script>
+$(window).load(function(){
+setSameHeight('.nav-tabs.nav-justified.w30>li > a');
+});
 $(document).ready(function(){
-	$(document.body).addClass('lng'+ getAppLang());
+$(document.body).addClass('lng'+ getAppLang());
 	//showLoadingScreen();
 	$.post(baseServiceUrl + "/list",
     {
@@ -202,32 +187,23 @@ $(document).ready(function(){
 			menu.html('');
 			countryList.data.sort(compareCountry);
 			countryList.data.forEach(function(el) {
-				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateYearRangeFTBalance();">' + el.name + '</a></li>');
+				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateYearRangeACV();">' + el.name + '</a></li>');
 				menu.append(country);
 			});
-			
-			
 			var curC = window.localStorage.getItem('appCurCountry');
 			if(curC == undefined) {
 				curC = 156;
 			}
 			setActiveCountry(parseInt(curC), false);
-			updateYearRangeFTBalance();
+			updateYearRangeACV();
 		}
     });
 	
-	$('.mb-control-close').click(function(){
-		showBalanceChart();
-	});
-	
 	$(window).resize(function(){
-		updateFTBalanceInfo();
-		updateFTGrowthInfo();
+		setSameHeight('.nav-tabs.nav-justified.w30>li > a');
 	});
 });
 		</script>
-		
-
     <!-- END SCRIPTS -->         
     </body>
 </html>
