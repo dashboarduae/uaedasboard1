@@ -154,7 +154,15 @@ body.lngAR .FTV.portrait.ACV .categoryInfo .panel .panel-body .FTVItem{
 	text-align:right;direction:rtl;
 }
 
+body.lngAR .FTV.portrait.ACV .categoryInfo .panel .panel-body .FTVItem{
+	    font-size: 3vw;   
+}
+
 @media (orientation: landscape){	
+
+body.lngAR .FTV.portrait.ACV .categoryInfo .panel .panel-body .FTVItem{
+	    font-size: 1.7vw;   
+}
 
 body.lngAR #filter-box .row.w50{
     float: right;

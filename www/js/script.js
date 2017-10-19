@@ -1,5 +1,5 @@
-//const baseServiceUrl = "http://localhost:8080/trs"; 
-const baseServiceUrl = "http://trservice.eastus.cloudapp.azure.com:8080/trs"; 
+const baseServiceUrl = "http://localhost:8080/trs"; 
+//const baseServiceUrl = "http://trservice.eastus.cloudapp.azure.com:8080/trs"; 
 
 var curCountry;
 var countryList;
@@ -771,17 +771,19 @@ function updateYearRangeACV(){
     function(info, status){
 		
 		if(status == 'success' && info.status == 0 && info.data[0].minYear > 0){
-			var activeRange = getActiveYearRange();console.log(info.data[0]);console.log(activeRange);
+			var activeRange = getActiveYearRange();console.log(info.data[0]);
 			var minYear = info.data[0].minYear;
 			var maxYear = info.data[0].maxYear;
 			
-			if(minYear = maxYear) maxYear++;
-			
-		if(activeRange[0] == activeRange[1]) {activeRange[0] = minYear; activeRange[1] = maxYear;}
-			
+			if(minYear == maxYear) maxYear++;
+			activeRange[0] = Number.parseInt(activeRange[0]);
+			activeRange[1] = Number.parseInt(activeRange[1]);
+			if(activeRange[0] == activeRange[1]) {activeRange[0] = minYear; activeRange[1] = maxYear;}
+			activeRange[0] = (Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear);
+			activeRange[1] = (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear);
 			if(yearSlider.noUiSlider == undefined){
 				noUiSlider.create(yearSlider, {
-					start: [(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)],
+					start: [activeRange[0], activeRange[1]],
 					connect: true,
 					behaviour: 'tap-drag', 
 					step: 1,
@@ -807,7 +809,7 @@ function updateYearRangeACV(){
 				//yearSlider.noUiSlider.set([(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)]);
 				
 				yearSlider.noUiSlider.updateOptions({
-					start: [(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)],
+					start: [activeRange[0], activeRange[1]],
 					connect: true,
 					behaviour: 'tap-drag', 
 					step: 1,
@@ -825,6 +827,8 @@ function updateYearRangeACV(){
 				updateACVInfo();
 			}
 			
+			console.log(activeRange);
+			
 		}
     });
 
@@ -835,34 +839,11 @@ function updateACVInfo(){
 	var years = getActiveYearRange();
 	updateACVTitle();
 	$('.FTV .categoryInfo').html("");
-	$.post(baseServiceUrl + "/agreements",
-    {
-        lang: getAppLang(),
-        country: curCountry.id,
-		from:years[0],
-		to:years[1]
-    },
-    function(info, status){
-		
-		if(status == 'success' && info.status == 0){
-			console.log(info.data)
-			var dataLength = info.data.length;
-			for(var i = 0; i < dataLength; i++){
-				var panelBody = '<div class="panel-body"><div class="FTVItem">'+ HtmlEncode(info.data[i].name) +'</div></div>';
-				
-				var panel = '<div class="panel panel-default"><div class="panel-heading"><span class="panel-title">'+HtmlEncode(info.data[i].signDate) +'</span></div>' +panelBody+ '</div>';
-				
-				
-				$('.FTV .categoryInfo.cat0').prepend($(panel));
-			}
-		};
-    });
-	
-	
 	$.post(baseServiceUrl + "/acv",
     {
         lang: getAppLang(),
         country: curCountry.id,
+		subject: 'Bilateral Agreements',
 		from:years[0],
 		to:years[1]
     },
@@ -872,7 +853,7 @@ function updateACVInfo(){
 			console.log(info.data)
 			var dataLength = info.data.length;
 			for(var i = 0; i < dataLength; i++){
-				var panelBody = '<div class="panel-body"><div class="FTVItem">'+ HtmlEncode(info.data[i].subject) + '<br>' + HtmlEncode(info.data[i].explain) +'</div></div>';
+				var panelBody = '<div class="panel-body"><div class="FTVItem">'+ HtmlEncode(info.data[i].explain) +'</div></div>';
 				
 				var panel = '<div class="panel panel-default"><div class="panel-heading"><span class="panel-title">'+HtmlEncode(info.data[i].date) +'</span></div>' +panelBody+ '</div>';
 				
@@ -880,7 +861,54 @@ function updateACVInfo(){
 				$('.FTV .categoryInfo.cat0').prepend($(panel));
 			}
 		};
-    })
+    });
+	$.post(baseServiceUrl + "/acv",
+    {
+        lang: getAppLang(),
+        country: curCountry.id,
+		subject: 'Joint Economic Committees',
+		from:years[0],
+		to:years[1]
+    },
+    function(info, status){
+		
+		if(status == 'success' && info.status == 0){
+			console.log(info.data)
+			var dataLength = info.data.length;
+			for(var i = 0; i < dataLength; i++){
+				var panelBody = '<div class="panel-body"><div class="FTVItem">'+ HtmlEncode(info.data[i].explain) +'</div></div>';
+				
+				var panel = '<div class="panel panel-default"><div class="panel-heading"><span class="panel-title">'+HtmlEncode(info.data[i].date) +'</span></div>' +panelBody+ '</div>';
+				
+				
+				$('.FTV .categoryInfo.cat1').prepend($(panel));
+			}
+		};
+    });
+	$.post(baseServiceUrl + "/acv",
+    {
+        lang: getAppLang(),
+        country: curCountry.id,
+		subject: 'Delegations and Visits',
+		from:years[0],
+		to:years[1]
+    },
+    function(info, status){
+		
+		if(status == 'success' && info.status == 0){
+			console.log(info.data)
+			var dataLength = info.data.length;
+			for(var i = 0; i < dataLength; i++){
+				var panelBody = '<div class="panel-body"><div class="FTVItem">'+ HtmlEncode(info.data[i].explain) +'</div></div>';
+				
+				var panel = '<div class="panel panel-default"><div class="panel-heading"><span class="panel-title">'+HtmlEncode(info.data[i].date) +'</span></div>' +panelBody+ '</div>';
+				
+				
+				$('.FTV .categoryInfo.cat2').prepend($(panel));
+			}
+		};
+    });
+	
 }
 
 function updateACVTitle(){

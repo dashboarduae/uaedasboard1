@@ -70,9 +70,9 @@ var appStrings = [
 
 
 
-['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
-['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
-['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
+['Bilateral Agreements','الاتفاقيات الثنائية'],
+['Joint Economic Committees','اللجان الاقتصادية المشتركة'],
+['Delegations and Visits','زيارات الوفود والفعاليات'],
 ['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
 ['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
 ['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],

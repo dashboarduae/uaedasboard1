@@ -8564,11 +8564,11 @@ display: table-cell;
 
 
 .FTV.portrait.ACV .categoryInfo .panel .panel-body .FTVItem{
-	    font-size: 4.5vw;    line-height: 1.1em;
+	    font-size: 3.5vw;    line-height: 1.1em;
 }
 
 .FTV.portrait.ACV  .nav-tabs.nav-justified.w30>li > a{
-	text-align:left;
+	text-align:left;font-size: 3.5vw;
 }
 @media all and (orientation:landscape) {
 .FTV.portrait.ACV .categoryInfo .panel .panel-body .FTVItem{
@@ -8589,3 +8589,4 @@ display: table-cell;
 	    font-size: 2vw; padding:.3em;
 }
 }
+
