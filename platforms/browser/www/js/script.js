@@ -1,5 +1,5 @@
-const baseServiceUrl = "http://localhost:8080/trs"; 
-//const baseServiceUrl = "http://trservice.eastus.cloudapp.azure.com:8080/trs"; 
+//const baseServiceUrl = "http://localhost:8080/trs"; 
+const baseServiceUrl = "http://trservice.eastus.cloudapp.azure.com:8080/trs"; 
 
 var curCountry;
 var countryList;
@@ -762,18 +762,21 @@ function updateYearRangeFTVolume(){
 
 function updateYearRangeACV(){
 	yearSlider = document.getElementById('year_range_select');
-	
+	updateACVTitle();
+	$(".FTV .categoryInfo").html("");
 	$.post(baseServiceUrl + "/acvyears",
     {
         lang: getAppLang(),
         country: curCountry.id,
     },
     function(info, status){
-		
+		var activeRange = getActiveYearRange();
+		var minYear = activeRange[0];
+		var maxYear = activeRange[1];
 		if(status == 'success' && info.status == 0 && info.data[0].minYear > 0){
-			var activeRange = getActiveYearRange();console.log(info.data[0]);
-			var minYear = info.data[0].minYear;
-			var maxYear = info.data[0].maxYear;
+			
+			minYear = info.data[0].minYear;
+			maxYear = info.data[0].maxYear;
 			
 			if(minYear == maxYear) maxYear++;
 			activeRange[0] = Number.parseInt(activeRange[0]);
@@ -781,9 +784,16 @@ function updateYearRangeACV(){
 			if(activeRange[0] == activeRange[1]) {activeRange[0] = minYear; activeRange[1] = maxYear;}
 			activeRange[0] = (Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear);
 			activeRange[1] = (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear);
-			if(yearSlider.noUiSlider == undefined){
+			
+			
+			
+		}else{
+			
+		}
+		console.log(activeRange);console.log(minYear);console.log(maxYear);
+		if(yearSlider.noUiSlider == undefined){
 				noUiSlider.create(yearSlider, {
-					start: [activeRange[0], activeRange[1]],
+					start: activeRange,
 					connect: true,
 					behaviour: 'tap-drag', 
 					step: 1,
@@ -809,7 +819,7 @@ function updateYearRangeACV(){
 				//yearSlider.noUiSlider.set([(Number.parseInt(activeRange[0]) > minYear ? activeRange[0]:minYear), (Number.parseInt(activeRange[1]) > maxYear ? activeRange[1]:maxYear)]);
 				
 				yearSlider.noUiSlider.updateOptions({
-					start: [activeRange[0], activeRange[1]],
+					start: activeRange,
 					connect: true,
 					behaviour: 'tap-drag', 
 					step: 1,
@@ -826,10 +836,6 @@ function updateYearRangeACV(){
 				setActiveYearRange(activeYears[0],activeYears[1]);
 				updateACVInfo();
 			}
-			
-			console.log(activeRange);
-			
-		}
     });
 
 	
