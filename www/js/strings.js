@@ -8,7 +8,6 @@ var appStrings = [
 ['USD Millions','مليون دولار'],
 ['AED Billions',' مليار د.إ'],
 ['USD Billions','مليار دولار'],
-
 ['An interactive and innovative Dashboard Which includes information on UAE Non-Oil Foreign Trade and the most important bilateral indicators, Agreements and investment; between UAE various all world countries','لوحة تفاعلية لأرقام التجارة الخارجية غير النفطية لدولة الإمارات العربية المتحدة والاتفاقيات والاستثمارات المتبادلة مع مختلف دول العالم.'],
 ['Please select country','اختر الدولة'],
 ['UAE Non-Oil Foreign Trade','التجارة الخارجية غير النفطية'],
@@ -20,7 +19,6 @@ var appStrings = [
 ['Investment Facts','حقائق الاستثمار'],
 ['Committees &amp; Agreements',' الاتفاقيات واللجان المشتركة'],
 ['Select Country','اختر الدولة'],
-
 ['Year','السنة'],
 ['Total','إجمالي'],
 ['Direct','مباشرة'],
@@ -45,15 +43,12 @@ var appStrings = [
 ['Millions','مليون'],
 ['Non-Oil Trade Growth','نمو التجارة غير النفطية'],
 ['Export','الصادرات'],
-//!!!!!!!!!!!
 ['Trade Growth<br>and Balance',' النمو<br> والميزان التجاري'],
 ['Trade<br>Volume','إجمالي<br> التجارة الخارجية'],
 ['General<br>Information','معلومات<br> عامة'],
 ['Committees &amp;<br> Agreements','الاتفاقيات<br> واللجان المشتركة'],
 ['Joint<br>Agreements','الاتفاقات المشتركة'],
 ['Direct<br>Trade Items','سلع <br>التجارة المباشرة'],
-
-
 ['Agreements','تدفقات الاستثمار'],
 ['Companies','الشركات'],
 ['Commercial Agencies','الوكالات التجارية'],
@@ -62,21 +57,17 @@ var appStrings = [
 ['Main Sectors','القطاعات الرئيسية'],
 ['from the UAE','من دولة الإمارات العربية المتحدة'],
 ['Outflow FDI Value',' الاستثمار المباشر في الخارج'],
+['Inflow FDI Value',' الاستثمار المباشر '],
 ['Main Companies','الشركات الرئيسية'],
 ['Main Sectors','القطاعات الرئيسية'],
 ['Foreign Investments Facts','حقائق الاستثمار '],
 ['into the UAE','في دولة الإمارات العربية المتحدة'],
-
-
-
-
 ['Bilateral Agreements','الاتفاقيات الثنائية'],
-['Joint Economic Committees','اللجان الاقتصادية المشتركة'],
+['Joint Economic Committees','اللجان المشتركة'],
 ['Delegations and Visits','زيارات الوفود والفعاليات'],
 ['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
 ['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
 ['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
 ['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
 ['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
-
 ];

@@ -11,9 +11,11 @@
         <!-- END META SECTION -->
         
         <!-- CSS INCLUDE -->        
+		<link rel="stylesheet" type="text/css" id="theme" href="js/plugins/select2/css/select2.min.css"/>
+		<link rel="stylesheet" type="text/css"  href="js/plugins/noUiSlider/nouislider.min.css"/>
         <link rel="stylesheet" type="text/css" id="theme" href="css/theme-default.css"/>
 		<link rel="stylesheet" type="text/css" href="css/theme-AR.css">
-		<link rel="stylesheet" type="text/css"  href="js/plugins/noUiSlider/nouislider.min.css"/>
+		
         <!-- EOF CSS INCLUDE --> 
 		<!-- START PLUGINS -->
         <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
@@ -71,6 +73,10 @@
 													   
 								</ul>
 							</div>
+							<div  id="country_select2">
+								<select   class="chosen-select"></select>
+							</div>
+							
 						</div> 
 						<div class="row">
 							<h3><script>document.write(tr('Year'));</script> 
@@ -159,6 +165,7 @@
         
         <script type="text/javascript" src="js/plugins/moment.min.js"></script>
         <script type="text/javascript" src="js/plugins/daterangepicker/daterangepicker.js"></script>
+		<script type="text/javascript" src="js/plugins/select2/js/select2.min.js"></script> 
         <!-- END THIS PAGE PLUGINS-->        
 
         <!-- START TEMPLATE -->
@@ -187,8 +194,22 @@ $(document.body).addClass('lng'+ getAppLang());
 			menu.html('');
 			countryList.data.sort(compareCountry);
 			countryList.data.forEach(function(el) {
-				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateYearRangeACV();">' + el.name + '</a></li>');
+				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateYearRangeACV();">' + HtmlEncode(el.name) + '</a></li>');
 				menu.append(country);
+				
+				var country2 = $('<option onClick="setActiveCountry(' + el.id + ', false);updateYearRangeACV();"></option>');
+				country2.text(HtmlEncode(el.name));
+				$('#country_select2 .chosen-select').append(country2);
+			});
+			
+			var cntrySelect = $('#country_select2 .chosen-select').select2();
+			$('#country_select2 .chosen-select').on('select2:open', function (e) {
+				$('.select2-search--dropdown').show();
+				$('.select2-search input').prop('focus',false);
+			});
+			$('#country_select2 .chosen-select').on('select2:select', function (e) {
+				var cCountry = getCountryFromListName(cntrySelect.val());
+				setActiveCountry(cCountry.id, false);updateYearRangeACV();
 			});
 			var curC = window.localStorage.getItem('appCurCountry');
 			if(curC == undefined) {

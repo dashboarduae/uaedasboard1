@@ -10,10 +10,12 @@
         <link rel="icon" href="favicon.ico" type="image/x-icon" />
         <!-- END META SECTION -->
         
-        <!-- CSS INCLUDE -->        
+        <!-- CSS INCLUDE -->     
+		<link rel="stylesheet" type="text/css" id="theme" href="js/plugins/select2/css/select2.min.css"/>
+		<link rel="stylesheet" type="text/css"  href="js/plugins/noUiSlider/nouislider.min.css"/>		
         <link rel="stylesheet" type="text/css" id="theme" href="css/theme-default.css"/>
 		<link rel="stylesheet" type="text/css" href="css/theme-AR.css">
-		<link rel="stylesheet" type="text/css"  href="js/plugins/noUiSlider/nouislider.min.css"/>
+		
         <!-- EOF CSS INCLUDE --> 
 		<!-- START PLUGINS -->
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -75,16 +77,19 @@
 													   
 								</ul>
 							</div>
+							<div  id="country_select2">
+								<select   class="chosen-select"></select>
+							</div>
 						</div> 
 						<div class="row w50">
 							<h3><script>document.write(tr('Currency'));</script></h3>
 							<div id="currency_select" class="btn-group">
 								<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"><script>document.write(tr('AED Millions'));</script> <span class="caret"></span></a>
 								<ul class="dropdown-menu" role="menu">
-									<li><a href="#" onClick="setCurCurrency(0);updateFTItems();"><script>document.write(tr('AED Millions'));</script></a></li>
-									<li><a href="#" onClick="setCurCurrency(1);updateFTItems();"><script>document.write(tr('USD Millions'));</script></a></li>
-									<li><a href="#" onClick="setCurCurrency(2);updateFTItems();"><script>document.write(tr('AED Billions'));</script></a></li>
-									<li><a href="#" onClick="setCurCurrency(3);updateFTItems();"><script>document.write(tr('USD Billions'));</script></a></li>
+									<li><a href="#" onClick="setCurCurrency(0);updateFTBalanceInfo();updateFTGrowthInfo();"><script>document.write(tr('AED Millions'));</script></a></li>
+									<li><a href="#" onClick="setCurCurrency(1);updateFTBalanceInfo();updateFTGrowthInfo();"><script>document.write(tr('USD Millions'));</script></a></li>
+									<li><a href="#" onClick="setCurCurrency(2);updateFTBalanceInfo();updateFTGrowthInfo();"><script>document.write(tr('AED Billions'));</script></a></li>
+									<li><a href="#" onClick="setCurCurrency(3);updateFTBalanceInfo();updateFTGrowthInfo();"><script>document.write(tr('USD Billions'));</script></a></li>
 								</ul>
 							</div>
 						</div>
@@ -176,6 +181,7 @@
 		
 		<script type="text/javascript" src="js/plugins/nvd3/lib/d3.v3.js"></script>
 		<script type="text/javascript" src="js/plugins/nvd3/nv.d3.min.js"></script>
+		<script type="text/javascript" src="js/plugins/select2/js/select2.min.js"></script> 
 		
         <!-- END THIS PAGE PLUGINS-->        
 
@@ -202,11 +208,23 @@ $(document).ready(function(){
 			menu.html('');
 			countryList.data.sort(compareCountry);
 			countryList.data.forEach(function(el) {
-				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateYearRangeFTBalance();">' + el.name + '</a></li>');
+				var country = $('<li><a href="#" onClick="setActiveCountry(' + el.id + ', false);updateYearRangeFTBalance();">' + HtmlEncode(el.name) + '</a></li>');
 				menu.append(country);
+				
+				var country2 = $('<option onClick="setActiveCountry(' + el.id + ', false);updateYearRangeFTBalance();"></option>');
+				country2.text(HtmlEncode(el.name));
+				$('#country_select2 .chosen-select').append(country2);
 			});
 			
-			
+			var cntrySelect = $('#country_select2 .chosen-select').select2();
+			$('#country_select2 .chosen-select').on('select2:open', function (e) {
+				$('.select2-search--dropdown').show();
+				$('.select2-search input').prop('focus',false);
+			});
+			$('#country_select2 .chosen-select').on('select2:select', function (e) {
+				var cCountry = getCountryFromListName(cntrySelect.val());
+				setActiveCountry(cCountry.id, false);updateYearRangeFTBalance();
+			});
 			var curC = window.localStorage.getItem('appCurCountry');
 			if(curC == undefined) {
 				curC = 156;

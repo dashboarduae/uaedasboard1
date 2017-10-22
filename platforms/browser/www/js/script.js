@@ -248,6 +248,7 @@ function setActiveCountry(id, fromMap){
 		curCountry = res;
 		$('#country_select #active_value').html(HtmlEncode(curCountry.name) + " <span class=\"caret\"></span>");
 		$('.inlineCountryTitle').html(HtmlEncode(curCountry.name));
+		$('#country_select2 .chosen-select').val(HtmlEncode(curCountry.name)).trigger('change.select2');
 		window.localStorage.setItem("appCurCountry", curCountry.id);
 		
 	}
@@ -1292,7 +1293,7 @@ function updateFTBalanceInfo(){
 					var newEl = {label:'',y:0,x:0,color:"#b0c986"};
 					newEl.label = el.year;
 					newEl.x = parseInt(el.year);
-					newEl.y = el.value;
+					newEl.y = Math.abs(el.value)< 1000?parseFloat(setValuesFormats(el.value)):Math.round(el.value);
 					newEl.color = el.value > 0 ? "#b0c986":"#f44040";
 					showBalanceData.push(newEl);
 				}
