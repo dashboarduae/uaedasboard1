@@ -728,7 +728,7 @@ function updateYearRangeFTVolume(){
 						'max': maxYear
 					}
 				});
-				updateFTVolumeInfo();
+				
 				yearSlider.noUiSlider.on('change', function(){
 					var activeYears = yearSlider.noUiSlider.get();
 					setActiveYearRange(activeYears[0],activeYears[1]);
@@ -751,8 +751,11 @@ function updateYearRangeFTVolume(){
 						'max': maxYear
 					}
 				});
-				updateFTVolumeInfo();
+				
 			}
+			var activeYears = yearSlider.noUiSlider.get();
+				setActiveYearRange(activeYears[0],activeYears[1]);
+				updateFTVolumeInfo();
 			
 		}
     });
@@ -975,8 +978,7 @@ function updateYearRangeFTBalance(){
 						'max': maxYear
 					}
 				});
-				updateFTBalanceInfo();
-				updateFTGrowthInfo();
+				
 				yearSlider.noUiSlider.on('change', function(){
 					var activeYears = yearSlider.noUiSlider.get();
 					setActiveYearRange(activeYears[0],activeYears[1]);
@@ -1000,9 +1002,11 @@ function updateYearRangeFTBalance(){
 						'max': maxYear
 					}
 				});
-				updateFTBalanceInfo();
-				updateFTGrowthInfo();
 			}
+			var activeYears = yearSlider.noUiSlider.get();
+			setActiveYearRange(activeYears[0],activeYears[1]);
+			updateFTBalanceInfo();
+			updateFTGrowthInfo();
 			
 		}
     });

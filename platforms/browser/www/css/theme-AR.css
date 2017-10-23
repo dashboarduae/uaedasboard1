@@ -163,9 +163,18 @@ body.lngAR .FTV.portrait.ACV .categoryInfo .panel .panel-body .FTVItem{
 }
 
 body.lngAR .FTV.portrait.ACV .categoryInfo .panel .panel-body .FTVItem{
-	    font-size: 3vw;   
+	    font-size: 3vw;       line-height: 1.5em;
+    text-align: justify;
 }
 
+body.lngAR #generalInfo .param, body.lngAR #generalInfo .value {
+    font-size: 3.3vw;
+}
+
+
+body.lngAR .FTV.portrait .panel .panel-heading .panel-title {
+    font-size: 3.3vw;
+}
 @media (orientation: landscape){
 
 body.lngAR  .tradeGrowth .panel .panel-heading .panel-title,
@@ -261,6 +270,10 @@ padding: 2vw 8vw 2.5vw 10vw;
     height: 7.5vw;
     background-size: 4.5%;
     background-position-x: 98%;
+}
+
+body.lngAR .FTV.portrait .panel .panel-heading .panel-title {
+    font-size: 2vw;
 }
 
 }
