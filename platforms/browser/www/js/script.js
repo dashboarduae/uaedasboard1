@@ -1,6 +1,5 @@
-//const baseServiceUrl = "http://localhost:8080/trs"; 
-const baseServiceUrl = "http://trservice.eastus.cloudapp.azure.com:8080/trs"; 
-
+//const baseServiceUrl = "http://localhost:8080/trs"; const baseServiceUrl = "http://trservice.eastus.cloudapp.azure.com:8080/trs"; 
+const baseServiceUrl = "http://trservice.us-east-1.elasticbeanstalk.com";
 var curCountry;
 var countryList;
 var countrySelectedFromMap = true;
@@ -32,6 +31,9 @@ $(document).ready(function(){
 	
 	
 });
+
+
+
 
 
 function compareCountry(a,b) {

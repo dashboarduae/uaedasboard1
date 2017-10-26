@@ -1,6 +1,5 @@
-//const baseServiceUrl = "http://localhost:8080/trs"; 
-const baseServiceUrl = "http://trservice.eastus.cloudapp.azure.com:8080/trs"; 
-
+//const baseServiceUrl = "http://localhost:8080/trs"; const baseServiceUrl = "http://trservice.eastus.cloudapp.azure.com:8080/trs"; 
+const baseServiceUrl = "http://trservice.us-east-1.elasticbeanstalk.com";
 var curCountry;
 var countryList;
 var countrySelectedFromMap = true;
@@ -32,6 +31,9 @@ $(document).ready(function(){
 	
 	
 });
+
+
+
 
 
 function compareCountry(a,b) {
@@ -260,7 +262,7 @@ function setActiveCountry(id, fromMap){
 }
 
 function updateMap(){
-	if(!countrySelectedFromMap ) {
+	/*if(!countrySelectedFromMap ) {
 		try{
 			countryMap.clearSelectedRegions()
 			countryMap.setSelectedRegions(curCountry.iso2);
@@ -272,7 +274,7 @@ function updateMap(){
 		
 	}
 	$('#vector_world_map').vectorMap('set', 'focus',curCountry.iso2);
-	countrySelectedFromMap = true;
+	countrySelectedFromMap = true;*/
 }
 
 function updateGeneralInformation(){
