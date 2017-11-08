@@ -38,6 +38,11 @@ A IMG {border:none}
 #hor_ani_arr1_div IMG {width:16vw;height:auto}
 #hor_ani_arr2_div IMG {width:16vw;height:auto}
 
+#hor_ani_arr1_div IMG.rtl,
+#hor_ani_arr2_div IMG.rtl{
+display:none;
+}
+
 #hor_icons_cont_div {margin-top:0.5vw}
 
 #hor_icons_arr_div {float:left;background:white;width:4vw;height:33vw;position:relative}
@@ -112,6 +117,16 @@ body.lngAR #hor_icons_ul A:hover,
 body.lngAR #hor_text_cont_div H2, 
 body.lngAR #hor_text_cont_div P {
   font-family: "DroidArabicKufi",Tahoma,Arial,sans-serif;
+}
+
+body.lngAR #hor_ani_arr1_div IMG,
+body.lngAR #hor_ani_arr2_div IMG{
+display:none;
+}
+
+body.lngAR #hor_ani_arr1_div IMG.rtl,
+body.lngAR #hor_ani_arr2_div IMG.rtl{
+display:block;
 }
 
 body.lngAR #hor_logo_div IMG {display:none;}
@@ -332,8 +347,8 @@ width: 34vw;
 </div>
 
 
-<div id='hor_ani_arr1_div'><img src='img/fp/ani_arr1.gif' alt=''></div>
-<div id='hor_ani_arr2_div'><img src='img/fp/ani_arr2.gif' alt=''></div>
+<div id='hor_ani_arr1_div'><img src='img/fp/green-ltr.gif' alt=''><img  class="rtl" src='img/fp/red-ltr.gif' alt=''></div>
+<div id='hor_ani_arr2_div'><img src='img/fp/red-rtl.gif' alt=''><img  class="rtl" src='img/fp/green-rtl.gif' alt=''></div>
 <div id='langSwitch'><a href="#" onClick="switchAppLang();return false;"></a></div>
 
 <div class='hor_pie_div filters' style='right:1vw'>

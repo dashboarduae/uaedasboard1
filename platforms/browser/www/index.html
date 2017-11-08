@@ -35,6 +35,10 @@ A IMG {border:none}
 #ani_arr1_div IMG {width:44vw;height:auto}
 #ani_arr2_div IMG {width:44vw;height:auto}
 
+#ani_arr1_div IMG.rtl, 
+#ani_arr2_div IMG.rtl{
+display:none;} 
+
 #icons_cont_div {margin-top:4vw}
 
 #icons_arr_div {float:right;background:white;width:8vw;height:70vw;position:relative}
@@ -134,6 +138,16 @@ padding: 1vw;
 body.lngAR #langSwitch a{
 	background-image:url('img/fp/switchEn.png');
 }
+
+
+
+body.lngAR  #ani_arr1_div IMG, 
+body.lngAR  #ani_arr2_div IMG{
+display:none;} 
+
+body.lngAR  #ani_arr1_div IMG.rtl, 
+body.lngAR  #ani_arr2_div IMG.rtl{
+display:block;} 
 
 body.lngAR,
 body.lngAR #h1_div,
@@ -284,8 +298,8 @@ width:65vw;    font-size: 3vw;
 </div>
 
 
-<div id='ani_arr1_div'><img src='img/fp/ani_arr1.gif' alt=''></div>
-<div id='ani_arr2_div'><img src='img/fp/ani_arr2.gif' alt=''></div>
+<div id='ani_arr1_div'><img src='img/fp/green-ltr.gif' alt=''><img class="rtl" src='img/fp/red-ltr.gif' alt=''></div>
+<div id='ani_arr2_div'><img src='img/fp/red-rtl.gif' alt=''><img class="rtl" src='img/fp/green-rtl.gif' alt=''></div>
 
 <div id='langSwitch'><a href="#" onClick="switchAppLang();return false;"></a></div>
 
@@ -345,108 +359,129 @@ width:65vw;    font-size: 3vw;
 		<script>
 $(document).ready(function(){
 	$(document.body).addClass('lng'+ getAppLang());
-	//showLoadingScreen();
-	$.post(baseServiceUrl + "/list",
-    {
-        lang: getAppLang(),
-		dataType: 'jsonp',
-    },
-    function(data, status){
-		countryList  = data;
-		if(status == 'success' && countryList.status == 0) {
-			$('#country_select .chosen-select').html('');
-			countryList.data.sort(compareCountry);
-			countryList.data.forEach(function(el) {
-				var country = $('<option onClick="setActiveCountry(' + el.id + ', false);"></option>');
-				country.text(el.name);
-				$('#country_select .chosen-select').append(country);
-			});
-			var curC = window.localStorage.getItem('appCurCountry');
-			if(curC == undefined) {
-				curC = -1;
-			}
-			
-			setActiveCountry(curC, false);
-			cntrySelect.val(curCountry.id != -1 ? curCountry.name: 'Select');
-			
-			if(curCountry.id != -1){
-				$("img.flag").attr('src', '');
-				var image = new Image();
-
-				image.onload = function() {
-					$("img.flag").attr('src', image.src);
-				}
-				image.onerror = function() {
-					// image did not load
-					$("img.flag").attr('src', 'img/flags/_defFlag.png');
-				}
-
-				image.src = 'img/flags/' + curCountry.id + '.png';
-			}
-		}
-    });
+	document.addEventListener("deviceready", function(){
 	
-	var cntrySelect = $('#country_select .chosen-select').select2();
-	var crrncySelect = $('#currency_select .chosen-select').select2();
-	
-	var cc = parseInt(getCurCurrency());
-
-	switch(cc){
-		case 0:crrncySelect.val(tr("AED Millions"));
-		break;
-		case 1:crrncySelect.val(tr("USD Millions"));
-		break;
-		case 2:crrncySelect.val(tr("AED Billions"));
-		break;
-		case 3:crrncySelect.val(tr("USD Billions"));
-		break;
-	}
-	crrncySelect.trigger('change');
-	$('#country_select .chosen-select').on('select2:open', function (e) {
-		$('.select2-search--dropdown').show();
-		$('.select2-search input').prop('focus',false);
-	});
-	$('#currency_select .chosen-select').on('select2:open', function (e) {
-		$('.select2-search--dropdown').hide();
-		$('.select2-search input').prop('focus',false);
-	});
-	$('#country_select .chosen-select').on('select2:select', function (e) {
-	  var cCountry = getCountryFromListName(cntrySelect.val());
-	  setActiveCountry(cCountry.id, false);
-				$("img.flag").attr('src', '');
-				var image = new Image();
-
-				image.onload = function() {
-					$("img.flag").attr('src', image.src);
-				}
-				image.onerror = function() {
-					// image did not load
-					$("img.flag").attr('src', 'img/flags/_defFlag.png');
-				}
-
-				image.src = 'img/flags/' + curCountry.id + '.png';
+		$.ajaxSetup({
+			type: 'POST',
+			timeout: 5000,
+			error: function(xhr) {
+				alert(tr('Please check internet is not connection'));
+			}
 		});
-	
-	
-	
-	$('#currency_select .chosen-select').on('select2:select', function (e) {
-			if(crrncySelect.val() == tr('AED Millions')) setCurCurrency('0');
-			if(crrncySelect.val() == tr('USD Millions')) setCurCurrency('1');
-			if(crrncySelect.val() == tr('AED Billions')) setCurCurrency('2');
-			if(crrncySelect.val() == tr('USD Billions')) setCurCurrency('3');
-	});
-	
-	$('#icons_ul A').click(function(){
-		var curC = window.localStorage.getItem('appCurCountry');
-			if(curC == undefined) {
-				curC = -1;
+	console.log(baseServiceUrl + "/list");
+		$.get(baseServiceUrl + "/list",
+			{
+				lang: getAppLang(),
+				dataType: 'jsonp',
+			},
+			function(data, status){
+				console.log(data);
+				countryList  = data;
+				if(status == 'success' && countryList.status === 0) {
+					$('#country_select .chosen-select').html('');
+					countryList.data.sort(compareCountry);
+					countryList.data.forEach(function(el) {
+						var country = $('<option onClick="setActiveCountry(' + el.id + ', false);"></option>');
+						country.text(el.name);
+						$('#country_select .chosen-select').append(country);
+					});
+					var curC = window.localStorage.getItem('appCurCountry');
+					if(curC == undefined) {
+						curC = -1;
+					}
+					
+					setActiveCountry(curC, false);
+					cntrySelect.val(curCountry.id != -1 ? curCountry.name: 'Select');
+					
+					if(curCountry.id != -1){
+						$("img.flag").attr('src', '');
+						var image = new Image();
+
+						image.onload = function() {
+							$("img.flag").attr('src', image.src);
+						}
+						image.onerror = function() {
+							// image did not load
+							$("img.flag").attr('src', 'img/flags/_defFlag.png');
+						}
+
+						image.src = 'img/flags/' + curCountry.id + '.png';
+					}
+				}else{
+					
+				}
+				
+			});
+			
+			var cntrySelect = $('#country_select .chosen-select').select2();
+			var crrncySelect = $('#currency_select .chosen-select').select2();
+			
+			var cc = parseInt(getCurCurrency());
+
+			switch(cc){
+				case 0:crrncySelect.val(tr("AED Millions"));
+				break;
+				case 1:crrncySelect.val(tr("USD Millions"));
+				break;
+				case 2:crrncySelect.val(tr("AED Billions"));
+				break;
+				case 3:crrncySelect.val(tr("USD Billions"));
+				break;
 			}
-		if(curC == -1) {
-			alert(tr('Please select country'));
-			return false;
-		}
-		
-	});
+			crrncySelect.trigger('change');
+			$('#country_select .chosen-select').on('select2:open', function (e) {
+				$('.select2-search--dropdown').show();
+				$('.select2-search input').prop('focus',false);
+			});
+			$('#currency_select .chosen-select').on('select2:open', function (e) {
+				$('.select2-search--dropdown').hide();
+				$('.select2-search input').prop('focus',false);
+			});
+			$('#country_select .chosen-select').on('select2:select', function (e) {
+			  var cCountry = getCountryFromListName(cntrySelect.val());
+			  setActiveCountry(cCountry.id, false);
+						$("img.flag").attr('src', '');
+						var image = new Image();
+
+						image.onload = function() {
+							$("img.flag").attr('src', image.src);
+						}
+						image.onerror = function() {
+							// image did not load
+							$("img.flag").attr('src', 'img/flags/_defFlag.png');
+						}
+
+						image.src = 'img/flags/' + curCountry.id + '.png';
+				});
+			
+			
+			
+			$('#currency_select .chosen-select').on('select2:select', function (e) {
+					if(crrncySelect.val() == tr('AED Millions')) setCurCurrency('0');
+					if(crrncySelect.val() == tr('USD Millions')) setCurCurrency('1');
+					if(crrncySelect.val() == tr('AED Billions')) setCurCurrency('2');
+					if(crrncySelect.val() == tr('USD Billions')) setCurCurrency('3');
+			});
+			
+			$('#icons_ul A').click(function(){
+				var curC = window.localStorage.getItem('appCurCountry');
+					if(curC == undefined) {
+						curC = -1;
+					}
+				if(curC == -1) {
+					alert(tr('Please select country'));
+					return false;
+				}
+				
+			});
+	
+	}, false);
+	 
+	
+
+	
+	
+	
 	
 	$(window).resize(function(){
 

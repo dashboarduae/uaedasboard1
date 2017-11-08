@@ -13,8 +13,10 @@
         <!-- CSS INCLUDE -->        
 		<link rel="stylesheet" type="text/css" id="theme" href="js/plugins/select2/css/select2.min.css"/>
 		<link rel="stylesheet" type="text/css"  href="js/plugins/noUiSlider/nouislider.min.css"/>
-        <link rel="stylesheet" type="text/css" id="theme" href="css/theme-default.css"/><script src='https://api.mapbox.com/mapbox-gl-js/v0.40.0/mapbox-gl.js'></script>
-<link href='https://api.mapbox.com/mapbox-gl-js/v0.40.0/mapbox-gl.css' rel='stylesheet' />
+        <link rel="stylesheet" type="text/css" id="theme" href="css/theme-default.css"/>
+		<script src='js/plugins/mapbox/mapbox-gl.js'></script>
+		<script src='js/plugins/mapbox/turf.min.js'></script>
+<link href='js/plugins/mapbox/mapbox-gl.css' rel='stylesheet' />
 <link rel="stylesheet" type="text/css" href="css/theme-AR.css">
         <!-- EOF CSS INCLUDE --> 
 		<!-- START PLUGINS -->
@@ -113,30 +115,89 @@
 									<div class="panel-body panel-body-map">
 										<!--<div id="vector_world_map" ></div>-->
 										<div id='vector_world_map' ></div>
-										<script>
-										mapboxgl.accessToken = 'pk.eyJ1IjoiYmFzaGFyYWhtYWQiLCJhIjoiY2l6cDh6bG1mMDAwYjMydXF1a2VvMHNtaiJ9.Wu9fpxoGbi8TpCQ_Jma6Rw';
-										var map = new mapboxgl.Map({
-										container: 'vector_world_map',
-										style: 'mapbox://styles/basharahmad/cizp3f4ek00cj2snu9lcnln1o'
-										});
-										map.on('load', function() {
-											 map.on('click', function(e) {
-												// set bbox as 5px reactangle area around clicked point
-												var bbox = [[e.point.x - 5, e.point.y - 5], [e.point.x + 5, e.point.y + 5]];
-												var features = map.queryRenderedFeatures(bbox, { layers: ['counties'] });
+										<script>mapboxgl.accessToken = 'pk.eyJ1IjoiYmFzaGFyYWhtYWQiLCJhIjoiY2l6cDh6bG1mMDAwYjMydXF1a2VvMHNtaiJ9.Wu9fpxoGbi8TpCQ_Jma6Rw';
 
-												// Run through the selected features and set a filter
-												// to match features with unique FIPS codes to activate
-												// the `counties-highlighted` layer.
-												var filter = features.reduce(function(memo, feature) {
-													memo.push(feature.properties.FIPS);
-													return memo;
-												}, ['in', 'FIPS']);
+var map = new mapboxgl.Map({
+    container: 'vector_world_map',
+     //style: 'mapbox://styles/mapbox/streets-v9',
+    style: 'mapbox://styles/basharahmad/cizp3f4ek00cj2snu9lcnln1o',
+     center: [-98, 38.88],
+     minZoom: 0,
+    zoom: 1
+});
 
-												map.setFilter("counties-highlighted", filter);
-											});
-										});										
-										</script>
+
+
+map.on('load', function () {
+    // Add a layer showing the state polygons.
+    map.addLayer({
+        'id': 'states-layer',
+        'type': 'fill',
+		'sourceLayer': 'states-layer',
+        'source': {
+            'type': 'geojson',
+            'data': 'convert2.geojson'
+        },
+        'paint': {
+            'fill-color': 'rgba(200, 100, 240, 0.1)',
+
+        }
+    });
+	
+	map.addLayer({
+        "id": "counties-highlighted",
+        "type": "fill",
+        'source': {
+            'type': 'geojson',
+            'data': 'convert2.geojson'
+        },
+        "paint": {
+            "fill-outline-color": "#484896",
+            "fill-color": "#6e599f",
+            "fill-opacity": .5
+        },
+        "filter": ["in", "COUNTY", ""]
+    }, 'place-city-sm');
+    // When a click event occurs on a feature in the states layer, open a popup at the
+    // location of the click, with description HTML from its properties.
+    map.on('click', 'states-layer', function (e) {
+        /*new mapboxgl.Popup()
+            .setLngLat(e.lngLat)
+            .setHTML(e.features[0].properties.CNT_Countr)
+            .addTo(map);*/
+			
+		setActiveCountry(e.features[0].properties.CNT_ID, false);
+		updateGeneralInformation();
+		console.log(e.features);
+		map.setFilter("counties-highlighted", ["==", "CNT_ID", e.features[0].properties.CNT_ID]);		
+    });
+
+    // Change the cursor to a pointer when the mouse is over the states layer.
+    map.on('mouseenter', 'states-layer', function (e) {
+        map.getCanvas().style.cursor = 'pointer';		
+    });
+
+    // Change it back to a pointer when it leaves.
+    map.on('mouseleave', 'states-layer', function (e) {
+        map.getCanvas().style.cursor = '';		
+    });
+	
+	updateMap();
+});
+
+function updateMap(){
+	map.setFilter("counties-highlighted", ["==", "CNT_ID", curCountry.id]);
+	
+	/*
+	var geojson = {
+		"type": "FeatureCollection",
+		"features":relatedFeatures,
+	}
+	var bbox = turf.extent(geojson);
+	map.fitBounds(bbox, {padding: 20});*/
+	
+}
+</script>
 									</div>
 								</div>
 
@@ -200,7 +261,6 @@
         
         <script type="text/javascript" src="js/plugins.js"></script>        
         <script type="text/javascript" src="js/actions.js"></script>
-		<!-- <script type="text/javascript" src="js/front_map.js"></script> -->
         <script type="text/javascript" src="js/plugins/select2/js/select2.min.js"></script> 
         
         <!-- END TEMPLATE -->
