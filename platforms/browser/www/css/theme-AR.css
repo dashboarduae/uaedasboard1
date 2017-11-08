@@ -276,6 +276,10 @@ body.lngAR .FTV.portrait .panel .panel-heading .panel-title {
     font-size: 2vw;
 }
 
+body.lngAR #generalInfo .param, body.lngAR #generalInfo .value {
+    font-size: 1.6vw;
+}
+
 }
 
 

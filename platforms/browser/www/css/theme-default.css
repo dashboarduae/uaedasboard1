@@ -8073,7 +8073,7 @@ margin: 0;
     text-align: left;
     background-size: 8%;
     background-position-x: 5%;
-    font-size: 6vw;
+    font-size: 5.5vw;
 	    height: 15.625vw;
 }
 
@@ -8648,6 +8648,18 @@ display: table-cell;
 
 #country_select{display:none;}
 
+#exportPDF{
+	background: url(../img/pdf.png) center center no-repeat;
+    background-size: contain;
+    position: fixed;
+    bottom: 5vw;
+    left: 5vw;
+    height: 10vw;
+    width: 10vw;
+}
+
+#exportPDFInput{display:none;}
+
 @media all and (orientation:landscape) {
 .select2-container--default .select2-selection--single .select2-selection__rendered{
 	font-size:2.5vw;
@@ -8656,6 +8668,13 @@ display: table-cell;
 #country_select{display:block;}
 
 #country_select2{display:none;}
+
+#exportPDF{
+    bottom: 2vw;
+    left: 2vw;
+    height: 5vw;
+    width: 5vw;
+}
 }
 
 svg text{

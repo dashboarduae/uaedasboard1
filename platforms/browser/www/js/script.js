@@ -1,6 +1,5 @@
 //const baseServiceUrl = "http://localhost:8080/trs"; 
-const baseServiceUrl = "http://trservice.eastus.cloudapp.azure.com:8080/trs"; 
-
+const baseServiceUrl = "http://trservice.us-east-1.elasticbeanstalk.com";
 var curCountry;
 var countryList;
 var countrySelectedFromMap = true;
@@ -32,6 +31,9 @@ $(document).ready(function(){
 	
 	
 });
+
+
+
 
 
 function compareCountry(a,b) {
@@ -69,6 +71,18 @@ function setValuesFormats(val){
 		}
 		return value.toPrecision(1);
 	}
+}
+
+function setValuesFormatsInt(val){
+	
+	var value = new Number(val);
+
+	if(value == 0) return '0';
+	if(value > 0){
+
+		return value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+
 }
 
 function HtmlEncode(s)
@@ -259,21 +273,7 @@ function setActiveCountry(id, fromMap){
 	countrySelectedFromMap = fromMap;
 }
 
-function updateMap(){
-	if(!countrySelectedFromMap ) {
-		try{
-			countryMap.clearSelectedRegions()
-			countryMap.setSelectedRegions(curCountry.iso2);
-			countrySelectedFromMap = false;
-			
-		}catch(err){
-			
-		}
-		
-	}
-	$('#vector_world_map').vectorMap('set', 'focus',curCountry.iso2);
-	countrySelectedFromMap = true;
-}
+
 
 function updateGeneralInformation(){
 	//showLoadingScreen();
@@ -316,7 +316,7 @@ function updateGeneralInformation(){
 				}
 				
 				if(el.weight == 3) {
-					$(".GICountryTitle .population .value").text(Math.round(el.value) + ' ' + tr('Millions'));
+					$(".GICountryTitle .population .value").text(setValuesFormatsInt(Math.round(parseFloat(el.value.replace(/[^\d\.]/g,'') ))) + ' ' + tr('Millions'));
 					addElement = false;
 				}
 				if(addElement){
@@ -1127,6 +1127,7 @@ function updateInvestmentFactsInfo(){
     {
         lang: getAppLang(),
         country: curCountry.id,
+		currency:getCurCurrency()
     },
     function(info, status){
 		
@@ -1144,6 +1145,7 @@ function updateInvestmentFactsInfo(){
     {
         lang: getAppLang(),
         country: curCountry.id,
+		currency:getCurCurrency()
     },
     function(info, status){
 		
@@ -1165,9 +1167,9 @@ function updateInvestmentFactsInfo(){
 		if(status == 'success' && info.status == 0){
 			console.log("ACT");
 			console.log(info.data);
-			$(".agenCount").text(info.data[0].agencies);
-			$(".compCount").text(info.data[0].companies);
-			$(".tmCount").text(info.data[0].trademark);
+			$(".agenCount").text(setValuesFormatsInt(info.data[0].agencies));
+			$(".compCount").text(setValuesFormatsInt(info.data[0].companies));
+			$(".tmCount").text(setValuesFormatsInt(info.data[0].trademark));
 		}
     });
 }

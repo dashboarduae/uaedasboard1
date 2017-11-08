@@ -136,7 +136,7 @@
             <!-- END PAGE CONTENT -->
         </div>
         <!-- END PAGE CONTAINER -->
-
+<!-- <div id="exportPDF" onClick="exportToPdfACV();"> -->
         <!-- START PRELOADS -->
         <audio id="audio-alert" src="audio/alert.mp3" preload="auto"></audio>
         <audio id="audio-fail" src="audio/fail.mp3" preload="auto"></audio>
@@ -166,12 +166,16 @@
         <script type="text/javascript" src="js/plugins/moment.min.js"></script>
         <script type="text/javascript" src="js/plugins/daterangepicker/daterangepicker.js"></script>
 		<script type="text/javascript" src="js/plugins/select2/js/select2.min.js"></script> 
+        <script type="text/javascript" src="js/plugins/html2canvas.js"></script>
+		<script type="text/javascript" src="js/plugins/jspdf.min.js"></script>
         <!-- END THIS PAGE PLUGINS-->        
 
         <!-- START TEMPLATE -->
         
         <script type="text/javascript" src="js/plugins.js"></script>        
         <script type="text/javascript" src="js/actions.js"></script>
+		<script type="text/javascript" src="js/exportToPDF.js"></script>
+        
         <!-- END TEMPLATE -->
 		
 		<script>
