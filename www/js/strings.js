@@ -56,12 +56,12 @@ var appStrings = [
 ['registered in the UAE','المسجلة في الإمارات'],
 ['Main Sectors','القطاعات الرئيسية'],
 ['from the UAE','من الإمارات'],
-['Outflow FDI Value','رصيد الاستثمار المباشر الخارج'],
-['Inflow FDI Value','رصيد الاستثمار المباشر الداخل'],
+['Outward FDI Stock','رصيد الاستثمار المباشر الخارج'],
+['Inward FDI Stock','رصيد الاستثمار المباشر الداخل'],
 ['Main Companies','الشركات الرئيسية'],
 ['Main Sectors','القطاعات الرئيسية'],
 ['Foreign Investments Facts','حقائق الاستثمار '],
-['into the UAE','في الإمارات'],
+['into the UAE','إلى الإمارات'],
 ['Bilateral Agreements','الاتفاقيات الثنائية'],
 ['Joint Economic Committees','اللجان المشتركة'],
 ['Delegations and Visits','زيارات الوفود والفعاليات'],
@@ -71,3 +71,4 @@ var appStrings = [
 ['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
 ['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
 ];
+

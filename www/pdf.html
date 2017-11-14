@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+
+<head>        
+        <!-- META SECTION -->
+        <title>UAE Non-Oil Trade</title>            
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        
+        <link rel="icon" href="favicon.ico" type="image/x-icon" />
+        <!-- END META SECTION -->
+        
+        <!-- CSS INCLUDE -->        
+		<link rel="stylesheet" type="text/css" id="theme" href="js/plugins/select2/css/select2.min.css"/>
+        <link rel="stylesheet" type="text/css" id="theme" href="css/theme-default.css"/><script src='https://api.mapbox.com/mapbox-gl-js/v0.40.0/mapbox-gl.js'></script>
+<link href='https://api.mapbox.com/mapbox-gl-js/v0.40.0/mapbox-gl.css' rel='stylesheet' />
+<link rel="stylesheet" type="text/css" href="css/theme-AR.css">
+        <!-- EOF CSS INCLUDE --> 
+		<!-- START PLUGINS -->
+        <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script> 
+		<script type="text/javascript" src="js/plugins/jspdf/jspdf.min.js"></script>
+		<script type="text/javascript" src="js/plugins/jspdf/plugins/jspdf.plugin.autotable.js"></script>
+		<script type="text/javascript" src="js/plugins/jspdf/libs/html2canvas/html2canvas.js"></script>
+		<script type="text/javascript" src="js/strings.js"></script>
+		<script type="text/javascript" src="js/script.js"></script>	
+<script type="text/javascript" src="js/pdfreport.js"></script>			
+        <!-- END PLUGINS -->
+<!-- START PHONEGAP -->
+		 <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+    </script>
+		<!-- END PHONEGAP -->		
+    </head>
+<body>
+
+
+<div class="page-container">
+            
+            <!-- START PAGE SIDEBAR -->
+            <div class="page-sidebar">
+                <!-- START X-NAVIGATION -->
+                <ul class="x-navigation">
+                    <li class="xn-logo">
+                        <a href="index.html"><script>document.write(tr('PDF Report'));</script></a>
+						
+                        <a href="#" class="x-navigation-control"></a>
+                    </li>
+                    <li><a href="general_information.html"> <span class="xn-text"><script>document.write(tr('General Information'));</script></span></a></li>
+					<li><a href="foreign_trade_volume.html"><span class="xn-text"><script>document.write(tr('Trade Volume'));</script></span></a></li>
+					<li><a href="trade_balance.html"> <span class="xn-text"><script>document.write(tr('Trade Growth and Balance'));</script></span></a></li>
+					<li><a href="direct_foreign_trade_items.html"><span class="xn-text"><script>document.write(tr('Direct Trade Items'));</script></span></a></li>
+					<li><a href="investement_facts.html"><span class="xn-text"><script>document.write(tr('Investment Facts'));</script></span></a></li>
+					<li><a href="com_agr.html"><span class="xn-text"><script>document.write(tr('Committees &amp; Agreements'));</script></span></a></li>
+					<li><a href="pdf.html"><span class="xn-text"><script>document.write(tr('PDF Report'));</script></span></a></li>
+                    
+                </ul>
+                <!-- END X-NAVIGATION -->
+            </div>
+            <!-- END PAGE SIDEBAR -->
+            
+            <!-- PAGE CONTENT -->
+            <div class="page-content">
+                
+                <!-- START X-NAVIGATION VERTICAL -->
+
+                <!-- END X-NAVIGATION VERTICAL -->                     
+
+                <!-- PAGE CONTENT WRAPPER -->
+                <div class="page-content-wrap"><div  class="row" >&nbsp;</div>
+				<div  class="row" >
+					<div class="col-md-12">
+						<div id="country_select" class="btn-group">
+									<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"> <span class="caret"></span></a>
+									<ul class="dropdown-menu" role="menu">
+															   
+									</ul>
+						</div>
+						<div  id="country_select2">
+							<select   class="chosen-select"></select>
+						</div>
+					</div>
+					
+				</div>
+				<div  class="row">
+					<div class="col-md-12">
+					<input style="background:#678daf" class="btn  btn-block" type="button" value="PDF Report" onClick="genPDFReport();">
+					<div id="report"></div>
+					</div>	
+				</div>
+				</div>
+                <!-- END PAGE CONTENT WRAPPER -->                                
+            </div>            
+            <!-- END PAGE CONTENT -->
+        </div>
+        <!-- END PAGE CONTAINER -->
+
+
+
+<!-- START THIS PAGE PLUGINS-->        
+        <script type='text/javascript' src='js/plugins/icheck/icheck.min.js'></script>        
+        <script type="text/javascript" src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
+        <script type="text/javascript" src="js/plugins/scrolltotop/scrolltopcontrol.js"></script>
+        
+        <script type="text/javascript" src="js/plugins/morris/raphael-min.js"></script>
+        <script type="text/javascript" src="js/plugins/morris/morris.min.js"></script>       
+        <script type="text/javascript" src="js/plugins/rickshaw/d3.v3.js"></script>
+        <script type="text/javascript" src="js/plugins/rickshaw/rickshaw.min.js"></script>
+        <script type='text/javascript' src='js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js'></script>
+        <script type='text/javascript' src='js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js'></script>                
+        <script type='text/javascript' src='js/plugins/bootstrap/bootstrap-datepicker.js'></script>                
+        <script type="text/javascript" src="js/plugins/owl/owl.carousel.min.js"></script> 
+                
+        <script type='text/javascript' src='js/plugins/noty/jquery.noty.js'></script>
+        <script type='text/javascript' src='js/plugins/noty/layouts/topCenter.js'></script>
+        <script type='text/javascript' src='js/plugins/noty/layouts/topLeft.js'></script>
+        <script type='text/javascript' src='js/plugins/noty/layouts/topRight.js'></script> 
+
+		 <script type='text/javascript' src='js/plugins/noty/themes/default.js'></script>
+
+
+        <script type="text/javascript" src="js/plugins/moment.min.js"></script>
+        <script type="text/javascript" src="js/plugins/daterangepicker/daterangepicker.js"></script>
+        <!-- END THIS PAGE PLUGINS-->        
+
+        <!-- START TEMPLATE -->
+        
+        <script type="text/javascript" src="js/plugins.js"></script>        
+        <script type="text/javascript" src="js/actions.js"></script>
+		 <script type="text/javascript" src="js/front_map.js"></script>
+        <script type="text/javascript" src="js/plugins/select2/js/select2.min.js"></script> 
+</body>
+</html>

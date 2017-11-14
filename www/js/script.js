@@ -1,5 +1,6 @@
 //const baseServiceUrl = "http://localhost:8080/trs"; 
-const baseServiceUrl = "http://trservice.us-east-1.elasticbeanstalk.com";
+//const baseServiceUrl = "http://trservice.us-east-1.elasticbeanstalk.com";
+const baseServiceUrl = "http://trservicetest.us-east-1.elasticbeanstalk.com"
 var curCountry;
 var countryList;
 var countrySelectedFromMap = true;
@@ -1410,4 +1411,20 @@ function tr(string){
 		}
 	}
 	return string;
+}
+
+function updateMap(){
+	if(!countrySelectedFromMap ) {
+		try{
+			countryMap.clearSelectedRegions()
+			countryMap.setSelectedRegions(curCountry.iso2);
+			countrySelectedFromMap = false;
+			
+		}catch(err){
+			
+		}
+		
+	}
+	$('#vector_world_map').vectorMap('set', 'focus',curCountry.iso2);
+	countrySelectedFromMap = true;
 }

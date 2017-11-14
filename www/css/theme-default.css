@@ -7424,7 +7424,7 @@ display:none;
 .dfti .col-md-2 .btn-group,
 .btn-group>.btn:first-child,
 .open>.dropdown-menu{
-	width: 100%;
+	width: 100%;    font-size: 16px;
 }
 
 
@@ -8463,6 +8463,7 @@ display: table-cell;
 .dropdown-menu > li > a {
     padding: 1vw 1.5vw;
     line-height: 1.3em;
+	    font-size: 16px;
 }
 
  .FTItemsSummary{display:none !important;}
@@ -8625,7 +8626,7 @@ display: table-cell;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__rendered{
-	color:#fff;font-size:4.375vw;
+	color:#fff;    font-size: 16px;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__arrow b{
@@ -8679,4 +8680,8 @@ display: table-cell;
 
 svg text{
 	font-family: "Cronos Pro",Tahoma,Arial,sans-serif !important;
+}
+
+.select2-results__option {
+    font-size: 16px;
 }
