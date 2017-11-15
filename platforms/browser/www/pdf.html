@@ -85,9 +85,67 @@
 					</div>
 					
 				</div>
+				<div class="row reportFiter">
+					<div class="col-md-12">
+						<span><script>document.write(tr('General Information'));</script></span>
+						<label class="switch">
+                            <input  data-category="1" type="checkbox" checked="checked" value="0">
+                             <span></span>
+                    
+						</label>
+					</div>
+				</div>
+				
+				<div class="row reportFiter">
+					<div class="col-md-12">
+						<span><script>document.write(tr('Trade Volume'));</script></span>
+						<label class="switch">
+                            <input data-category="2" type="checkbox"  value="0">
+                             <span></span>
+                    
+						</label>
+					</div>
+				</div>
+				
+				<div class="row reportFiter">
+					<div class="col-md-12">
+						<span><script>document.write(tr('Direct Trade Items'));</script></span>
+						<label class="switch">
+                            <input   data-category="4" type="checkbox"  value="0">
+                             <span></span>
+                    
+						</label>
+					</div>
+				</div>
+				
+				<div class="row reportFiter">
+				<div class="col-md-12">
+						<span><script>document.write(tr('Trade Balance'));</script></span>
+						<label class="switch">
+                            <input   data-category="8" type="checkbox"  value="0">
+                             <span></span>
+                    
+						</label>
+					</div>
+				</div>
+				</div>
+				
+				<div class="row reportFiter">
+					<div class="col-md-12">
+						<span><script>document.write(tr('Trade Growth'));</script></span>
+						<label class="switch">
+                            <input   data-category="16" type="checkbox"  value="0">
+                             <span></span>
+                    
+						</label>
+					</div>
+				</div>
+				
+				
+				
 				<div  class="row">
 					<div class="col-md-12">
-					<input style="background:#678daf" class="btn  btn-block" type="button" value="PDF Report" onClick="genPDFReport();">
+					<input style="background:#678daf" class="btn  btn-block" type="button" value="PDF Report" onClick="reLoadData();genPDFReport();">
 					<div id="report"></div>
 					</div>	
 				</div>

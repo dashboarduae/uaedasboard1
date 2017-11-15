@@ -1,10 +1,13 @@
 var pdf;
 var pdfOutput;
 
+var pdfCatFiter = 1;
+
 var pdfInternals;
 var pdfPageSize;
 var pdfPageWidth;
 var pdfPageHeight;
+
 
 var logoLoaded = false;
 var logoLoadedDataURLImage;
@@ -39,6 +42,16 @@ $(document).ready(function(){
 				alert(tr('Please check internet is not connection'));
 			}
 	});
+	
+	$('.reportFiter input[type="checkbox"]').change(function() {
+		if($(this).is(":checked")) {
+            pdfCatFiter = pdfCatFiter | $(this).data('category');
+        }else{
+			pdfCatFiter = pdfCatFiter & ~($(this).data('category'));
+		}
+		
+	});
+	
 	$.post(baseServiceUrl + "/list",
 		{
 			lang: getAppLang(),
@@ -52,7 +65,7 @@ $(document).ready(function(){
 				menu.html('');
 				countryList.data.sort(compareCountry);
 				for(var i = 0;i<countryList.data.length; i++){
-					var country = $('<li><a href="#" onClick="setActiveCountry(' + countryList.data[i].id + ', false);reLoadData();">' + HtmlEncode(countryList.data[i].name) + '</a></li>');
+					var country = $('<li><a href="#" onClick="setActiveCountry(' + countryList.data[i].id + ', false);">' + HtmlEncode(countryList.data[i].name) + '</a></li>');
 					menu.append(country);
 					
 					
@@ -68,7 +81,7 @@ $(document).ready(function(){
 				});
 				$('#country_select2 .chosen-select').on('select2:select', function (e) {
 					var cCountry = getCountryFromListName(cntrySelect.val());
-					setActiveCountry(cCountry.id, false);reLoadData();
+					setActiveCountry(cCountry.id, false);
 				});
 				
 				var curC = window.localStorage.getItem('appCurCountry');
@@ -77,18 +90,24 @@ $(document).ready(function(){
 				}					
 				setActiveCountry(curC, false);	
 				curCountryLoaded = true;
-				reLoadData();
 			}
 	});
 	
 });
 
+
+
 function reLoadData(){
-	logoLoaded  = flagLoaded = giLoaded = false;
+	reportDataLoaded = flagLoaded = giLoaded = false;
+	var years = getActiveYearRange();
 	$.post(baseServiceUrl + "/pdfreport",
 				{
 					lang: getAppLang(),
 					country: curCountry.id,
+					catfilter: pdfCatFiter,
+					from:years[0],
+					to:years[1],
+					currency:getCurCurrency()
 				},
 				function(data, status){
 
@@ -97,6 +116,8 @@ function reLoadData(){
 					if(status == 'success' && info.status == 0){
 						reportData = info.data;
 						console.log(reportData);
+						
+						reportDataLoaded = true;
 					}
 				});
 	loadResurces();
@@ -127,7 +148,6 @@ function loadResurces(){
 
             var context = canvas.getContext('2d');
             context.drawImage(sectionHeader, 0, 0);
-			context.fillStyle = '#ffffff'; 
 
             sectionHeaderLoadedDataURLImage = canvas.toDataURL('image/png');
 			sectionHeaderLoaded = true;
@@ -141,8 +161,7 @@ function loadResurces(){
             canvas.height = imgFlag.height;
 
             var context = canvas.getContext('2d');
-            context.drawImage(imgFlag, 0, 0);
-			context.fillStyle = '#ffffff'; 
+            context.drawImage(imgFlag, 0, 0); 
 
             flagLoadedDataURLImage = canvas.toDataURL('image/png');
 			flagLoaded = true;
@@ -157,7 +176,6 @@ function loadResurces(){
 
             var context = canvas.getContext('2d');
             context.drawImage(imgGI, 0, 0);
-			context.fillStyle = '#ffffff'; 
 
             giLoadedDataURLImage = canvas.toDataURL('image/png');
 			giLoaded = true;
@@ -170,7 +188,7 @@ function loadResurces(){
 
 
 function isAllDataReady(){
-	return logoLoaded && curCountryLoaded && flagLoaded && giLoaded;
+	return logoLoaded && curCountryLoaded && flagLoaded && giLoaded && reportDataLoaded;
 }
 
 function getPDFPageTemplate(){
@@ -270,8 +288,8 @@ function genGeneralInformation(){
 			startY:163,
 			margin: {top: 10, right: 10, bottom: 10, left: 10},
 			drawCell: function (cell, data) {
-				console.log(cell);
-				console.log(data);
+				//console.log(cell);
+				//console.log(data);
 				if(data.column.dataKey == "value") {
 					//cell.styles.columnWidth = 10;
 					//cell.styles.halign = "right";
@@ -312,25 +330,9 @@ function genPDFReport(){
 			 pdf.save('report.pdf');
 		}
 		*/
+		/*
 		pdfOutput = pdf.output();
-		
-		
-			window.resolveLocalFileSystemURL(cordova.file.externalDataDirectory, function (fileEntry) {
-			  var filepath = fileEntry.toURL() + filename;
-			  var fileTransfer = new FileTransfer();
-			  console.log('FilePath ' + filepath);
-			  fileTransfer.download(uri, filepath,
-				function (fileEntry) {
-				  console.log("download complete: " + fileEntry.toURL());
-				},
-				function (error) {
-				  console.log("ErrorDownload: " + JSON.stringify(error));
-				},
-				true,
-				{}
-			  );
-			});
-		
+	
 		var path = cordova.file.externalDataDirectory;//if IOS cordova.file.documentsDirectory
 		var filename = "report.pdf";
 
@@ -353,36 +355,7 @@ function genPDFReport(){
 				  
 			});
 		});		
-		window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
-			 
-			   //alert(fileSystem.name);
-			   //alert(fileSystem.root.name);
-			   //alert(fileSystem.root.fullPath);
-			 
-			   fileSystem.root.getFile("report.pdf", {create: true}, function(entry) {
-				  var fileEntry = entry;
-				  //alert(entry);
-			 
-				  entry.createWriter(function(writer) {
-					 writer.onwrite = function(evt) {
-					 //alert("write success");
-				  };
-			 
-				  //alert("writing to file");
-					 writer.write( pdfOutput );
-				  }, function(error) {
-					 //alert(error);
-				  });
-				  
-				  //alert('Report is saved to ' + fileSystem.root.fullPath + "report.pdf"  );
-			 
-			   }, function(error){
-				  //alert(error);
-			   });
-			},
-			function(event){
-			 //alert( evt.target.error.code );
-			});
+		*/
 		pdf.save('report.pdf');
 	}else{
 		setTimeout(genPDFReport, 500);
