@@ -63,6 +63,12 @@
         },
         "cordova-plugin-whitelist": {
             "PACKAGE_NAME": "ae.gov.economy.trdashboard"
+        },
+        "com.phonegap.plugins.fileopener": {
+            "PACKAGE_NAME": "ae.gov.economy.trdashboard.ios"
+        },
+        "cordova-plugin-file-opener2": {
+            "PACKAGE_NAME": "ae.gov.economy.trdashboard"
         }
     },
     "dependent_plugins": {

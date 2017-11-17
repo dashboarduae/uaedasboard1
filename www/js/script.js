@@ -776,6 +776,8 @@ function updateYearRangeACV(){
     },
     function(info, status){
 		var activeRange = getActiveYearRange();
+		activeRange[0] = Number.parseInt(activeRange[0]);
+		activeRange[1] = Number.parseInt(activeRange[1]);
 		var minYear = activeRange[0];
 		var maxYear = activeRange[1];
 		if(status == 'success' && info.status == 0 && info.data[0].minYear > 0){
@@ -796,7 +798,8 @@ function updateYearRangeACV(){
 			
 		}
 		console.log(activeRange);console.log(minYear);console.log(maxYear);
-		if(yearSlider.noUiSlider == undefined){
+		
+			if(yearSlider.noUiSlider == undefined){
 				noUiSlider.create(yearSlider, {
 					start: activeRange,
 					connect: true,
@@ -808,8 +811,8 @@ function updateYearRangeACV(){
 						decimals: 0
 					}),
 					range: {
-						'min': minYear,
-						'max': maxYear
+						'min': Number.parseInt(minYear),
+						'max': Number.parseInt(maxYear)
 					}
 				});
 				var activeYears = yearSlider.noUiSlider.get();
@@ -833,14 +836,15 @@ function updateYearRangeACV(){
 						decimals: 0
 					}),
 					range: {
-						'min': minYear,
-						'max': maxYear
+						'min': minYear - 1,
+						'max': maxYear + 1
 					}
 				});
 				var activeYears = yearSlider.noUiSlider.get();
 				setActiveYearRange(activeYears[0],activeYears[1]);
 				updateACVInfo();
 			}
+		
     });
 
 	
@@ -870,6 +874,8 @@ function updateACVInfo(){
 				
 				
 				$('.FTV .categoryInfo.cat0').prepend($(panel));
+				
+				console.log(info.data);
 			}
 		};
     });
@@ -893,6 +899,7 @@ function updateACVInfo(){
 				
 				
 				$('.FTV .categoryInfo.cat1').prepend($(panel));
+				console.log(info.data);
 			}
 		};
     });
@@ -916,6 +923,7 @@ function updateACVInfo(){
 				
 				
 				$('.FTV .categoryInfo.cat2').prepend($(panel));
+				console.log(info.data);
 			}
 		};
     });

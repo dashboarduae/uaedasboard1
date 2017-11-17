@@ -26,6 +26,10 @@ var giLoaded = false;
 var giLoadedDataURLImage;
 var imgGI  = new Image();
 
+var agrLoaded = false;
+var agrLoadedDataURLImage;
+var imgAgr  = new Image();
+
 
 var reportDataLoaded = false;
 var reportData;
@@ -98,7 +102,7 @@ $(document).ready(function(){
 
 
 function reLoadData(){
-	reportDataLoaded = flagLoaded = giLoaded = false;
+	reportDataLoaded = flagLoaded = giLoaded = agrLoaded = false;
 	var years = getActiveYearRange();
 	$.post(baseServiceUrl + "/pdfreport",
 				{
@@ -182,13 +186,27 @@ function loadResurces(){
 			
 	};	
 	imgGI.src = "img/pdf/giicon.png";
+	
+	imgAgr.onload = function() {
+		var canvas = document.createElement('canvas');
+            canvas.width = imgAgr.width;
+            canvas.height = imgAgr.height;
+
+            var context = canvas.getContext('2d');
+            context.drawImage(imgAgr, 0, 0);
+
+            agrLoadedDataURLImage = canvas.toDataURL('image/png');
+			agrLoaded  = true;
+			
+	};	
+	imgAgr.src = "img/pdf/agricon.png";
 }
 
 
 
 
 function isAllDataReady(){
-	return logoLoaded && curCountryLoaded && flagLoaded && giLoaded && reportDataLoaded;
+	return logoLoaded && curCountryLoaded && flagLoaded && giLoaded && agrLoaded  && reportDataLoaded;
 }
 
 function getPDFPageTemplate(){
@@ -219,9 +237,16 @@ function getPDFPageTemplate(){
 	
 }
 
-
+var pageIndex = 0;
 
 function genGeneralInformation(){
+	
+	
+	if(pageIndex++ > 0){
+		pdf.addPage();
+	}
+	
+	getPDFPageTemplate();
 	
 	pdf.setFontSize(24);
 	pdf.setTextColor(255, 255, 255);
@@ -238,7 +263,10 @@ function genGeneralInformation(){
 	pdf.text('Population', 20, 105);
 	
 	pdf.setFontSize(8);
-	var text2 = pdf.splitTextToSize('Disclaimer: The material presented on this map does not imply the expression of any opinion, recognition or endorsement on the part of Ministry of Economy and the United Arab Emirates concerning the legal status of any country, territory, city or area of its authorities or any delimitation of its frontiers or boundaries.', 65);
+	
+	var disclamer = tr('Disclaimer: The material presented on this map does not imply the expression of any opinion, recognition or endorsement on the part of Ministry of Economy and the United Arab Emirates concerning the legal status of any country, territory, city or area of its authorities or any delimitation of its frontiers or boundaries.');
+
+	var text2 = pdf.splitTextToSize(disclamer, 65);
 	pdf.text(text2, 20, 137);
 	
 	if(reportData.genInfo !=null && reportData.genInfo.length>0){
@@ -301,6 +329,337 @@ function genGeneralInformation(){
 	
 }
 
+function genAgreements(){
+if(pageIndex++ > 0){
+		pdf.addPage();
+	}
+	getPDFPageTemplate();
+	pdf.setFontSize(24);
+	pdf.setTextColor(255, 255, 255);
+	pdf.text('Agreements', 31, 70);
+	
+	pdf.addImage(imgAgr, "png", 16.8, 65, 7, 0);
+	
+	if(reportData.agreements !=null && reportData.agreements.length>0){
+		var gridColumns = [
+			{title: "", dataKey: "left"},
+			{title: "", dataKey: "data"},
+			{title: "", dataKey: "right"},
+		];
+		
+		var gridData = [];
+		
+		var headerCanvas = document.createElement('canvas');
+            headerCanvas.width = pdfPageWidth - 20;
+            headerCanvas.height = 6;
+		
+		var ctx=headerCanvas.getContext("2d");
+			ctx.fillStyle="#2c2c2c";
+			ctx.fillRect(0,0,300,10);
+			
+			ctx.fillStyle="#b68a35";
+			ctx.fillRect(0,0,15,10);
+		
+		var headerDataURLImage = headerCanvas.toDataURL('image/png');
+		
+		var blockTop = 82;
+		
+		
+		var text = "";
+		reportData.committees.forEach(function(el) {
+			pdf.setFontSize(10);
+			text = el.explain;
+			
+			var textHeight = 0;
+			
+			pdf.autoTable([{title: "", dataKey: "text"},], [{ text: text},],{
+				theme: 'plain', // 'striped', 'grid' or 'plain'
+				styles: {
+					cellPadding: {top: 1, right: 1, bottom: 1, left: 10}, // a number, array or object (see margin below)
+					fontSize: 10,
+					overflow: 'linebreak', 
+					//textColor: 'transparent',
+				},
+				showHeader: 'never',
+				startY:0,
+				tableWidth: pdfPageWidth - 30, // 'auto', 'wrap' or a number,
+				pageBreak: 'avoid', // 'auto',  or 'always'
+				margin: {top: 10, right: 0, bottom: 10, left: pdfPageWidth},
+				drawCell: function (cell, data) {
+					textHeight = cell.height;
+					console.log(textHeight);
+				},
+			});
+			
+			
+			var addElement = true;
+			var newBlockTop = blockTop + 10 + textHeight;
+				//pdf.setFontType("bold");
+				
+			if(newBlockTop > 280){
+				pdf.addPage();pageIndex++;
+				getPDFPageTemplate();
+				pdf.setFontSize(24);
+				pdf.setTextColor(255, 255, 255);
+				pdf.text('Agreements', 31, 70);
+				
+				pdf.addImage(imgAgr, "png", 16.8, 65, 7, 0);
+				blockTop = 82;
+				newBlockTop = blockTop + 10 + textHeight;
+			}
+			pdf.setFontSize(10);
+			pdf.addImage(headerDataURLImage, "png", 10, blockTop - 4.3, pdfPageWidth - 20, 0);
+			
+			
+			pdf.setTextColor(255, 255, 255);
+			pdf.text(el.date, 31, blockTop);
+			pdf.setTextColor(100, 100, 100);
+			//pdf.text(text2, 25, blockTop + 7);
+			
+			
+			pdf.autoTable([{title: "", dataKey: "text"},], [{ text: text},],{
+				theme: 'plain', // 'striped', 'grid' or 'plain'
+				styles: {
+					cellPadding: {top: 1, right: 1, bottom: 1, left: 10}, // a number, array or object (see margin below)
+					fontSize: 10,
+					overflow: 'linebreak', 
+					//textColor: [255, 255, 255],
+				},
+				showHeader: 'never',
+				startY:blockTop + 3,
+				tableWidth: pdfPageWidth - 30,
+				margin: {top: 10, right: 10, bottom: 10, left: 10},
+			});
+			
+			console.log(newBlockTop);
+			
+			blockTop = newBlockTop;
+		});
+		
+	}
+	
+}
+
+function genVisits(){
+if(pageIndex++ > 0){
+		pdf.addPage();
+	}
+	getPDFPageTemplate();
+	pdf.setFontSize(24);
+	pdf.setTextColor(255, 255, 255);
+	pdf.text('Visits', 31, 70);
+	
+	pdf.addImage(imgAgr, "png", 16.8, 65, 7, 0);
+	
+	if(reportData.visits !=null && reportData.visits.length>0){
+		var gridColumns = [
+			{title: "", dataKey: "left"},
+			{title: "", dataKey: "data"},
+			{title: "", dataKey: "right"},
+		];
+		
+		var gridData = [];
+		
+		var headerCanvas = document.createElement('canvas');
+            headerCanvas.width = pdfPageWidth - 20;
+            headerCanvas.height = 6;
+		
+		var ctx=headerCanvas.getContext("2d");
+			ctx.fillStyle="#2c2c2c";
+			ctx.fillRect(0,0,300,10);
+			
+			ctx.fillStyle="#b68a35";
+			ctx.fillRect(0,0,15,10);
+		
+		var headerDataURLImage = headerCanvas.toDataURL('image/png');
+		
+		var blockTop = 82;
+		
+		
+		var text = "";
+		reportData.visits.forEach(function(el) {
+			pdf.setFontSize(10);
+			text = el.explain;
+			
+			var textHeight = 0;
+			
+			pdf.autoTable([{title: "", dataKey: "text"},], [{ text: text},],{
+				theme: 'plain', // 'striped', 'grid' or 'plain'
+				styles: {
+					cellPadding: {top: 1, right: 1, bottom: 1, left: 10}, // a number, array or object (see margin below)
+					fontSize: 10,
+					overflow: 'linebreak', 
+					//textColor: 'transparent',
+				},
+				showHeader: 'never',
+				startY:0,
+				tableWidth: pdfPageWidth - 30, // 'auto', 'wrap' or a number,
+				pageBreak: 'avoid', // 'auto',  or 'always'
+				margin: {top: 10, right: 0, bottom: 10, left: pdfPageWidth},
+				drawCell: function (cell, data) {
+					textHeight = cell.height;
+					console.log(textHeight);
+				},
+			});
+			
+			
+			var addElement = true;
+			var newBlockTop = blockTop + 10 + textHeight;
+				//pdf.setFontType("bold");
+				
+			if(newBlockTop > 280){
+				pdf.addPage();pageIndex++;
+				getPDFPageTemplate();
+				pdf.setFontSize(24);
+				pdf.setTextColor(255, 255, 255);
+				pdf.text('Visits', 31, 70);
+				
+				pdf.addImage(imgAgr, "png", 16.8, 65, 7, 0);
+				blockTop = 82;
+				newBlockTop = blockTop + 10 + textHeight;
+			}
+			pdf.setFontSize(10);
+			pdf.addImage(headerDataURLImage, "png", 10, blockTop - 4.3, pdfPageWidth - 20, 0);
+			
+			
+			pdf.setTextColor(255, 255, 255);
+			pdf.text(el.date, 31, blockTop);
+			pdf.setTextColor(100, 100, 100);
+			//pdf.text(text2, 25, blockTop + 7);
+			
+			
+			pdf.autoTable([{title: "", dataKey: "text"},], [{ text: text},],{
+				theme: 'plain', // 'striped', 'grid' or 'plain'
+				styles: {
+					cellPadding: {top: 1, right: 1, bottom: 1, left: 10}, // a number, array or object (see margin below)
+					fontSize: 10,
+					overflow: 'linebreak', 
+					//textColor: [255, 255, 255],
+				},
+				showHeader: 'never',
+				startY:blockTop + 3,
+				tableWidth: pdfPageWidth - 30,
+				margin: {top: 10, right: 10, bottom: 10, left: 10},
+			});
+			
+			console.log(newBlockTop);
+			
+			blockTop = newBlockTop;
+		});
+		
+	}
+}
+
+function genCommitteess(){
+	if(pageIndex++ > 0){
+		pdf.addPage();
+	}
+	getPDFPageTemplate();
+	pdf.setFontSize(24);
+	pdf.setTextColor(255, 255, 255);
+	pdf.text('Committeess', 31, 70);
+	
+	pdf.addImage(imgAgr, "png", 16.8, 65, 7, 0);
+	
+	if(reportData.committees !=null && reportData.committees.length>0){
+		var gridColumns = [
+			{title: "", dataKey: "left"},
+			{title: "", dataKey: "data"},
+			{title: "", dataKey: "right"},
+		];
+		
+		var gridData = [];
+		
+		var headerCanvas = document.createElement('canvas');
+            headerCanvas.width = pdfPageWidth - 20;
+            headerCanvas.height = 6;
+		
+		var ctx=headerCanvas.getContext("2d");
+			ctx.fillStyle="#2c2c2c";
+			ctx.fillRect(0,0,300,10);
+			
+			ctx.fillStyle="#b68a35";
+			ctx.fillRect(0,0,15,10);
+		
+		var headerDataURLImage = headerCanvas.toDataURL('image/png');
+		
+		var blockTop = 82;
+		
+		
+		var text = "";
+		reportData.committees.forEach(function(el) {
+			pdf.setFontSize(10);
+			text = el.explain;
+			
+			var textHeight = 0;
+			
+			pdf.autoTable([{title: "", dataKey: "text"},], [{ text: text},],{
+				theme: 'plain', // 'striped', 'grid' or 'plain'
+				styles: {
+					cellPadding: {top: 1, right: 1, bottom: 1, left: 10}, // a number, array or object (see margin below)
+					fontSize: 10,
+					overflow: 'linebreak', 
+					//textColor: 'transparent',
+				},
+				showHeader: 'never',
+				startY:0,
+				tableWidth: pdfPageWidth - 30, // 'auto', 'wrap' or a number,
+				pageBreak: 'avoid', // 'auto',  or 'always'
+				margin: {top: 10, right: 0, bottom: 10, left: pdfPageWidth},
+				drawCell: function (cell, data) {
+					textHeight = cell.height;
+					console.log(textHeight);
+				},
+			});
+			
+			
+			var addElement = true;
+			var newBlockTop = blockTop + 10 + textHeight;
+				//pdf.setFontType("bold");
+				
+			if(newBlockTop > 280){
+				pdf.addPage();pageIndex++;
+				getPDFPageTemplate();
+				pdf.setFontSize(24);
+				pdf.setTextColor(255, 255, 255);
+				pdf.text('Committeess', 31, 70);
+				
+				pdf.addImage(imgAgr, "png", 16.8, 65, 7, 0);
+				blockTop = 82;
+				newBlockTop = blockTop + 10 + textHeight;
+			}
+			pdf.setFontSize(10);
+			pdf.addImage(headerDataURLImage, "png", 10, blockTop - 4.3, pdfPageWidth - 20, 0);
+			
+			
+			pdf.setTextColor(255, 255, 255);
+			pdf.text(el.date, 31, blockTop);
+			pdf.setTextColor(100, 100, 100);
+			//pdf.text(text2, 25, blockTop + 7);
+			
+			
+			pdf.autoTable([{title: "", dataKey: "text"},], [{ text: text},],{
+				theme: 'plain', // 'striped', 'grid' or 'plain'
+				styles: {
+					cellPadding: {top: 1, right: 1, bottom: 1, left: 10}, // a number, array or object (see margin below)
+					fontSize: 10,
+					overflow: 'linebreak', 
+					//textColor: [255, 255, 255],
+				},
+				showHeader: 'never',
+				startY:blockTop + 3,
+				tableWidth: pdfPageWidth - 30,
+				margin: {top: 10, right: 10, bottom: 10, left: 10},
+			});
+			
+			console.log(newBlockTop);
+			
+			blockTop = newBlockTop;
+		});
+		
+	}
+}
+
 function genPDFReport(){
 	if(isAllDataReady()){
 		pdf = new jsPDF();
@@ -310,53 +669,64 @@ function genPDFReport(){
 		pdfPageSize = pdfInternals.pageSize;
 		pdfPageWidth = pdfPageSize.width;
 		pdfPageHeight = pdfPageSize.height;
-		
-        getPDFPageTemplate();
-		
-		genGeneralInformation();
-		
-		pdf.addPage();
-		getPDFPageTemplate();
-		/*
-		if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))
-		{	
-			alert("writing to file");
-			 var blob = pdf.output();
-			 window.open(URL.createObjectURL(blob));
-			 alert("writing to file end");
-		}
-		else
-		{
-			 pdf.save('report.pdf');
-		}
-		*/
-		/*
+	 
+		if(pdfCatFiter & 1) genGeneralInformation();
+		if(pdfCatFiter & 32) genAgreements();
+		if(pdfCatFiter & 64) genVisits();
+		if(pdfCatFiter & 128) genCommitteess();
+
+		try{
 		pdfOutput = pdf.output();
+		
+		var buffer = new ArrayBuffer(pdfOutput.length);
+		var array = new Uint8Array(buffer);
+		for (var i = 0; i < pdfOutput.length; i++) {
+			array[i] = pdfOutput.charCodeAt(i);
+		} 
+		
 	
-		var path = cordova.file.externalDataDirectory;//if IOS cordova.file.documentsDirectory
+		var path = device.platform == "Android" ? cordova.file.externalDataDirectory : cordova.file.documentsDirectory; 
 		var filename = "report.pdf";
 
 		window.resolveLocalFileSystemURL(path, function(dir) {
-			alert(path);
+			//alert(path);
 			dir.getFile(filename, {create:true}, function(fileEntry) {
 				var entry = fileEntry ;
 				  //alert(entry);
-			 
+					 
 				  fileEntry.createWriter(function(writer) {
 					 writer.onwrite = function(evt) {
 					 //alert("write success");
 				  };
 			 
 				  //alert("writing to file");
-					 writer.write( pdfOutput );
+					 //writer.write( pdfOutput );
+					 
+					 writer.write(buffer);
+					 //alert(tr('Report saved to ' + path + filename));
+					 cordova.plugins.fileOpener2.open(
+						path + filename, // You can also use a Cordova-style file uri: cdvfile://localhost/persistent/Download/starwars.pdf
+						'application/pdf', 
+						{ 
+							error : function(e) { 
+								console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
+							},
+							success : function () {
+								console.log('file opened successfully'); 				
+							}
+						}
+					);
+					 //window.plugins.fileOpener.open(path + filename);
 				  }, function(error) {
 					 //alert(error);
 				  });
 				  
 			});
 		});		
-		*/
-		pdf.save('report.pdf');
+		}catch(err){
+			pdf.save('report.pdf');
+		}
+		pageIndex = 0;
 	}else{
 		setTimeout(genPDFReport, 500);
 	}
