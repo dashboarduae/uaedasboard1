@@ -30,6 +30,24 @@ var agrLoaded = false;
 var agrLoadedDataURLImage;
 var imgAgr  = new Image();
 
+var ifIconLoaded = false;
+var ifIconDataURLImage;
+var imgIFIcon  = new Image();
+
+var inflowIconLoaded = false;
+var inflowIconDataURLImage;
+var imgInflowIcon  = new Image();
+
+var outflowIconLoaded = false;
+var outflowIconDataURLImage;
+var imgOutflowIcon  = new Image();
+
+var tradeGrowthIconLoaded = false;
+var tradeGrowthIconDataURLImage;
+var imgTrageGrowthIcon  = new Image();
+
+
+
 
 var reportDataLoaded = false;
 var reportData;
@@ -102,7 +120,7 @@ $(document).ready(function(){
 
 
 function reLoadData(){
-	reportDataLoaded = flagLoaded = giLoaded = agrLoaded = false;
+	reportDataLoaded = flagLoaded = giLoaded = agrLoaded = ifIconLoaded = inflowIconLoaded = outflowIconLoaded = tradeGrowthIconLoaded = false;
 	var years = getActiveYearRange();
 	$.post(baseServiceUrl + "/pdfreport",
 				{
@@ -200,13 +218,69 @@ function loadResurces(){
 			
 	};	
 	imgAgr.src = "img/pdf/agricon.png";
+	
+	imgIFIcon.onload = function() {
+		var canvas = document.createElement('canvas');
+            canvas.width = imgIFIcon.width;
+            canvas.height = imgIFIcon.height;
+
+            var context = canvas.getContext('2d');
+            context.drawImage(imgIFIcon, 0, 0);
+
+            ifIconDataURLImage  = canvas.toDataURL('image/png');
+			ifIconLoaded  = true;
+			
+	};	
+	imgIFIcon.src = "img/pdf/ificon.png";
+	
+	imgInflowIcon.onload = function() {
+		var canvas = document.createElement('canvas');
+            canvas.width = imgInflowIcon.width;
+            canvas.height = imgInflowIcon.height;
+
+            var context = canvas.getContext('2d');
+            context.drawImage(imgInflowIcon, 0, 0);
+
+            inflowIconDataURLImage = canvas.toDataURL('image/png');
+			inflowIconLoaded  = true;
+			
+	};	
+	imgInflowIcon.src = "img/pdf/inflowicon.png";
+	
+	imgOutflowIcon.onload = function() {
+		var canvas = document.createElement('canvas');
+            canvas.width = imgOutflowIcon.width;
+            canvas.height = imgOutflowIcon.height;
+
+            var context = canvas.getContext('2d');
+            context.drawImage(imgOutflowIcon, 0, 0);
+
+            outflowIconDataURLImage = canvas.toDataURL('image/png');
+			outflowIconLoaded  = true;
+			
+	};	
+	imgOutflowIcon.src = "img/pdf/outflowicon.png";
+	
+	imgTrageGrowthIcon.onload = function() {
+		var canvas = document.createElement('canvas');
+            canvas.width = imgTrageGrowthIcon.width;
+            canvas.height = imgTrageGrowthIcon.height;
+
+            var context = canvas.getContext('2d');
+            context.drawImage(imgTrageGrowthIcon, 0, 0);
+
+            tradeGrowthIconDataURLImage = canvas.toDataURL('image/png');
+			tradeGrowthIconLoaded  = true;
+			
+	};	
+	imgTrageGrowthIcon.src = "img/pdf/tradegrowthicon.png";
 }
 
 
 
 
 function isAllDataReady(){
-	return logoLoaded && curCountryLoaded && flagLoaded && giLoaded && agrLoaded  && reportDataLoaded;
+	return logoLoaded && curCountryLoaded && flagLoaded && giLoaded && ifIconLoaded && agrLoaded  && reportDataLoaded && tradeGrowthIconLoaded;
 }
 
 function getPDFPageTemplate(){
@@ -239,6 +313,182 @@ function getPDFPageTemplate(){
 
 var pageIndex = 0;
 
+function genTradeBalance(){
+	
+	
+	if(pageIndex++ > 0){
+		pdf.addPage();
+	}
+	
+	getPDFPageTemplate();
+	
+	pdf.setFontSize(24);
+	pdf.setTextColor(255, 255, 255);
+	pdf.text(tr('Trade Growth and Balance'), 31, 70);
+	
+	pdf.addImage(tradeGrowthIconDataURLImage, "png", 17.5, 63.5, 5, 0);
+	
+}
+
+function genInvestmentsFacts(){
+	
+	
+	if(pageIndex++ > 0){
+		pdf.addPage();
+	}
+	
+	getPDFPageTemplate();
+	
+	pdf.setFontSize(24);
+	pdf.setTextColor(255, 255, 255);
+	pdf.text(tr('Investments Facts'), 31, 70);
+	
+	pdf.addImage(imgIFIcon, "png", 17.5, 63.5, 5, 0);
+	
+	var currString = "";
+	var curr = getCurCurrency();
+	switch(curr){
+		case 0:
+		currString = "AED Millions";
+			break;
+		case 1:
+		currString = "USD Millions";
+			break;
+		case 2:
+		currString = "AED Billions";
+			break;
+		case 3:
+		currString = "USD Billions";
+			break;
+	}
+	
+	if((reportData.act !=null && reportData.act.length>0) ||
+		(reportData.inflowFDI !=null && reportData.inflowFDI.length>0) ||
+		(reportData.outflowFDI !=null && reportData.outflowFDI.length>0)){
+		
+		var headerCanvas = document.createElement('canvas');
+            headerCanvas.width = pdfPageWidth - 20;
+            headerCanvas.height = 13;
+		
+		var ctx=headerCanvas.getContext("2d");
+			ctx.fillStyle="#2c2c2c";
+			ctx.fillRect(0,0,300,13);
+			
+			ctx.fillStyle="#b68a35";
+			ctx.fillRect(0,0,20,13);
+			
+			ctx.fillStyle="#e2e2e2";
+			ctx.fillRect(130,0,300,13);
+		
+		var headerDataURLImage = headerCanvas.toDataURL('image/png');
+		
+		var headerCanvas2 = document.createElement('canvas');
+            headerCanvas2.width = pdfPageWidth - 20;
+            headerCanvas2.height = 7;
+		
+		var ctx2=headerCanvas2.getContext("2d");
+			ctx2.fillStyle="#2c2c2c";
+			ctx2.fillRect(0,0,300,7);
+			
+			ctx2.fillStyle="#b68a35";
+			ctx2.fillRect(0,0,20,7);
+		
+		
+		var headerDataURLImage2 = headerCanvas2.toDataURL('image/png');
+		
+		var actBlockCanvas = document.createElement('canvas');
+            actBlockCanvas.width = 50;
+            actBlockCanvas.height = 25;
+		
+		var actContext=actBlockCanvas.getContext("2d");
+			actContext.fillStyle="#2c2c2c";
+			actContext.fillRect(0,0,50,25);
+
+		
+		var actBlockDataURLImage = actBlockCanvas.toDataURL('image/png');
+		
+		pdf.addImage(headerDataURLImage, "png", 10, 78, pdfPageWidth - 20, 0);
+		
+		pdf.addImage(inflowIconDataURLImage, "png", 15, 79, 10, 0);
+		
+		pdf.setFontSize(16);
+		pdf.setTextColor(255, 255, 255);
+		pdf.text(tr('Inward FDI Stock Value'), 33, 88);
+		
+		pdf.setFontSize(8);
+		pdf.text(tr('into the UAE') + (reportData.inflowFDI[0].period != undefined ? " ("+reportData.inflowFDI[0].period+")":""), 94, 88);
+		
+		pdf.setTextColor(44, 44, 44);
+		pdf.setFontSize(8);
+		pdf.text(tr("(" + currString + ")"), 174, 88);
+		
+		pdf.setFontSize(24);
+		var text = pdf.splitTextToSize(tr((reportData.inflowFDI[0].value != undefined?setValuesFormats(reportData.inflowFDI[0].value):"0")), 100);
+		pdf.text(text, 172, 88, 'right');
+		
+		pdf.addImage(actBlockDataURLImage, "png", 32, 98, 27, 0);
+		
+		pdf.setTextColor(255, 255, 255);
+		pdf.setFontSize(20);
+		pdf.text(reportData.act[0].companies != undefined? "" +reportData.act[0].companies:"0", 45, 107, 'center');
+		
+		pdf.addImage(actBlockDataURLImage, "png", 92, 98, 27, 0);
+		pdf.text(reportData.act[0].agencies != undefined? "" +reportData.act[0].agencies:"0", 105, 107, 'center');
+		
+		pdf.addImage(actBlockDataURLImage, "png", 152, 98, 27, 0);
+		pdf.text(reportData.act[0].trademark != undefined? "" +reportData.act[0].trademark:"0", 165, 107, 'center');
+		
+		
+		pdf.setTextColor(37, 37, 37);
+		pdf.setFontSize(12);
+		pdf.text(tr("Companies"), 45, 120, 'center');
+		
+		pdf.text(tr("Commercial Agencies"), 105, 120, 'center');
+		
+		pdf.text(tr("Trademarks"), 165, 120, 'center');
+		
+		pdf.setFontSize(8);
+		pdf.text(tr("registered in the UAE") + " (2015)", 45, 124, 'center');
+		pdf.text(tr("registered in the UAE") + " (2015)", 105, 124, 'center');
+		pdf.text(tr("registered in the UAE") + " (2015)", 165, 124, 'center');
+		 
+		pdf.addImage(headerDataURLImage2, "png", 10, 130, pdfPageWidth - 20, 0);
+		pdf.setFontSize(12);
+		pdf.setTextColor(255, 255, 255);
+		pdf.text(tr("Main Sectors"), 33, 135);
+		
+		
+		pdf.addImage(headerDataURLImage, "png", 10, 170, pdfPageWidth - 20, 0);//78
+		
+		pdf.addImage(inflowIconDataURLImage, "png", 15, 171, 10, 0);
+		
+		pdf.setFontSize(16);
+		pdf.setTextColor(255, 255, 255);
+		pdf.text(tr('Outward FDI Stock Value'), 33, 180);
+		pdf.setFontSize(8);
+		pdf.text(tr('from the UAE') + (reportData.outflowFDI[0].period != undefined ? " ("+reportData.outflowFDI[0].period+")":""), 98, 180);
+		
+		pdf.setTextColor(44, 44, 44);
+		pdf.setFontSize(8);
+		pdf.text(tr("(" + currString + ")"), 174, 180);
+		
+		pdf.setFontSize(24);
+		text = pdf.splitTextToSize(tr((reportData.outflowFDI[0].value != undefined?setValuesFormats(reportData.outflowFDI[0].value):"0")), 100);
+		pdf.text(text, 172, 180, 'right');
+		
+		pdf.addImage(headerDataURLImage2, "png", 10, 190, pdfPageWidth - 20, 0);
+		pdf.setFontSize(12);
+		pdf.setTextColor(255, 255, 255);
+		pdf.text(tr("Main Companies"), 33, 195);
+		
+		pdf.addImage(headerDataURLImage2, "png", 10, 235, pdfPageWidth - 20, 0);
+		pdf.setTextColor(255, 255, 255);
+		pdf.text(tr("Main Sectors"), 33, 240);
+		
+	}
+	
+}
+
 function genGeneralInformation(){
 	
 	
@@ -250,17 +500,17 @@ function genGeneralInformation(){
 	
 	pdf.setFontSize(24);
 	pdf.setTextColor(255, 255, 255);
-	pdf.text('General Information', 31, 70);
+	pdf.text(tr('General Information'), 31, 70);
 	
 	pdf.addImage(imgGI, "png", 17.3, 63.5, 6, 0);
 	
 	pdf.setFontSize(12);
 	pdf.setTextColor(48, 48, 48);
-	pdf.text('Capital', 20, 83);
+	pdf.text(tr('Capital'), 20, 83);
 	
 	
 	
-	pdf.text('Population', 20, 105);
+	pdf.text(tr('Population'), 20, 105);
 	
 	pdf.setFontSize(8);
 	
@@ -341,13 +591,7 @@ if(pageIndex++ > 0){
 	pdf.addImage(imgAgr, "png", 16.8, 65, 7, 0);
 	
 	if(reportData.agreements !=null && reportData.agreements.length>0){
-		var gridColumns = [
-			{title: "", dataKey: "left"},
-			{title: "", dataKey: "data"},
-			{title: "", dataKey: "right"},
-		];
-		
-		var gridData = [];
+
 		
 		var headerCanvas = document.createElement('canvas');
             headerCanvas.width = pdfPageWidth - 20;
@@ -452,13 +696,6 @@ if(pageIndex++ > 0){
 	pdf.addImage(imgAgr, "png", 16.8, 65, 7, 0);
 	
 	if(reportData.visits !=null && reportData.visits.length>0){
-		var gridColumns = [
-			{title: "", dataKey: "left"},
-			{title: "", dataKey: "data"},
-			{title: "", dataKey: "right"},
-		];
-		
-		var gridData = [];
 		
 		var headerCanvas = document.createElement('canvas');
             headerCanvas.width = pdfPageWidth - 20;
@@ -562,13 +799,6 @@ function genCommitteess(){
 	pdf.addImage(imgAgr, "png", 16.8, 65, 7, 0);
 	
 	if(reportData.committees !=null && reportData.committees.length>0){
-		var gridColumns = [
-			{title: "", dataKey: "left"},
-			{title: "", dataKey: "data"},
-			{title: "", dataKey: "right"},
-		];
-		
-		var gridData = [];
 		
 		var headerCanvas = document.createElement('canvas');
             headerCanvas.width = pdfPageWidth - 20;
@@ -674,6 +904,7 @@ function genPDFReport(){
 		if(pdfCatFiter & 32) genAgreements();
 		if(pdfCatFiter & 64) genVisits();
 		if(pdfCatFiter & 128) genCommitteess();
+		if(pdfCatFiter & 256) genInvestmentsFacts();
 
 		try{
 		pdfOutput = pdf.output();
