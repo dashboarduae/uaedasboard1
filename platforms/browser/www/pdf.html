@@ -24,6 +24,7 @@
 		<script type="text/javascript" src="js/plugins/jspdf/jspdf.min.js"></script>
 		<script type="text/javascript" src="js/plugins/jspdf/plugins/jspdf.plugin.autotable.js"></script>
 		<script type="text/javascript" src="js/plugins/jspdf/libs/html2canvas/html2canvas.js"></script>
+		<script type="text/javascript" src="js/plugins/canvasjs.min.js"></script> 
 		<script type="text/javascript" src="js/strings.js"></script>
 		<script type="text/javascript" src="js/script.js"></script>	
 <script type="text/javascript" src="js/pdfreport.js"></script>			
@@ -35,7 +36,7 @@
     </script>
 		<!-- END PHONEGAP -->		
     </head>
-<body>
+<body style="overflow-x: visible;overflow-y: visible;">
 
 
 <div class="page-container">
@@ -120,9 +121,9 @@
 				
 				<div class="row reportFiter">
 				<div class="col-md-12">
-						<span><script>document.write(tr('Trade Balance'));</script></span>
+						<span><script>document.write(tr('Trade Growth and Balance'));</script></span>
 						<label class="switch">
-                            <input   data-category="8" type="checkbox"  value="0">
+                            <input   data-category="24" type="checkbox"  value="0">
                              <span></span>
                     
 						</label>
@@ -130,16 +131,6 @@
 				</div>
 				</div>
 				
-				<div class="row reportFiter">
-					<div class="col-md-12">
-						<span><script>document.write(tr('Trade Growth'));</script></span>
-						<label class="switch">
-                            <input   data-category="16" type="checkbox"  value="0">
-                             <span></span>
-                    
-						</label>
-					</div>
-				</div>
 				
 				<div class="row reportFiter">
 					<div class="col-md-12">
@@ -189,7 +180,10 @@
 				<div  class="row">
 					<div class="col-md-12">
 					<input style="background:#678daf" class="btn  btn-block" type="button" value="PDF Report" onClick="reLoadData();genPDFReport();">
-					<div id="report"></div>
+					<div id="report" style="">
+						<div id="balanceChart"><svg></svg></div>
+						<div id="growthChart"></div>
+					</div>
 					</div>	
 				</div>
 				</div>

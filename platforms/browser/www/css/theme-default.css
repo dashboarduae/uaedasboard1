@@ -41,7 +41,6 @@
 html * {
   outline: none !important;
 }
-html,
 body {
   min-height: 100%;
   padding: 0px;
@@ -8684,4 +8683,14 @@ svg text{
 
 .select2-results__option {
     font-size: 16px;
+}
+
+#report{
+	position: fixed;top: 100vh;    left: 100vw;
+}
+
+#report #balanceChart,
+#report #growthChart{
+	width:3000px;
+	height:1250px;
 }

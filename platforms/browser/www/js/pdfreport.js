@@ -54,6 +54,12 @@ var reportData;
 
 var curCountryLoaded = false;
 
+var chartBalanceLoaded = false;
+var chartBalanceDataURLImage;
+
+var chartGrowthDataURLImage;
+var chartGrowthLoaded = true;
+
 
 
 $(document).ready(function(){	
@@ -117,10 +123,13 @@ $(document).ready(function(){
 	
 });
 
-
+var showData = [];
 
 function reLoadData(){
-	reportDataLoaded = flagLoaded = giLoaded = agrLoaded = ifIconLoaded = inflowIconLoaded = outflowIconLoaded = tradeGrowthIconLoaded = false;
+	reportDataLoaded = flagLoaded = giLoaded = agrLoaded = ifIconLoaded = inflowIconLoaded = outflowIconLoaded = tradeGrowthIconLoaded =
+	chartBalanceLoaded = chartGrowthLoaded = false;
+	showBalanceData = [];
+	showData = [];
 	var years = getActiveYearRange();
 	$.post(baseServiceUrl + "/pdfreport",
 				{
@@ -140,6 +149,52 @@ function reLoadData(){
 						console.log(reportData);
 						
 						reportDataLoaded = true;
+						
+						if((pdfCatFiter & 24 )!= 0){
+							var years = getActiveYearRange();
+								
+							
+								
+							reportData.ftBalance.forEach(function(el, i) {
+									if(el.year >= years[0] && el.year <= years[1]){
+										var newEl = {label:'',y:0,x:0,color:"#b0c986"};
+										newEl.label = el.year;
+										newEl.x = parseInt(el.year);
+										newEl.y = Math.abs(el.value)< 1000?parseFloat(setValuesFormats(el.value)):Math.round(el.value);
+										newEl.color = el.value > 0 ? "#b0c986":"#f44040";
+										showBalanceData.push(newEl);
+									}
+										
+								});
+						
+							showReportBalanceChart();
+							
+							
+							$('#balanceChart canvas:last-of-type').remove();
+							chartBalanceDataURLImage = document.querySelector('#balanceChart canvas').toDataURL();
+							chartBalanceLoaded = true;
+							
+							showData =  [];
+							reportData.ftTotal.forEach(function(el, i) {
+								if(i>0 && el.year >= years[0] && el.year <= years[1]){
+									var newEl = {x:0, y:0, label:''};
+									newEl.x = parseInt(el.year);
+									newEl.label = el.year;
+									newEl.y = Math.round((el.value - reportData.ftTotal[i-1].value)/reportData.ftTotal[i-1].value*100);
+									showData.push(newEl);
+								}
+									
+							});
+							
+							showReportGrowthChart();
+							
+							$('#growthChart canvas:last-of-type').remove();
+							chartGrowthDataURLImage = document.querySelector('#growthChart canvas').toDataURL();
+							chartGrowthLoaded = true;
+							
+						}else{
+							chartGrowthLoaded = chartBalanceLoaded = true
+						}
 					}
 				});
 	loadResurces();
@@ -274,13 +329,16 @@ function loadResurces(){
 			
 	};	
 	imgTrageGrowthIcon.src = "img/pdf/tradegrowthicon.png";
+	
+	
+	
 }
 
 
 
 
 function isAllDataReady(){
-	return logoLoaded && curCountryLoaded && flagLoaded && giLoaded && ifIconLoaded && agrLoaded  && reportDataLoaded && tradeGrowthIconLoaded;
+	return chartBalanceLoaded && logoLoaded && curCountryLoaded && flagLoaded && giLoaded && ifIconLoaded && agrLoaded  && reportDataLoaded && tradeGrowthIconLoaded;
 }
 
 function getPDFPageTemplate(){
@@ -311,6 +369,59 @@ function getPDFPageTemplate(){
 	
 }
 
+function showReportBalanceChart(){
+	$('#balanceChart svg').html('');
+
+	  
+	  var chart = new CanvasJS.Chart("balanceChart", {
+				title: {
+					text: ""
+				},
+				axisX: {
+					interval: showBalanceData.length<7?1:2,
+					valueFormatString: "#0.#",
+				},
+				data: [{
+					type: "stackedColumn",
+					dataPoints: showBalanceData,
+					toolTipContent:"<div style='text-align:center;'>{label}</br>{y}",
+				}]
+			});
+			chart.render();
+}
+
+function showReportGrowthChart(){
+
+	$('#growthChart').html('');  
+	var chart = new CanvasJS.Chart("growthChart", {
+				title: {
+					text: ""
+				},
+				axisX: {
+					interval: showData.length<7?1:2,
+					valueFormatString: "#0.#",
+					minimum: showData[0].x,
+					maximum: showData[showData.length-1].x
+				},
+				axisY: {
+					         
+					suffix: "%",
+					interlacedColor: "#F5F5F5",
+					gridColor: "transparent",
+					tickColor: "transparent",
+					valueFormatString: "#0.#",
+				},
+				theme: "theme2",
+				data: [{
+					type: "area",color: "#7fdfd1",
+					toolTipContent: "<div style='text-align:center;'>{label}</br>{y}%</div>",
+					lineThickness: 2,
+					dataPoints: showData
+				}]
+			});
+			chart.render();
+}
+
 var pageIndex = 0;
 
 function genTradeBalance(){
@@ -326,7 +437,54 @@ function genTradeBalance(){
 	pdf.setTextColor(255, 255, 255);
 	pdf.text(tr('Trade Growth and Balance'), 31, 70);
 	
-	pdf.addImage(tradeGrowthIconDataURLImage, "png", 17.5, 63.5, 5, 0);
+	pdf.addImage(tradeGrowthIconDataURLImage, "png", 17.5, 64, 5, 0);
+	
+	pdf.addImage(chartGrowthDataURLImage, "png", 10, 90, pdfPageWidth-20, 0);
+	
+	pdf.addImage(chartBalanceDataURLImage, "png", 10, 190, pdfPageWidth-20, 0);
+	
+	pdf.setFontSize(10);
+	var years = getActiveYearRange();
+	pdf.text(tr('Year: ' + years[0] + "-" + years[1]), 105, 56.5);
+		
+	var currString = "";
+	var curr = getCurCurrency();
+	switch(curr){
+		case 0:
+		currString = "AED Millions";
+			break;
+		case 1:
+		currString = "USD Millions";
+			break;
+		case 2:
+		currString = "AED Billions";
+			break;
+		case 3:
+		currString = "USD Billions";
+			break;
+	}
+	
+	pdf.text(tr('Currency: '+currString), pdfPageWidth-10, 56.5, 'right');
+	var headerCanvas = document.createElement('canvas');
+        headerCanvas.width = pdfPageWidth - 20;
+        headerCanvas.height = 7;
+		
+	var ctx=headerCanvas.getContext("2d");
+		ctx.fillStyle="#2c2c2c";
+		ctx.fillRect(0,0,300,7);
+			
+		ctx.fillStyle="#b68a35";
+		ctx.fillRect(0,0,20,7);
+		
+	var headerDataURLImage = headerCanvas.toDataURL('image/png');
+	
+	pdf.addImage(headerDataURLImage, "png", 10, 80, pdfPageWidth - 20, 0);
+		pdf.setFontSize(12);
+		pdf.setTextColor(255, 255, 255);
+		pdf.text(tr("Non-Oil Trade Growth"), 33, 85);
+		
+		pdf.addImage(headerDataURLImage, "png", 10, 180, pdfPageWidth - 20, 0);
+		pdf.text(tr("Non-Oil Trade Balance"), 33, 185);
 	
 }
 
@@ -590,6 +748,10 @@ if(pageIndex++ > 0){
 	
 	pdf.addImage(imgAgr, "png", 16.8, 65, 7, 0);
 	
+	pdf.setFontSize(10);
+	var years = getActiveYearRange();
+	pdf.text(tr('Year: ' + years[0] + "-" + years[1]), 105, 56.5);
+	
 	if(reportData.agreements !=null && reportData.agreements.length>0){
 
 		
@@ -647,6 +809,10 @@ if(pageIndex++ > 0){
 				pdf.setTextColor(255, 255, 255);
 				pdf.text('Agreements', 31, 70);
 				
+				pdf.setFontSize(10);
+				var years = getActiveYearRange();
+				pdf.text(tr('Year: ' + years[0] + "-" + years[1]), 105, 56.5);
+				
 				pdf.addImage(imgAgr, "png", 16.8, 65, 7, 0);
 				blockTop = 82;
 				newBlockTop = blockTop + 10 + textHeight;
@@ -694,6 +860,10 @@ if(pageIndex++ > 0){
 	pdf.text('Visits', 31, 70);
 	
 	pdf.addImage(imgAgr, "png", 16.8, 65, 7, 0);
+	
+	pdf.setFontSize(10);
+	var years = getActiveYearRange();
+	pdf.text(tr('Year: ' + years[0] + "-" + years[1]), 105, 56.5);
 	
 	if(reportData.visits !=null && reportData.visits.length>0){
 		
@@ -751,6 +921,10 @@ if(pageIndex++ > 0){
 				pdf.setTextColor(255, 255, 255);
 				pdf.text('Visits', 31, 70);
 				
+				pdf.setFontSize(10);
+				var years = getActiveYearRange();
+				pdf.text(tr('Year: ' + years[0] + "-" + years[1]), 105, 56.5);
+				
 				pdf.addImage(imgAgr, "png", 16.8, 65, 7, 0);
 				blockTop = 82;
 				newBlockTop = blockTop + 10 + textHeight;
@@ -797,6 +971,10 @@ function genCommitteess(){
 	pdf.text('Committeess', 31, 70);
 	
 	pdf.addImage(imgAgr, "png", 16.8, 65, 7, 0);
+	
+	pdf.setFontSize(10);
+	var years = getActiveYearRange();
+	pdf.text(tr('Year: ' + years[0] + "-" + years[1]), 105, 56.5);
 	
 	if(reportData.committees !=null && reportData.committees.length>0){
 		
@@ -854,6 +1032,10 @@ function genCommitteess(){
 				pdf.setTextColor(255, 255, 255);
 				pdf.text('Committeess', 31, 70);
 				
+				pdf.setFontSize(10);
+				var years = getActiveYearRange();
+				pdf.text(tr('Year: ' + years[0] + "-" + years[1]), 105, 56.5);
+				
 				pdf.addImage(imgAgr, "png", 16.8, 65, 7, 0);
 				blockTop = 82;
 				newBlockTop = blockTop + 10 + textHeight;
@@ -901,10 +1083,13 @@ function genPDFReport(){
 		pdfPageHeight = pdfPageSize.height;
 	 
 		if(pdfCatFiter & 1) genGeneralInformation();
+		if(pdfCatFiter & 24)genTradeBalance();
 		if(pdfCatFiter & 32) genAgreements();
 		if(pdfCatFiter & 64) genVisits();
 		if(pdfCatFiter & 128) genCommitteess();
 		if(pdfCatFiter & 256) genInvestmentsFacts();
+		
+		
 
 		try{
 		pdfOutput = pdf.output();
