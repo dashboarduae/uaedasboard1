@@ -7423,7 +7423,7 @@ display:none;
 .dfti .col-md-2 .btn-group,
 .btn-group>.btn:first-child,
 .open>.dropdown-menu{
-	width: 100%;    font-size: 16px;
+	width: 100%;    font-size: 5vw;padding: 0.5em;
 }
 
 
@@ -7545,6 +7545,12 @@ display: block;
 .FTItems .itemhead .value{
     font-size: 2vw;
 
+}
+
+.dfti .col-md-2 .btn-group,
+.btn-group>.btn:first-child,
+.open>.dropdown-menu{
+font-size:3vw;    
 }
 }
 
@@ -8462,7 +8468,7 @@ display: table-cell;
 .dropdown-menu > li > a {
     padding: 1vw 1.5vw;
     line-height: 1.3em;
-	    font-size: 16px;
+	    font-size: 2.5vw;
 }
 
  .FTItemsSummary{display:none !important;}
@@ -8624,8 +8630,16 @@ display: table-cell;
     border: #101215;
 }
 
+
 .select2-container--default .select2-selection--single .select2-selection__rendered{
-	color:#fff;    font-size: 16px;
+	color:#fff;        font-size: 5vw;line-height:1em;
+    padding: .3em 1em;
+}
+
+.select2-container--default .select2-search--dropdown .select2-search__field,
+.select2-results__option{
+	font-size: 5vw;line-height:1em;
+    padding: .3em 1em;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__arrow b{
@@ -8681,9 +8695,6 @@ svg text{
 	font-family: "Cronos Pro",Tahoma,Arial,sans-serif !important;
 }
 
-.select2-results__option {
-    font-size: 16px;
-}
 
 #report{
 	position: fixed;top: 100vh;    left: 100vw;
@@ -8691,6 +8702,85 @@ svg text{
 
 #report #balanceChart,
 #report #growthChart{
-	width:3000px;
-	height:1250px;
+	width:1200px;
+	height:500px;
+}
+
+
+.reportFiter .switch {
+    cursor: pointer;
+    position: relative;
+    float: right;
+}
+
+.reportFiter .switch span {
+    width: 12vw;
+    height: 7.2vw;
+}
+
+.reportFiter .switch span:after{
+	width: 6vw;
+    height: 6vw;
+	top: .4vw;
+	left: .7vw;
+}
+
+.reportFiter .switch input:checked + span:after {
+    left: 5vw;
+}
+
+.reportFiter span{
+	font-size: 6vw;
+    line-height: 1.3em;
+}
+
+input[type=button].reportBtn{
+	background:#678daf;color:#fff;
+	font-size: 5vw;
+    padding: .3em 1em;
+	height: 2em;
+}
+
+.page-content-wrap .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 8.1vw;
+    width: 6.25vw;
+}
+
+.page-content-wrap .select2-container--default .select2-selection--single {
+    height: 8.1vw;
+}
+
+.reportFilter{
+	
+}
+
+@media all and (orientation:landscape) {
+.reportFiter .switch span {
+    width: 6vw;
+    height: 3.6vw;
+}
+
+.reportFiter .switch span:after{
+	width: 3vw;
+    height: 3vw;
+	top: .15vw;
+	left: .35vw;
+}
+
+.reportFiter .switch input:checked + span:after {
+    left: 2.5vw;
+}
+
+.reportFiter span{
+	font-size: 3vw;
+}
+
+input[type=button].reportBtn{
+	font-size: 2.5vw;
+}
+
+.reportFiter{
+display: inline-block;
+    width: 48%;	
+}
 }

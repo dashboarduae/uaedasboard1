@@ -73,7 +73,7 @@
                 <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap"><div  class="row" >&nbsp;</div>
 				<div  class="row" >
-					<div class="col-md-12">
+					<div class="col-md-12 clearfix">
 						<div id="country_select" class="btn-group">
 									<a href="#" id="active_value" data-toggle="dropdown" class="btn btn-primary dropdown-toggle" aria-expanded="false"> <span class="caret"></span></a>
 									<ul class="dropdown-menu" role="menu">
@@ -86,6 +86,7 @@
 					</div>
 					
 				</div>
+				<div  class="row" >&nbsp;</div>
 				<div class="row reportFiter">
 					<div class="col-md-12">
 						<span><script>document.write(tr('General Information'));</script></span>
@@ -129,7 +130,7 @@
 						</label>
 					</div>
 				</div>
-				</div>
+				
 				
 				
 				<div class="row reportFiter">
@@ -179,12 +180,13 @@
 				
 				<div  class="row">
 					<div class="col-md-12">
-					<input style="background:#678daf" class="btn  btn-block" type="button" value="PDF Report" onClick="reLoadData();genPDFReport();">
+					<input class="btn  btn-block reportBtn" type="button" value="PDF Report" onClick="reLoadData();genPDFReport();">
 					<div id="report" style="">
 						<div id="balanceChart"><svg></svg></div>
 						<div id="growthChart"></div>
 					</div>
 					</div>	
+				</div>
 				</div>
 				</div>
                 <!-- END PAGE CONTENT WRAPPER -->                                

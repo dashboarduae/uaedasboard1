@@ -17,6 +17,9 @@ var sectionHeaderLoaded = false;
 var sectionHeaderLoadedDataURLImage;
 var sectionHeader  = new Image();
 
+var tvIconLoaded = false;
+var tvIconDataURLImage;
+var imgTVIcon  = new Image();
 
 var flagLoaded = false;
 var flagLoadedDataURLImage;
@@ -126,8 +129,9 @@ $(document).ready(function(){
 var showData = [];
 
 function reLoadData(){
+	showReportGeneratingWindow();
 	reportDataLoaded = flagLoaded = giLoaded = agrLoaded = ifIconLoaded = inflowIconLoaded = outflowIconLoaded = tradeGrowthIconLoaded =
-	chartBalanceLoaded = chartGrowthLoaded = false;
+	chartBalanceLoaded = chartGrowthLoaded = tvIconLoaded = false;
 	showBalanceData = [];
 	showData = [];
 	var years = getActiveYearRange();
@@ -171,7 +175,7 @@ function reLoadData(){
 							
 							
 							$('#balanceChart canvas:last-of-type').remove();
-							chartBalanceDataURLImage = document.querySelector('#balanceChart canvas').toDataURL();
+							chartBalanceDataURLImage = document.querySelector('#balanceChart canvas').toDataURL("image/jpeg");
 							chartBalanceLoaded = true;
 							
 							showData =  [];
@@ -189,7 +193,7 @@ function reLoadData(){
 							showReportGrowthChart();
 							
 							$('#growthChart canvas:last-of-type').remove();
-							chartGrowthDataURLImage = document.querySelector('#growthChart canvas').toDataURL();
+							chartGrowthDataURLImage = document.querySelector('#growthChart canvas').toDataURL("image/jpeg");
 							chartGrowthLoaded = true;
 							
 						}else{
@@ -331,14 +335,26 @@ function loadResurces(){
 	imgTrageGrowthIcon.src = "img/pdf/tradegrowthicon.png";
 	
 	
+	imgTVIcon.onload = function() {
+		var canvas = document.createElement('canvas');
+            canvas.width = imgTVIcon.width;
+            canvas.height = imgTVIcon.height;
+
+            var context = canvas.getContext('2d');
+            context.drawImage(imgTVIcon, 0, 0);
+
+            tvIconDataURLImage = canvas.toDataURL('image/png');
+			tvIconLoaded  = true;
+			
+	};	
+	imgTVIcon.src = "img/pdf/tradevoumeicon.png";
+	
+	
 	
 }
 
-
-
-
 function isAllDataReady(){
-	return chartBalanceLoaded && logoLoaded && curCountryLoaded && flagLoaded && giLoaded && ifIconLoaded && agrLoaded  && reportDataLoaded && tradeGrowthIconLoaded;
+	return tvIconLoaded && chartBalanceLoaded && logoLoaded && curCountryLoaded && flagLoaded && giLoaded && ifIconLoaded && agrLoaded  && reportDataLoaded && tradeGrowthIconLoaded;
 }
 
 function getPDFPageTemplate(){
@@ -424,6 +440,255 @@ function showReportGrowthChart(){
 
 var pageIndex = 0;
 
+function genProgressBarCanvas(color, value){
+	var headerCanvas = document.createElement('canvas');
+        headerCanvas.width = 600; 
+        headerCanvas.height = 20;
+		
+	var ctx=headerCanvas.getContext("2d");
+		
+		ctx.rect(0,0,600,20);
+		ctx.stroke();
+	
+		ctx.fillStyle=color;
+		ctx.fillRect(1,1,599*value,19);
+
+	return headerCanvas.toDataURL('image/png');
+}
+
+function genTradeVolume(){
+	if(pageIndex++ > 0){
+		pdf.addPage();
+	}
+	
+	getPDFPageTemplate();
+	
+	pdf.setFontSize(24);
+	pdf.setTextColor(255, 255, 255);
+	pdf.text(tr('Trade Volume'), 31, 70);
+	
+	pdf.addImage(tvIconDataURLImage, "png", 17.5, 64, 5, 0);
+	
+	pdf.setFontSize(10);
+	var years = getActiveYearRange();
+	pdf.text(tr('Year: ' + years[0] + "-" + years[1]), 105, 56.5);
+		
+	var currString = "";
+	var curr = getCurCurrency();
+	switch(curr){
+		case 0:
+		currString = "AED Millions";
+			break;
+		case 1:
+		currString = "USD Millions";
+			break;
+		case 2:
+		currString = "AED Billions";
+			break;
+		case 3:
+		currString = "USD Billions";
+			break;
+	}
+	
+	pdf.text(tr('Currency: '+currString), pdfPageWidth-10, 56.5, 'right');
+	
+	var headerCanvas = document.createElement('canvas');
+        headerCanvas.width = 300; 
+        headerCanvas.height = 39;
+		
+	var ctx=headerCanvas.getContext("2d");
+		ctx.fillStyle="#2c2c2c";
+		ctx.fillRect(0,0,279,39);
+		
+		ctx.beginPath();
+		ctx.moveTo(279,0);
+		ctx.lineTo(300,22.5);
+		ctx.lineTo(279,39);
+		ctx.fill();
+			
+		ctx.fillStyle="#b68a35";
+		ctx.fillRect(0,0,39,39);
+		
+		
+		
+	var headerDataURLImage = headerCanvas.toDataURL('image/png');
+	
+	headerCanvas = document.createElement('canvas');
+        headerCanvas.width = 300; 
+        headerCanvas.height = 39;
+		
+	ctx=headerCanvas.getContext("2d");
+		ctx.fillStyle="#b68a35";
+		ctx.fillRect(0,0,300,39);
+			
+		ctx.fillStyle="#2c2c2c";
+		ctx.fillRect(0,0,39,39);
+		
+		ctx.fillStyle="#ffffff";
+		ctx.beginPath();
+		ctx.moveTo(9,9);
+		ctx.lineTo(30,9);
+		ctx.lineTo(19.5,30);
+		ctx.fill();
+	
+	var headerDataURLImage2 = headerCanvas.toDataURL('image/png');
+	
+	headerCanvas = document.createElement('canvas');
+        headerCanvas.width = 300; 
+        headerCanvas.height = 39;
+		
+	ctx=headerCanvas.getContext("2d");
+		ctx.fillStyle="#b68a35";
+		ctx.fillRect(0,0,279,39);
+		
+		ctx.beginPath();
+		ctx.moveTo(279,0);
+		ctx.lineTo(300,22.5);
+		ctx.lineTo(279,39);
+		ctx.fill();
+			
+		
+	var headerDataURLImage3 = headerCanvas.toDataURL('image/png');
+	
+	headerCanvas = document.createElement('canvas');
+        headerCanvas.width = 300; 
+        headerCanvas.height = 39;
+		
+	ctx=headerCanvas.getContext("2d");
+		ctx.fillStyle="#2c2c2c";
+		ctx.fillRect(0,0,300,39);
+		
+			
+		
+	var headerDataURLImage4 = headerCanvas.toDataURL('image/png');
+	
+	headerCanvas = document.createElement('canvas');
+        headerCanvas.width = 300; 
+        headerCanvas.height = 70;
+		
+	ctx=headerCanvas.getContext("2d");
+		ctx.fillStyle="#f1f1f1";
+		ctx.fillRect(0,0,300,70);
+	
+	var exportBG =  headerCanvas.toDataURL('image/png');
+	
+	
+	pdf.addImage(headerDataURLImage, "png", 10, 80, 56, 0);
+	
+	pdf.addImage(headerDataURLImage2, "png", 76, 80, 56, 0);
+	
+	pdf.addImage(headerDataURLImage2, "png", 142, 80, 56, 0);
+	
+	
+	pdf.setFontSize(12);
+	pdf.setTextColor(255, 255, 255);
+	pdf.text(tr('Total'), 20, 85);
+	
+	pdf.text(tr('Direct'), 86, 85);
+	
+	pdf.text(tr('Free Zone'), 152, 85);
+	
+	if(reportData.ftv!=null && reportData.ftv.length>0){
+		var ftvLength = reportData.ftv.length;
+		var BlockHeight = 45;
+		for(var i = 0; i<reportData.ftv.length; i++){
+			var curData = reportData.ftv[ftvLength - i - 1];
+			
+			pdf.addImage(headerDataURLImage3, "png", 10, 93 + (i % 4)*BlockHeight, 56, 0);	
+			pdf.addImage(headerDataURLImage4, "png", 76, 93 + (i % 4)*BlockHeight, 56, 0);
+			pdf.addImage(headerDataURLImage4, "png", 142, 93 + (i % 4)*BlockHeight, 56, 0);
+			
+			pdf.setFontSize(10);
+			pdf.setTextColor(255, 255, 255);
+			pdf.text(curData.year, 12, 98 + (i % 4)*BlockHeight);
+		
+			pdf.text(curData.year, 78, 98 + (i % 4)*BlockHeight);
+		
+			pdf.text(curData.year, 144, 98 + (i % 4)*BlockHeight);
+			
+			var totalDerectTrade = curData.derectTrade.imports + curData.derectTrade.nonOilExports + curData.derectTrade.reExports;
+			var totalFreeZonesTrade = curData.freeZonesTrade.imports + curData.freeZonesTrade.nonOilExports + curData.freeZonesTrade.reExports;
+			
+			pdf.text(setValuesFormats(curData.value), 62, 98 + (i % 4)*BlockHeight, 'right');
+		
+			pdf.text(setValuesFormats(totalDerectTrade), 130, 98 + (i % 4)*BlockHeight, 'right');
+		
+			pdf.text(setValuesFormats(totalFreeZonesTrade), 196, 98 + (i % 4)*BlockHeight, 'right');
+			
+			pdf.setFontSize(10);
+			pdf.setTextColor(44, 44, 44);
+			pdf.addImage(exportBG, "png", 10, 112 + (i % 4)*BlockHeight, 56, 0);
+			pdf.text(tr('Import'), 12, 106 + (i % 4)*BlockHeight);
+			pdf.text(setValuesFormats(curData.totalTrade.imports), 62, 106 + (i % 4)*BlockHeight, 'right');
+			pdf.addImage(genProgressBarCanvas("#1ca6af", curData.totalTrade.imports/curData.value), "png", 12, 108 + (i % 4)*BlockHeight, 50, 0);
+			pdf.text(tr('Non-Oil Export'), 12, 118 + (i % 4)*BlockHeight);
+			pdf.text(setValuesFormats(curData.totalTrade.nonOilExports), 62, 118 + (i % 4)*BlockHeight, 'right');
+			pdf.addImage(genProgressBarCanvas("#83b75d", curData.totalTrade.nonOilExports/curData.value), "png", 12, 120 + (i % 4)*BlockHeight, 50, 0);
+			pdf.text(tr('Re-Export'), 12, 130 + (i % 4)*BlockHeight);
+			pdf.text(setValuesFormats(curData.totalTrade.reExports), 62, 130 + (i % 4)*BlockHeight, 'right');
+			pdf.addImage(genProgressBarCanvas("#e0694a", curData.totalTrade.reExports/curData.value), "png", 12, 132 + (i % 4)*BlockHeight, 50, 0);
+			
+			
+			pdf.addImage(exportBG, "png", 76, 112 + (i % 4)*BlockHeight, 56, 0);
+			pdf.text(tr('Import'), 78, 106 + (i % 4)*BlockHeight);
+			pdf.text(setValuesFormats(curData.derectTrade.imports), 130, 106 + (i % 4)*BlockHeight, 'right');
+			pdf.addImage(genProgressBarCanvas("#1ca6af", curData.derectTrade.imports/totalDerectTrade), "png", 78, 108 + (i % 4)*BlockHeight, 52, 0);
+			pdf.text(tr('Non-Oil Export'), 78, 118 + (i % 4)*BlockHeight);
+			pdf.text(setValuesFormats(curData.derectTrade.nonOilExports), 130, 118 + (i % 4)*BlockHeight, 'right');
+			pdf.addImage(genProgressBarCanvas("#83b75d", curData.derectTrade.nonOilExports/totalDerectTrade), "png", 78, 120 + (i % 4)*BlockHeight, 52, 0);
+			pdf.text(tr('Re-Export'), 78, 130 + (i % 4)*BlockHeight);
+			pdf.text(setValuesFormats(curData.derectTrade.reExports), 130, 130 + (i % 4)*BlockHeight, 'right');
+			pdf.addImage(genProgressBarCanvas("#e0694a", curData.derectTrade.reExports/totalDerectTrade), "png", 78, 132 + (i % 4)*BlockHeight, 52, 0);
+			
+			pdf.addImage(exportBG, "png", 142, 112 + (i % 4)*BlockHeight, 56, 0);
+			pdf.text(tr('Import'), 144, 106 + (i % 4)*BlockHeight);
+			pdf.text(setValuesFormats(curData.freeZonesTrade.imports), 196, 106 + (i % 4)*BlockHeight, 'right');
+			pdf.addImage(genProgressBarCanvas("#1ca6af", curData.freeZonesTrade.imports/totalFreeZonesTrade), "png", 144, 108 + (i % 4)*BlockHeight, 52, 0);
+			pdf.text(tr('Non-Oil Export'), 144, 118 + (i % 4)*BlockHeight);
+			pdf.text(setValuesFormats(curData.freeZonesTrade.nonOilExports), 196, 118 + (i % 4)*BlockHeight, 'right');
+			pdf.addImage(genProgressBarCanvas("#83b75d", curData.freeZonesTrade.nonOilExports/totalFreeZonesTrade), "png", 144, 120 + (i % 4)*BlockHeight, 52, 0);
+			pdf.text(tr('Re-Export'), 144, 130 + (i % 4)*BlockHeight);
+			pdf.text(setValuesFormats(curData.freeZonesTrade.reExports), 196, 130 + (i % 4)*BlockHeight, 'right');
+			pdf.addImage(genProgressBarCanvas("#e0694a", curData.freeZonesTrade.reExports/totalFreeZonesTrade), "png", 144, 132 + (i % 4)*BlockHeight, 52, 0);
+			
+			
+
+			if(i > 0 && i % 4 == 3 && i<ftvLength-1){
+				pdf.addPage();pageIndex++;
+				getPDFPageTemplate();
+	
+				pdf.setFontSize(24);
+				pdf.setTextColor(255, 255, 255);
+				pdf.text(tr('Trade Volume'), 31, 70);
+				
+				pdf.addImage(tvIconDataURLImage, "png", 17.5, 64, 5, 0);
+				
+				pdf.setFontSize(10);
+				pdf.text(tr('Year: ' + years[0] + "-" + years[1]), 105, 56.5);
+					
+				pdf.text(tr('Currency: '+currString), pdfPageWidth-10, 56.5, 'right');
+				
+				pdf.addImage(headerDataURLImage, "png", 10, 80, 56, 0);
+				
+				pdf.addImage(headerDataURLImage2, "png", 76, 80, 56, 0);
+				
+				pdf.addImage(headerDataURLImage2, "png", 142, 80, 56, 0);
+				
+				
+				pdf.setFontSize(12);
+				pdf.setTextColor(255, 255, 255);
+				pdf.text(tr('Total'), 20, 85);
+				
+				pdf.text(tr('Direct'), 86, 85);
+				
+				pdf.text(tr('Free Zone'), 152, 85);
+			}
+			
+		}
+	}
+	
+}
+
 function genTradeBalance(){
 	
 	
@@ -438,11 +703,9 @@ function genTradeBalance(){
 	pdf.text(tr('Trade Growth and Balance'), 31, 70);
 	
 	pdf.addImage(tradeGrowthIconDataURLImage, "png", 17.5, 64, 5, 0);
+	pdf.addImage(chartGrowthDataURLImage, "jpeg", 10, 90, pdfPageWidth-20, 0);
 	
-	pdf.addImage(chartGrowthDataURLImage, "png", 10, 90, pdfPageWidth-20, 0);
-	
-	pdf.addImage(chartBalanceDataURLImage, "png", 10, 190, pdfPageWidth-20, 0);
-	
+	pdf.addImage(chartBalanceDataURLImage, "jpeg", 10, 190, pdfPageWidth-20, 0);
 	pdf.setFontSize(10);
 	var years = getActiveYearRange();
 	pdf.text(tr('Year: ' + years[0] + "-" + years[1]), 105, 56.5);
@@ -574,27 +837,27 @@ function genInvestmentsFacts(){
 		pdf.text(tr('Inward FDI Stock Value'), 33, 88);
 		
 		pdf.setFontSize(8);
-		pdf.text(tr('into the UAE') + (reportData.inflowFDI[0].period != undefined ? " ("+reportData.inflowFDI[0].period+")":""), 94, 88);
+		pdf.text(tr('into the UAE') + (reportData.inflowFDI.length > 0 ? " ("+reportData.inflowFDI[0].period+")":""), 94, 88);
 		
 		pdf.setTextColor(44, 44, 44);
 		pdf.setFontSize(8);
 		pdf.text(tr("(" + currString + ")"), 174, 88);
 		
 		pdf.setFontSize(24);
-		var text = pdf.splitTextToSize(tr((reportData.inflowFDI[0].value != undefined?setValuesFormats(reportData.inflowFDI[0].value):"0")), 100);
+		var text = pdf.splitTextToSize(tr((reportData.inflowFDI.length > 0?setValuesFormats(reportData.inflowFDI[0].value):"0")), 100);
 		pdf.text(text, 172, 88, 'right');
 		
 		pdf.addImage(actBlockDataURLImage, "png", 32, 98, 27, 0);
 		
 		pdf.setTextColor(255, 255, 255);
 		pdf.setFontSize(20);
-		pdf.text(reportData.act[0].companies != undefined? "" +reportData.act[0].companies:"0", 45, 107, 'center');
+		pdf.text(reportData.act.length > 0? "" +reportData.act[0].companies:"0", 45, 107, 'center');
 		
 		pdf.addImage(actBlockDataURLImage, "png", 92, 98, 27, 0);
-		pdf.text(reportData.act[0].agencies != undefined? "" +reportData.act[0].agencies:"0", 105, 107, 'center');
+		pdf.text(reportData.act.length > 0? "" +reportData.act[0].agencies:"0", 105, 107, 'center');
 		
 		pdf.addImage(actBlockDataURLImage, "png", 152, 98, 27, 0);
-		pdf.text(reportData.act[0].trademark != undefined? "" +reportData.act[0].trademark:"0", 165, 107, 'center');
+		pdf.text(reportData.act.length > 0? "" +reportData.act[0].trademark:"0", 165, 107, 'center');
 		
 		
 		pdf.setTextColor(37, 37, 37);
@@ -624,14 +887,14 @@ function genInvestmentsFacts(){
 		pdf.setTextColor(255, 255, 255);
 		pdf.text(tr('Outward FDI Stock Value'), 33, 180);
 		pdf.setFontSize(8);
-		pdf.text(tr('from the UAE') + (reportData.outflowFDI[0].period != undefined ? " ("+reportData.outflowFDI[0].period+")":""), 98, 180);
+		pdf.text(tr('from the UAE') + (reportData.outflowFDI.length > 0 ? " ("+reportData.outflowFDI[0].period+")":""), 98, 180);
 		
 		pdf.setTextColor(44, 44, 44);
 		pdf.setFontSize(8);
 		pdf.text(tr("(" + currString + ")"), 174, 180);
 		
 		pdf.setFontSize(24);
-		text = pdf.splitTextToSize(tr((reportData.outflowFDI[0].value != undefined?setValuesFormats(reportData.outflowFDI[0].value):"0")), 100);
+		text = pdf.splitTextToSize(tr((reportData.outflowFDI.length > 0?setValuesFormats(reportData.outflowFDI[0].value):"0")), 100);
 		pdf.text(text, 172, 180, 'right');
 		
 		pdf.addImage(headerDataURLImage2, "png", 10, 190, pdfPageWidth - 20, 0);
@@ -1074,6 +1337,7 @@ function genCommitteess(){
 
 function genPDFReport(){
 	if(isAllDataReady()){
+		
 		pdf = new jsPDF();
 		
 		
@@ -1083,6 +1347,7 @@ function genPDFReport(){
 		pdfPageHeight = pdfPageSize.height;
 	 
 		if(pdfCatFiter & 1) genGeneralInformation();
+		if(pdfCatFiter & 2) genTradeVolume();
 		if(pdfCatFiter & 24)genTradeBalance();
 		if(pdfCatFiter & 32) genAgreements();
 		if(pdfCatFiter & 64) genVisits();
@@ -1120,6 +1385,7 @@ function genPDFReport(){
 					 
 					 writer.write(buffer);
 					 //alert(tr('Report saved to ' + path + filename));
+					 hideReportGeneratingWindow();
 					 cordova.plugins.fileOpener2.open(
 						path + filename, // You can also use a Cordova-style file uri: cdvfile://localhost/persistent/Download/starwars.pdf
 						'application/pdf', 
@@ -1140,13 +1406,22 @@ function genPDFReport(){
 			});
 		});		
 		}catch(err){
+			hideReportGeneratingWindow();
 			pdf.save('report.pdf');
 		}
 		pageIndex = 0;
+		
 	}else{
 		setTimeout(genPDFReport, 500);
 	}
 }
 
-
+function showReportGeneratingWindow(){
+	$('input[type=button].reportBtn').prop('disabled', true);
+	$('input[type=button].reportBtn').val(tr('Please wait'));
+}
 	
+function hideReportGeneratingWindow(){
+	$('input[type=button].reportBtn').prop('disabled', false);
+	$('input[type=button].reportBtn').val(tr('PDF Report'));
+}
