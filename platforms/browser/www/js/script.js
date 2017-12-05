@@ -663,7 +663,7 @@ function showActiveFTData(index){
 	
 	itemsToDisplay.forEach(function(el, ind, array) {
 			setTimeout(function(){
-				$(".FTItemsSummary .progress-bar.value"+ind).css('width', (el.value*100/totalValue) + "%");
+				$(".FTItemsSummary .progress-bar.value"+ind).css('width', (totalValue == 0? 0: el.value*100/totalValue) + "%");
 			}, 300);
 				
 	});

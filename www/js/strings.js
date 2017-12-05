@@ -65,10 +65,23 @@ var appStrings = [
 ['Bilateral Agreements','الاتفاقيات الثنائية'],
 ['Joint Economic Committees','اللجان المشتركة'],
 ['Delegations and Visits','زيارات الوفود والفعاليات'],
-['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
-['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
-['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
-['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
-['UAE Trade Relation Dashboard','اللوحة الإلكترونية للعلاقات التجارية'],
+
+//PDF Export
+['Non-Oil Foreign Trade Relation Report','تقرير التجارة الخارجية غير النفطية للإمارات'],
+['between The United Arab Emirates and','بين الإمارات العربية المتحدة و'],
+['Committees','اللجان المشتركة'],
+['Visits','زيارات الوفود والفعاليات'],
+['Investments facts','حقائق الاستثمار'],
+['Export PDF Report','تصدير تقرير PDF '],
+['Please wait','رجاء الإنتظار'],
+
+['Disclaimer: The material presented on this map does not imply the expression of any opinion, recognition or endorsement on the part of Ministry of Economy and the United Arab Emirates concerning the legal status of any country, territory, city or area of its authorities or any delimitation of its frontiers or boundaries.',' ملاحظة: المعلومات الواردة في هذه الخريطة لا تعبر بالضرورة عن رأي أو اعتراف وزارة الاقتصاد ودولة الإمارات العربية المتحدة فيما يتعلق بالوضع القانوني لأي دولة أو منطقة أو مدينة أو بسلطتها المعنية أو أي تغيير في الحدود'],
+['Published by: Analysis, Trade Information Department - Foreign Trade Sector','اللوحة  الإلكترونية للعلاقات التجارية'],
+['Last update: May 2017','تاريخ  آخر تحديث للبيانات: ايار 2017'],
+['All copyrights reserved 2017 - UAE Ministry of Economy','جميع  حقوق الطبع والنشر محفوظة لوزارة الاقتصاد 2017'],
+['Investments Facts','حقائق الاستثمار'],
+['Inward FDI Stock Value', 'رصيد الاستثمار المباشر الداخل'],
+['Outward FDI Stock Value', 'رصيد الاستثمار المباشر الخارج'],
+['Agreements ','الاتفاقيات  المشتركة'],
 ];
 

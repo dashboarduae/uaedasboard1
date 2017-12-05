@@ -175,6 +175,21 @@ body.lngAR #generalInfo .param, body.lngAR #generalInfo .value {
 body.lngAR .FTV.portrait .panel .panel-heading .panel-title {
     font-size: 3.3vw;
 }
+
+
+
+body.lngAR .reportFiter .fiterName{
+	float:right;
+}
+
+body.lngAR .reportFiter .switch{
+	float:left;
+}
+
+body.lngAR .reportBtn{
+	direction:rtl;
+}
+
 @media (orientation: landscape){
 
 body.lngAR  .tradeGrowth .panel .panel-heading .panel-title,
@@ -282,4 +297,6 @@ body.lngAR #generalInfo .param, body.lngAR #generalInfo .value {
 
 }
 
-
+body.lngAR #loadingReport .prValue{
+	
+}

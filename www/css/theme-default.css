@@ -8706,6 +8706,29 @@ svg text{
 	height:500px;
 }
 
+#report #donutChart0,
+#report #donutChart1,
+#report #donutChart2,
+#report #donutChart0 svg,
+#report #donutChart1 svg,
+#report #donutChart2 svg,
+#report #canvas{
+	width:500px;
+	height:500px;
+}
+
+#report #vector_world_map{
+	width:500px;
+	height:350px;
+}
+
+#report #donutChart0 svg text,
+#report #donutChart1 svg text,
+#report #donutChart2S svg text{
+	font-size: 70px;
+    font-weight: bold;
+}
+
 
 .reportFiter .switch {
     cursor: pointer;
@@ -8730,7 +8753,7 @@ svg text{
 }
 
 .reportFiter span{
-	font-size: 6vw;
+	font-size: 5vw;
     line-height: 1.3em;
 }
 
@@ -8752,6 +8775,29 @@ input[type=button].reportBtn{
 
 .reportFilter{
 	
+}
+
+
+#loadingReport{
+position: absolute;
+    left: 15vw;
+    right: auto;
+    width: 70vw;
+    height: 70vw;
+    top: 5vw;
+}
+
+#loadingReport .prValue{
+	font-size: 20vw;
+    text-align: center;
+    margin-top: 1em;
+}
+
+#loadingReport  canvas{
+	position: absolute;
+    top: 0;
+	width: 70vw;
+    height: 70vw;
 }
 
 @media all and (orientation:landscape) {
@@ -8782,5 +8828,23 @@ input[type=button].reportBtn{
 .reportFiter{
 display: inline-block;
     width: 48%;	
+}
+
+#loadingReport{
+    left: 40vw;
+    width: 20vw;
+    height: 20vw;
+    top: 3vw;
+}
+
+#loadingReport .prValue{
+	font-size: 6vw;
+    text-align: center;
+    margin-top: 1em;
+}
+
+#loadingReport  canvas{
+	width: 20vw;
+    height: 20vw;
 }
 }

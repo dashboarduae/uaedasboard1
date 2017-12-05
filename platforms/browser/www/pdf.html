@@ -25,6 +25,8 @@
 		<script type="text/javascript" src="js/plugins/jspdf/plugins/jspdf.plugin.autotable.js"></script>
 		<script type="text/javascript" src="js/plugins/jspdf/libs/html2canvas/html2canvas.js"></script>
 		<script type="text/javascript" src="js/plugins/canvasjs.min.js"></script> 
+		<script type="text/javascript" src='js/plugins/pdfmake/pdfmake.min.js'></script>
+		<script type="text/javascript" src='js/plugins/pdfmake/vfs_fonts.js'></script>
 		<script type="text/javascript" src="js/strings.js"></script>
 		<script type="text/javascript" src="js/script.js"></script>	
 <script type="text/javascript" src="js/pdfreport.js"></script>			
@@ -46,7 +48,7 @@
                 <!-- START X-NAVIGATION -->
                 <ul class="x-navigation">
                     <li class="xn-logo">
-                        <a href="index.html"><script>document.write(tr('PDF Report'));</script></a>
+                        <a href="index.html"><script>document.write(tr('Export PDF Report'));</script></a>
 						
                         <a href="#" class="x-navigation-control"></a>
                     </li>
@@ -56,7 +58,7 @@
 					<li><a href="direct_foreign_trade_items.html"><span class="xn-text"><script>document.write(tr('Direct Trade Items'));</script></span></a></li>
 					<li><a href="investement_facts.html"><span class="xn-text"><script>document.write(tr('Investment Facts'));</script></span></a></li>
 					<li><a href="com_agr.html"><span class="xn-text"><script>document.write(tr('Committees &amp; Agreements'));</script></span></a></li>
-					<li><a href="pdf.html"><span class="xn-text"><script>document.write(tr('PDF Report'));</script></span></a></li>
+					<li><a href="pdf.html"><span class="xn-text"><script>document.write(tr('Export PDF Report'));</script></span></a></li>
                     
                 </ul>
                 <!-- END X-NAVIGATION -->
@@ -72,6 +74,7 @@
 
                 <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap"><div  class="row" >&nbsp;</div>
+				<div id="reportFiters">
 				<div  class="row" >
 					<div class="col-md-12 clearfix">
 						<div id="country_select" class="btn-group">
@@ -89,7 +92,7 @@
 				<div  class="row" >&nbsp;</div>
 				<div class="row reportFiter">
 					<div class="col-md-12">
-						<span><script>document.write(tr('General Information'));</script></span>
+						<span class="fiterName"><script>document.write(tr('General Information'));</script></span>
 						<label class="switch">
                             <input  data-category="1" type="checkbox" checked="checked" value="0">
                              <span></span>
@@ -100,20 +103,9 @@
 				
 				<div class="row reportFiter">
 					<div class="col-md-12">
-						<span><script>document.write(tr('Trade Volume'));</script></span>
+						<span class="fiterName"><script>document.write(tr('Trade Volume'));</script></span>
 						<label class="switch">
-                            <input data-category="2" type="checkbox"  value="0">
-                             <span></span>
-                    
-						</label>
-					</div>
-				</div>
-				
-				<div class="row reportFiter">
-					<div class="col-md-12">
-						<span><script>document.write(tr('Direct Trade Items'));</script></span>
-						<label class="switch">
-                            <input   data-category="4" type="checkbox"  value="0">
+                            <input data-category="2" type="checkbox" checked="checked"  value="0">
                              <span></span>
                     
 						</label>
@@ -122,9 +114,20 @@
 				
 				<div class="row reportFiter">
 				<div class="col-md-12">
-						<span><script>document.write(tr('Trade Growth and Balance'));</script></span>
+						<span class="fiterName"><script>document.write(tr('Trade Growth and Balance'));</script></span>
 						<label class="switch">
-                            <input   data-category="24" type="checkbox"  value="0">
+                            <input   data-category="24" type="checkbox" checked="checked"  value="0">
+                             <span></span>
+                    
+						</label>
+					</div>
+				</div>
+				
+				<div class="row reportFiter">
+					<div class="col-md-12">
+						<span class="fiterName"><script>document.write(tr('Direct Trade Items'));</script></span>
+						<label class="switch">
+                            <input   data-category="4" type="checkbox" checked="checked"  value="0">
                              <span></span>
                     
 						</label>
@@ -132,10 +135,21 @@
 				</div>
 				
 				
+				<div class="row reportFiter">
+					<div class="col-md-12">
+						<span class="fiterName"><script>document.write(tr('Investments facts'));</script></span>
+						<label class="switch">
+                            <input   data-category="256" type="checkbox"  checked="checked" value="0">
+                             <span></span>
+                    
+						</label>
+					</div>
+				</div>
+				
 				
 				<div class="row reportFiter">
 					<div class="col-md-12">
-						<span><script>document.write(tr('Agreements'));</script></span>
+						<span class="fiterName"><script>document.write(tr('Agreements'));</script></span>
 						<label class="switch">
                             <input   data-category="32" type="checkbox"  value="0">
                              <span></span>
@@ -146,7 +160,7 @@
 				
 				<div class="row reportFiter">
 					<div class="col-md-12">
-						<span><script>document.write(tr('Visits'));</script></span>
+						<span class="fiterName"><script>document.write(tr('Visits'));</script></span>
 						<label class="switch">
                             <input   data-category="64" type="checkbox"  value="0">
                              <span></span>
@@ -157,7 +171,7 @@
 				
 				<div class="row reportFiter">
 					<div class="col-md-12">
-						<span><script>document.write(tr('Committees'));</script></span>
+						<span class="fiterName"><script>document.write(tr('Committees'));</script></span>
 						<label class="switch">
                             <input   data-category="128" type="checkbox"  value="0">
                              <span></span>
@@ -165,25 +179,21 @@
 						</label>
 					</div>
 				</div>
-				
-				<div class="row reportFiter">
-					<div class="col-md-12">
-						<span><script>document.write(tr('Investments facts'));</script></span>
-						<label class="switch">
-                            <input   data-category="256" type="checkbox"  value="0">
-                             <span></span>
-                    
-						</label>
-					</div>
 				</div>
-				
-				
+				<div  id="loadingReport" class="row">
+					<div class="prValue"></div>
+				</div>
 				<div  class="row">
 					<div class="col-md-12">
-					<input class="btn  btn-block reportBtn" type="button" value="PDF Report" onClick="reLoadData();genPDFReport();">
+					<input class="btn  btn-block reportBtn" type="button" value="" onClick="reLoadData();genPDFReport();">
 					<div id="report" style="">
 						<div id="balanceChart"><svg></svg></div>
 						<div id="growthChart"></div>
+						<div id="donutChart0"><svg></svg></div>
+						<div id="donutChart1"><svg></svg></div>
+						<div id="donutChart2"><svg></svg></div>
+						<div id="vector_world_map"></div>
+						<canvas id="canvas"></canvas>
 					</div>
 					</div>	
 				</div>
@@ -195,7 +205,7 @@
         </div>
         <!-- END PAGE CONTAINER -->
 
-
+		
 
 <!-- START THIS PAGE PLUGINS-->        
         <script type='text/javascript' src='js/plugins/icheck/icheck.min.js'></script>        
@@ -221,6 +231,13 @@
 
         <script type="text/javascript" src="js/plugins/moment.min.js"></script>
         <script type="text/javascript" src="js/plugins/daterangepicker/daterangepicker.js"></script>
+		<script type="text/javascript" src="js/plugins/nvd3/lib/d3.v3.js"></script>
+		<script type="text/javascript" src="js/plugins/nvd3/nv.d3.min.js"></script>
+		<script type="text/javascript" src="js/plugins/canvg/StackBlur.js"></script>
+		<script type="text/javascript" src="js/plugins/canvg/rgbcolor.js"></script>
+		<script type="text/javascript" src="js/plugins/canvg/canvg.min.js"></script>
+		<script type="text/javascript" src="js/plugins/circle-progress.min.js"></script>
+		
         <!-- END THIS PAGE PLUGINS-->        
 
         <!-- START TEMPLATE -->
