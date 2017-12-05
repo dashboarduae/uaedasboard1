@@ -56,6 +56,26 @@ var tradeGrowthIconLoaded = false;
 var tradeGrowthIconDataURLImage;
 var imgTrageGrowthIcon  = new Image();
 
+var coverLogoLoaded = false;
+var coverLogoDataURLImage;
+var imgCoverLogo  = new Image();
+
+var coverHeaderLoaded = false;
+var coverHeaderDataURLImage;
+var imgCoverHeader  = new Image();
+
+var coverCountryLoaded = false;
+var coverCountryDataURLImage;
+var imgCoverCountry  = new Image();
+
+var coverMapLoaded = false;
+var coverMapDataURLImage;
+var imgCoverMap  = new Image();
+
+var UAEFlagLoaded = false;
+var UAEFlagDataURLImage;
+var imgUAEFlag  = new Image();
+
 
 
 
@@ -162,7 +182,7 @@ function reLoadData(){
 	showReportGeneratingWindow();
 	reportDataLoaded = flagLoaded = giLoaded = agrLoaded = ifIconLoaded = inflowIconLoaded = outflowIconLoaded = tradeGrowthIconLoaded =
 	chartBalanceLoaded = chartGrowthLoaded = tvIconLoaded = ftiIconLoaded = donutChart0Rendered = donutChart1Rendered = donutChart2Rendered =
-	mapIsReady = false;
+	mapIsReady = coverLogoLoaded = coverHeaderLoaded = coverCountryLoaded = coverMapLoaded = UAEFlagLoaded = false;
 	showBalanceData = [];
 	showData = [];
 	
@@ -283,6 +303,83 @@ function reLoadData(){
 
 
 function loadResurces(){
+	imgCoverLogo.onload = function() {
+		var canvas = document.createElement('canvas');
+            canvas.width = imgCoverLogo.width;
+            canvas.height = imgCoverLogo.height;
+
+            var context = canvas.getContext('2d');
+            context.drawImage(imgCoverLogo, 0, 0);
+			context.fillStyle = '#ffffff'; 
+
+            coverLogoDataURLImage = canvas.toDataURL('image/png');
+			coverLogoLoaded = true;
+			
+	};	
+	imgCoverLogo.src =  "img/pdf/coverlogo.png";
+	
+	imgCoverHeader.onload = function() {
+		var canvas = document.createElement('canvas');
+            canvas.width = imgCoverHeader.width;
+            canvas.height = imgCoverHeader.height;
+
+            var context = canvas.getContext('2d');
+            context.drawImage(imgCoverHeader, 0, 0);
+			context.fillStyle = '#ffffff'; 
+
+            coverHeaderDataURLImage = canvas.toDataURL('image/png');
+			coverHeaderLoaded = true;
+			
+	};	
+	imgCoverHeader.src =  "img/pdf/coverHeader.png";
+	
+	imgCoverCountry.onload = function() {
+		var canvas = document.createElement('canvas');
+            canvas.width = imgCoverCountry.width;
+            canvas.height = imgCoverCountry.height;
+
+            var context = canvas.getContext('2d');
+            context.drawImage(imgCoverCountry, 0, 0);
+			context.fillStyle = '#ffffff'; 
+
+            coverCountryDataURLImage = canvas.toDataURL('image/png');
+			coverCountryLoaded = true;
+			
+	};	
+	imgCoverCountry.src =  "img/pdf/coverCountry.png";
+	
+	imgCoverMap.onload = function() {
+		var canvas = document.createElement('canvas');
+            canvas.width = imgCoverMap.width;
+            canvas.height = imgCoverMap.height;
+
+            var context = canvas.getContext('2d');
+            context.drawImage(imgCoverMap, 0, 0);
+			context.fillStyle = '#ffffff'; 
+
+            coverMapDataURLImage = canvas.toDataURL('image/png');
+			coverMapLoaded = true;
+			
+	};	
+	imgCoverMap.src =  "img/pdf/coverMap.png";
+	
+	
+	imgUAEFlag.onload = function() {
+		var canvas = document.createElement('canvas');
+            canvas.width = imgUAEFlag.width;
+            canvas.height = imgUAEFlag.height;
+
+            var context = canvas.getContext('2d');
+            context.drawImage(imgUAEFlag, 0, 0);
+			context.fillStyle = '#ffffff'; 
+
+            UAEFlagDataURLImage = canvas.toDataURL('image/png');
+			UAEFlagLoaded = true;
+			
+	};	
+	imgUAEFlag.src =  "img/pdf/uaeFlag.png";
+	
+	
 	imgLogo.onload = function() {
 		var canvas = document.createElement('canvas');
             canvas.width = imgLogo.width;
@@ -442,7 +539,9 @@ function loadResurces(){
 }
 
 function isAllDataReady(){
-	return tvIconLoaded && chartBalanceLoaded && logoLoaded && curCountryLoaded && flagLoaded && giLoaded && ifIconLoaded && agrLoaded  && reportDataLoaded && tradeGrowthIconLoaded && ftiIconLoaded && donutChart0Rendered && donutChart1Rendered && donutChart2Rendered && mapIsReady;
+	
+	return tvIconLoaded && chartBalanceLoaded && logoLoaded && curCountryLoaded && flagLoaded && giLoaded && ifIconLoaded && agrLoaded  && reportDataLoaded && tradeGrowthIconLoaded && ftiIconLoaded && donutChart0Rendered && donutChart1Rendered && donutChart2Rendered && mapIsReady &&
+	coverLogoLoaded &&  coverHeaderLoaded && coverCountryLoaded && coverMapLoaded && UAEFlagLoaded;
 }
 
 function getPDFPageTemplate(){
@@ -527,6 +626,116 @@ function showReportGrowthChart(){
 }
 
 var pageIndex = 0;
+
+function genCover(){
+	pdf.addImage(coverLogoDataURLImage, "png", 50, 15, 110, 0);
+	pdf.addImage(coverHeaderDataURLImage, "png", 0, 70, 210, 0);
+	pdf.addImage(coverCountryDataURLImage, "png", 0, 120, 210, 0);
+	pdf.addImage(coverMapDataURLImage, "png", 0, 140, 210, 0);
+	
+	pdf.addImage(UAEFlagDataURLImage, "png", 82, 123, 20, 0);
+	pdf.addImage(flagLoadedDataURLImage, "png", 108, 122, 20, 0);
+	
+	pdf.setFontSize(24);
+	pdf.setTextColor(255, 255, 255);
+	pdf.text('Non-Oil Foreign Trade Relation Report\n between The United Arab Emirates and', 105, 85, 'center');
+	pdf.text(curCountry.name, 105, 105, 'center');
+	
+	pdf.setFontSize(8);
+	pdf.setTextColor(48, 48, 48);
+	pdf.text('Published by: Analysis,Trade and Industrial Information Department - Foreign Trade Sector', 105, 275, 'center');
+	pdf.text('Last update: May 2017', 105, 280, 'center');
+	pdf.text('All copyrights reserved 2017 - UAE Ministry of Economy', 105, 285, 'center');
+
+	pageIndex++;
+}
+
+function genCover_AR(){
+	var pageCanvas = document.createElement('canvas');
+        pageCanvas.width = 600; 
+        pageCanvas.height = 1000;
+		
+	var ctx=pageCanvas.getContext("2d");
+		ctx.fillStyle="#ffffff";
+		ctx.fillRect(0,0,600,1000);						
+		
+	var pageDataURLImage = pageCanvas.toDataURL('image/png');
+	
+	docDefinition.content.push({
+		image: pageDataURLImage,
+		width: 600,
+		absolutePosition: {x:0, y:0}		
+	});
+	
+	docDefinition.content.push({
+		image: coverLogoDataURLImage,
+		width: 400,
+		absolutePosition: {x:100, y:30}		
+	});
+	
+	docDefinition.content.push({
+		image: coverHeaderDataURLImage,
+		width: 600,
+		absolutePosition: {x:0, y:170}		
+	});
+	
+	docDefinition.content.push({
+		image: coverCountryDataURLImage,
+		width: 600,
+		absolutePosition: {x:0, y:310}		
+	});
+	
+	docDefinition.content.push({
+		image: coverMapDataURLImage,
+		width: 600,
+		absolutePosition: {x:0, y:365}		
+	});
+	
+	docDefinition.content.push({
+		table: {
+			headerRows: 0,
+			widths: [500],
+			body: [
+			
+				[ textToLines('تقرير التجارة الخارجية غير النفطية بين الإمارات العربية المتحدة و', 40, true, 10),],
+				
+				[ reverseWords(curCountry.name),],
+			]
+		},
+		absolutePosition: {x:40, y:180},
+		layout: 'noBorders',
+		style:{
+			alignment: 'center', 
+			lineHeight: .7,
+			fontSize: 24,
+			color:'#fff',
+		}
+		
+	});
+	
+	docDefinition.content.push({
+		table: {
+			headerRows: 0,
+			widths: [500],
+			body: [
+				[ reverseWords(tr('Published by: Analysis, Trade Information Department - Foreign Trade Sector')),],
+				[ reverseWords(tr('Last update: May 2017')),],
+				[ reverseWords(tr('All copyrights reserved 2017 - UAE Ministry of Economy')),],
+			]
+		},
+		absolutePosition: {x:40, y:750},
+		layout: 'noBorders',
+		style:{
+			alignment: 'center', 
+			lineHeight: .7,
+			fontSize: 8,
+			color:'#303030',
+		}
+		
+	});
+	
+	pageIndex++;
+}
 
 function genProgressBarCanvas(color, value, rtl){
 	var headerCanvas = document.createElement('canvas');
@@ -1130,7 +1339,7 @@ function genTradeVolume_AR(){
 			docDefinition.content.push({
 				table: {
 					headerRows: 0,
-					widths: [33,103],
+					widths: [44,90],
 					body: [[{
 							text:setValuesFormats(curData.totalTrade.imports),
 							style:'tradeItemLeft',
@@ -1153,7 +1362,7 @@ function genTradeVolume_AR(){
 			docDefinition.content.push({
 				table: {
 					headerRows: 0,
-					widths: [33,103],
+					widths: [44,90],
 					body: [[{
 							text:setValuesFormats(curData.totalTrade.nonOilExports),
 							style:'tradeItemLeft',
@@ -1176,7 +1385,7 @@ function genTradeVolume_AR(){
 			docDefinition.content.push({
 				table: {
 					headerRows: 0,
-					widths: [33,103],
+					widths: [44,90],
 					body: [[{
 							text:setValuesFormats(curData.totalTrade.reExports),
 							style:'tradeItemLeft',
@@ -1216,7 +1425,7 @@ function genTradeVolume_AR(){
 			docDefinition.content.push({
 				table: {
 					headerRows: 0,
-					widths: [33,115],
+					widths: [56,90],
 					body: [[{
 							text:setValuesFormats(curData.derectTrade.imports),
 							style:'tradeItemLeft',
@@ -1239,7 +1448,7 @@ function genTradeVolume_AR(){
 			docDefinition.content.push({
 				table: {
 					headerRows: 0,
-					widths: [33,115],
+					widths: [56,90],
 					body: [[{
 							text:setValuesFormats(curData.derectTrade.nonOilExports),
 							style:'tradeItemLeft',
@@ -1262,7 +1471,7 @@ function genTradeVolume_AR(){
 			docDefinition.content.push({
 				table: {
 					headerRows: 0,
-					widths: [33,115],
+					widths: [56,90],
 					body: [[{
 							text:setValuesFormats(curData.derectTrade.reExports),
 							style:'tradeItemLeft',
@@ -1304,7 +1513,7 @@ function genTradeVolume_AR(){
 			docDefinition.content.push({
 				table: {
 					headerRows: 0,
-					widths: [33,115],
+					widths: [56,90],
 					body: [[{
 							text:setValuesFormats(curData.freeZonesTrade.imports),
 							style:'tradeItemLeft',
@@ -1315,7 +1524,7 @@ function genTradeVolume_AR(){
 					}]],
 					
 				},
-				absolutePosition: {x:31, y:293 + (i % 3)*BlockHeight},
+				absolutePosition: {x:32, y:293 + (i % 3)*BlockHeight},
 				layout: 'noBorders',
 				style:{
 					alignment: 'right', 
@@ -1327,7 +1536,7 @@ function genTradeVolume_AR(){
 			docDefinition.content.push({
 				table: {
 					headerRows: 0,
-					widths: [33,115],
+					widths: [56,90],
 					body: [[{
 							text:setValuesFormats(curData.freeZonesTrade.nonOilExports),
 							style:'tradeItemLeft',
@@ -1338,7 +1547,7 @@ function genTradeVolume_AR(){
 					}]],
 					
 				},
-				absolutePosition: {x:31, y:332 + (i % 3)*BlockHeight},
+				absolutePosition: {x:32, y:332 + (i % 3)*BlockHeight},
 				layout: 'noBorders',
 				style:{
 					alignment: 'right', 
@@ -1350,7 +1559,7 @@ function genTradeVolume_AR(){
 			docDefinition.content.push({
 				table: {
 					headerRows: 0,
-					widths: [33,115],
+					widths: [56,90],
 					body: [[{
 							text:setValuesFormats(curData.freeZonesTrade.reExports),
 							style:'tradeItemLeft',
@@ -1361,7 +1570,7 @@ function genTradeVolume_AR(){
 					}]],
 					
 				},
-				absolutePosition: {x:31, y:371 + (i % 3)*BlockHeight},
+				absolutePosition: {x:32, y:371 + (i % 3)*BlockHeight},
 				layout: 'noBorders',
 				style:{
 					alignment: 'right', 
@@ -1519,7 +1728,6 @@ function genTradeVolume_AR(){
 	}
 	
 }
-
 	
 function drawDonutChart(index){
 	
@@ -3613,12 +3821,12 @@ function genGeneralInformation_AR(){
 				paddingLeft: function(i, node) { return 1; },
 				paddingRight: function(i, node) { return 1; },
 				paddingTop: function(i, node) { return 1; },
-				paddingBottom: function(i, node) { return 1; },
+				paddingBottom: function(i, node) { return 5; },
 				hLineWidth:function(t){return 0},
 				vLineWidth:function(t){return 0},
 			},
 			style:'giTable',
-			absolutePosition: {x:28, y:440},
+			absolutePosition: {x:28, y:430},
 		});
 	}
 	
@@ -3748,7 +3956,7 @@ function genAgreements_AR(){
 			headerRows: 0,
 			widths: [475],
 			body: [
-				[ reverseWords(tr('Agreements')),],
+				[ reverseWords(tr('Agreements ')),],
 			]
 		},
 		absolutePosition: {x:20, y:160},
@@ -3821,7 +4029,7 @@ function genAgreements_AR(){
 						headerRows: 0,
 						widths: [475],
 						body: [
-							[ reverseWords(tr('Agreements')),],
+							[ reverseWords(tr('Agreements ')),],
 						]
 					},
 					absolutePosition: {x:20, y:160},
@@ -4489,15 +4697,15 @@ function genPDFReport(){
 				pdfPageSize = pdfInternals.pageSize;
 				pdfPageWidth = pdfPageSize.width;
 				pdfPageHeight = pdfPageSize.height;
-			 
+				genCover();
 				setTimeout(function(){
 					if(pdfCatFiter & 1) {genGeneralInformation();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 					setTimeout(function(){
 						if(pdfCatFiter & 2) {genTradeVolume();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 						setTimeout(function(){
-							if(pdfCatFiter & 4)  {genTradeItems();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+							if(pdfCatFiter & 4)  {genTradeBalance();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 							setTimeout(function(){
-								if(pdfCatFiter & 24) {genTradeBalance();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+								if(pdfCatFiter & 24) {genTradeItems();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 								setTimeout(function(){
 									if(pdfCatFiter & 256) {genInvestmentsFacts();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 									setTimeout(function(){
@@ -4592,19 +4800,19 @@ function genPDFReport(){
 						  // if you specify width, image will scale proportionally
 						  image: logoLoadedDataURLImage,
 						  width: 224,
-						  absolutePosition: {x:340, y:28}
+						  absolutePosition: {x:28, y:28}
 						},
 						{
 							table: {
 								// headers are automatically repeated if the table spans over multiple pages
 								// you can declare how many rows should be treated as headers
 								headerRows: 0,
-								widths: [200],
+								widths: [290],
 								body: [
-								  [ reverseWords(tr('Non-Oil Foreign Trade Relation Report'))+"\n"+reverseWords(tr('between The United Arab Emirates and'))+"\n"+curCountry.name],
+								  [ reverseWords('تقرير التجارة الخارجية غير النفطية بين الإمارات العربية المتحدة و')+"\n"+curCountry.name],
 								],							
 							},
-							absolutePosition: {x:20, y:30},
+							absolutePosition: {x:280, y:30},
 							layout: 'noBorders',
 							style:{
 								alignment: 'right', 
@@ -4834,22 +5042,23 @@ function genPDFReport(){
 							},
 						}
 				};
+				genCover_AR();
 				setTimeout(function(){
 					if(pdfCatFiter & 1) {genGeneralInformation_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 					setTimeout(function(){
 						if(pdfCatFiter & 2) {genTradeVolume_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 						setTimeout(function(){
-							if(pdfCatFiter & 4)  {genTradeItems_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+							if(pdfCatFiter & 4)  {genTradeBalance_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 							setTimeout(function(){
-								if(pdfCatFiter & 24) {genTradeBalance_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+								if(pdfCatFiter & 24) {genTradeItems_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 								setTimeout(function(){
-									if(pdfCatFiter & 32) {genAgreements_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+									if(pdfCatFiter & 32) {genInvestmentsFacts_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 									setTimeout(function(){
-										if(pdfCatFiter & 64) {genVisits_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+										if(pdfCatFiter & 64) {genAgreements_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 										setTimeout(function(){
-											if(pdfCatFiter & 128) {genCommitteess_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+											if(pdfCatFiter & 128) {genVisits_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 											setTimeout(function(){
-												if(pdfCatFiter & 256) {genInvestmentsFacts_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+												if(pdfCatFiter & 256) {genCommitteess_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 												setTimeout(function(){
 													pdfMake.createPdf(docDefinition).getBuffer(function(buff) {
 														// turn buffer into blob
@@ -4923,9 +5132,6 @@ function genPDFReport(){
 	}
 }
 
-
-
-
 function showReportGeneratingWindow(){
 	setLoadingProgress(0);
 	$('input[type=button].reportBtn').prop('disabled', true);
@@ -4959,7 +5165,36 @@ function setLoadingProgress(value){
 }
 
 function reverseWords(str){
-	return str.split(" ").reverse().join(" ");
+	return  changeChars(str.split(" ").reverse().join(" ") + " ");
+}
+
+function isArabicWord(word){
+	var wlength = word.length;
+
+	for(var i=0;i<wlength;i++){
+		if(word.charCodeAt(i)>1535) return true;
+	}
+	
+	return false;
+}
+
+function changeChars(str){
+	var strLen = str.length;
+	var res = "";
+	for(var i=0;i<strLen;i++){
+		if(str[i] == "("){
+			res += ")";
+		}else if(str[i] == ")"){
+			res += "(";
+		}else if(str[i] == "«"){
+			res += "»";
+		}else if(str[i] == "»"){
+			res += "«";
+		}else{
+			res += str[i];
+		}
+	}
+	return res;
 }
 
 function textToLines(text, lineSize, reverse, maxlines){
@@ -4972,18 +5207,26 @@ function textToLines(text, lineSize, reverse, maxlines){
 	var lSize = 0;
 	
 	for(var i = 0; i<wordsCount;i++){
-		words[i].length
+		
 		if(lSize + words[i].length >= lineSize){
-			if(reverse) line.reverse();
-			lines.push(line.join(" "));
+			if(reverse) {
+				line.reverse();
+				lines.push(changeChars(line.join(" ") + " "));
+			}else{
+				lines.push(line.join(" ") + " ");
+			}
 			line = [];
 			lSize = 0;
 		}
 		
 		line.push(words[i]);lSize += words[i].length + 1;
 	}
-	if(reverse) line.reverse();
-	lines.push(line.join(" "));
+	if(reverse) {
+		line.reverse();
+		lines.push(changeChars(line.join(" ") + " "));
+	}else{
+		lines.push(line.join(" ") + " ");
+	}
 	
 	if(lines.length > maxlines) {
 		lines = lines.slice(0, maxlines);
