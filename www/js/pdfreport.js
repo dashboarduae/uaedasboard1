@@ -111,7 +111,7 @@ $(document).ready(function(){
 			type: 'POST',
 			timeout: 5000,
 			error: function(xhr) {
-				alert(tr('Please check internet is connection'));
+				alert(tr('Please check internet connection'));
 				hideReportGeneratingWindow();
 			}
 	});
@@ -4704,9 +4704,9 @@ function genPDFReport(){
 					setTimeout(function(){
 						if(pdfCatFiter & 2) {genTradeVolume();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 						setTimeout(function(){
-							if(pdfCatFiter & 4)  {genTradeBalance();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+							if(pdfCatFiter & 24)  {genTradeBalance();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 							setTimeout(function(){
-								if(pdfCatFiter & 24) {genTradeItems();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+								if(pdfCatFiter & 4) {genTradeItems();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 								setTimeout(function(){
 									if(pdfCatFiter & 256) {genInvestmentsFacts();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 									setTimeout(function(){
@@ -4772,15 +4772,15 @@ function genPDFReport(){
 															pdf.save(pdfName);
 														}
 														pageIndex = 0;
-													},100);
-											},100);
-										},100);
-									},100);
-								},100);
-							},100);
-						},100);
-					},100);
-				},100);
+													},300);
+											},300);
+										},300);
+									},300);
+								},300);
+							},300);
+						},300);
+					},300);
+				},300);
 				
 			}else{
 				
@@ -5046,17 +5046,17 @@ function genPDFReport(){
 					setTimeout(function(){
 						if(pdfCatFiter & 2) {genTradeVolume_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 						setTimeout(function(){
-							if(pdfCatFiter & 4)  {genTradeBalance_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+							if(pdfCatFiter & 24)  {genTradeBalance_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 							setTimeout(function(){
-								if(pdfCatFiter & 24) {genTradeItems_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+								if(pdfCatFiter & 4) {genTradeItems_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 								setTimeout(function(){
-									if(pdfCatFiter & 32) {genInvestmentsFacts_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+									if(pdfCatFiter & 256) {genInvestmentsFacts_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 									setTimeout(function(){
-										if(pdfCatFiter & 64) {genAgreements_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+										if(pdfCatFiter & 32) {genAgreements_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 										setTimeout(function(){
-											if(pdfCatFiter & 128) {genVisits_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+											if(pdfCatFiter & 64) {genVisits_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 											setTimeout(function(){
-												if(pdfCatFiter & 256) {genCommitteess_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+												if(pdfCatFiter & 128) {genCommitteess_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 												setTimeout(function(){
 													pdfMake.createPdf(docDefinition).getBuffer(function(buff) {
 														// turn buffer into blob
@@ -5112,15 +5112,15 @@ function genPDFReport(){
 														}
 													});
 													pageIndex = 0;
-												}, 100);
-											}, 100);
-										}, 100);
-									}, 100);
-								}, 100);
-							}, 100);
-						}, 100);
-					}, 100);
-				}, 100);	
+												}, 300);
+											}, 300);
+										}, 300);
+									}, 300);
+								}, 300);
+							}, 300);
+						}, 300);
+					}, 300);
+				}, 300);	
 			}
 		}else{
 			setTimeout(genPDFReport, 500);
@@ -5150,7 +5150,7 @@ function hideReportGeneratingWindow(){
 
 function setLoadingProgress(value){	
 	$('#loadingReport').circleProgress({
-		value: value,
+		value: value>1?1:value,
 		size: $('#loadingReport').width(),
 		startAngle:-Math.PI/2,
 		animation:false,
