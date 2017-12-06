@@ -111,7 +111,8 @@ $(document).ready(function(){
 			type: 'POST',
 			timeout: 5000,
 			error: function(xhr) {
-				alert(tr('Please check internet is not connection'));
+				alert(tr('Please check internet is connection'));
+				hideReportGeneratingWindow();
 			}
 	});
 	$('#loadingReport').circleProgress({
@@ -3449,7 +3450,7 @@ function genInvestmentsFacts_AR(){
 						text:[
 							
 							{
-								text:reverseWords(tr('from the UAE') + (reportData.inflowFDI.length > 0 ? " ("+reportData.outflowFDI[0].period+")":"")),
+								text:reverseWords(tr('from the UAE') + (reportData.outflowFDI.length > 0 ? " ("+reportData.outflowFDI[0].period+")":"")),
 								style:'IFHaderSmall',
 							},
 							reverseWords(tr('Outward FDI Stock Value')),
@@ -3481,7 +3482,7 @@ function genInvestmentsFacts_AR(){
 								style:'IFHaderValueSmall',
 							},
 							" ",
-							(reportData.inflowFDI.length > 0?setValuesFormats(reportData.outflowFDI[0].value):"0"),
+							(reportData.outflowFDI.length > 0?setValuesFormats(reportData.outflowFDI[0].value):"0"),
 						],
 						style:'IFHaderValue',
 					  },
@@ -4715,8 +4716,6 @@ function genPDFReport(){
 											setTimeout(function(){
 												if(pdfCatFiter & 128) {genCommitteess();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 												setTimeout(function(){
-													if(pdfCatFiter & 128) {genCommitteess();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
-													setTimeout(function(){
 														try{
 													
 															pdfOutput = pdf.output();
@@ -4747,7 +4746,7 @@ function genPDFReport(){
 																		 
 																		 writer.write(buffer);
 																		 //alert(tr('Report saved to ' + path + filename));
-																		 currentProgess += 20;setLoadingProgress(currentProgess/maxReportProgress);
+																		 currentProgess += 5;setLoadingProgress(currentProgess/maxReportProgress);
 																		 hideReportGeneratingWindow();
 																		 cordova.plugins.fileOpener2.open(
 																			path + filename, // You can also use a Cordova-style file uri: cdvfile://localhost/persistent/Download/starwars.pdf
@@ -4774,7 +4773,6 @@ function genPDFReport(){
 														}
 														pageIndex = 0;
 													},100);
-												},100);
 											},100);
 										},100);
 									},100);
@@ -5087,7 +5085,7 @@ function genPDFReport(){
 																		 
 																		 writer.write(pdfOutput);
 																		 //alert(tr('Report saved to ' + path + filename));
-																		 currentProgess += 20;setLoadingProgress(currentProgess/maxReportProgress);
+																		 currentProgess += 5;setLoadingProgress(currentProgess/maxReportProgress);
 																		 hideReportGeneratingWindow();
 																		 cordova.plugins.fileOpener2.open(
 																			path + filename, 
