@@ -4,7 +4,7 @@ var appLang;
 
 var docDefinition;
 
-var pdfCatFiter = 287;
+var pdfCatFiter;
 
 var pdfInternals;
 var pdfPageSize;
@@ -103,10 +103,23 @@ var loadingDialog;
 var maxReportProgress;
 var currentProgess;
 
+function getReportCatFilter(){
+	var filter = window.localStorage.getItem('reportCatFilter');
+	if(filter == undefined) {
+		filter = "287";
+	}
+	return parseInt(filter);
+}
+
+function setReportCatFilter(reportCatFilter){
+	window.localStorage.setItem('reportCatFilter', reportCatFilter);
+	return reportCatFilter;
+}
+
 $(document).ready(function(){	
 	$(document.body).addClass('lng'+ getAppLang());
 	loadingDialog = $("#loadingReport");
-
+	pdfCatFiter = getReportCatFilter();
 	$.ajaxSetup({
 			type: 'POST',
 			timeout: 5000,
@@ -178,6 +191,7 @@ $(document).ready(function(){
 var showData = [];
 
 function reLoadData(){
+	getReportCatFilter(pdfCatFiter);
 	appLang = getAppLang();
 	
 	showReportGeneratingWindow();
@@ -3209,7 +3223,7 @@ function genInvestmentsFacts_AR(){
 						text:[
 							
 							{
-								text:reverseWords(tr('into the UAE') + (reportData.inflowFDI.length > 0 ? " ("+reportData.inflowFDI[0].period+")":"")),
+								text:changeChars(reverseWords(tr('into the UAE') + (reportData.inflowFDI.length > 0 ? " ("+reportData.inflowFDI[0].period+")":""))),
 								style:'IFHaderSmall',
 							},
 							reverseWords(tr('Inward FDI Stock Value')),
@@ -3340,7 +3354,7 @@ function genInvestmentsFacts_AR(){
 					],
 					[ 
 					  {
-						text:reverseWords(tr("registered in the UAE") + " (2015)"),
+						text:changeChars(reverseWords(tr("registered in the UAE") + " (2015)")),
 						style:'ACTTitleSmall',
 					  },
 					  
@@ -3365,7 +3379,7 @@ function genInvestmentsFacts_AR(){
 					],
 					[ 
 					  {
-						text:reverseWords(tr("registered in the UAE") + " (2015)"),
+						text:changeChars(reverseWords(tr("registered in the UAE") + " (2015)")),
 						style:'ACTTitleSmall',
 					  },
 					  
@@ -3390,7 +3404,7 @@ function genInvestmentsFacts_AR(){
 					],
 					[ 
 					  {
-						text:reverseWords(tr("registered in the UAE") + " (2015)"),
+						text:changeChars(reverseWords(tr("registered in the UAE") + " (2015)")),
 						style:'ACTTitleSmall',
 					  },
 					  
@@ -3450,7 +3464,7 @@ function genInvestmentsFacts_AR(){
 						text:[
 							
 							{
-								text:reverseWords(tr('from the UAE') + (reportData.outflowFDI.length > 0 ? " ("+reportData.outflowFDI[0].period+")":"")),
+								text:changeChars(reverseWords(tr('from the UAE') + (reportData.outflowFDI.length > 0 ? " ("+reportData.outflowFDI[0].period+")":""))),
 								style:'IFHaderSmall',
 							},
 							reverseWords(tr('Outward FDI Stock Value')),
@@ -5133,6 +5147,7 @@ function genPDFReport(){
 function showReportGeneratingWindow(){
 	setLoadingProgress(0);
 	$('input[type=button].reportBtn').prop('disabled', true);
+	$('img.reportBtn').off();
 	$('input[type=button].reportBtn').val(tr('Please wait'));
 	$('#reportFiters').css('visibility', 'hidden');
 	$('#loadingReport').show();
@@ -5145,6 +5160,9 @@ function hideReportGeneratingWindow(){
 	$('#reportFiters').css('visibility', 'visible');
 	setLoadingProgress(0);
 	$('input[type=button].reportBtn').prop('disabled', false);
+	$('img.reportBtn').click(function(){
+		reLoadData();genPDFReport();
+	});
 	$('input[type=button].reportBtn').val(tr('Export PDF Report'));	
 }
 

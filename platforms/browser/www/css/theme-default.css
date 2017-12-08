@@ -8758,10 +8758,19 @@ svg text{
 }
 
 input[type=button].reportBtn{
-	background:#678daf;color:#fff;
+	background:#ea3324;color:#fff;
 	font-size: 5vw;
     padding: .3em 1em;
 	height: 2em;
+	width: 60vw;
+    float: left;
+	margin: 4vw 0 0 3vw;
+}
+
+img.reportBtn{
+	float:left;
+	margin: 0vw 0 2vw 8vw;
+	width: 13vw;
 }
 
 .page-content-wrap .select2-container--default .select2-selection--single .select2-selection__arrow {
@@ -8801,6 +8810,11 @@ position: absolute;
 }
 
 @media all and (orientation:landscape) {
+img.reportBtn {
+    margin: 0vw 0 3.5vw 25vw;
+    width: 8vw;
+}
+
 .reportFiter .switch span {
     width: 6vw;
     height: 3.6vw;
@@ -8823,6 +8837,8 @@ position: absolute;
 
 input[type=button].reportBtn{
 	font-size: 2.5vw;
+	    margin: 2.5vw 0 0 2vw;
+    width: 33vw;
 }
 
 .reportFiter{

@@ -1,5 +1,5 @@
-const baseServiceUrl = "http://localhost:8080/trs"; 
-//const baseServiceUrl = "http://trservice.us-east-1.elasticbeanstalk.com";
+//const baseServiceUrl = "http://localhost:8080/trs"; 
+const baseServiceUrl = "http://trservice.us-east-1.elasticbeanstalk.com";
 //const baseServiceUrl = "http://trservicetest.us-east-1.elasticbeanstalk.com"
 var curCountry;
 var countryList;

@@ -4,7 +4,7 @@ var appLang;
 
 var docDefinition;
 
-var pdfCatFiter = 287;
+var pdfCatFiter;
 
 var pdfInternals;
 var pdfPageSize;
@@ -103,15 +103,29 @@ var loadingDialog;
 var maxReportProgress;
 var currentProgess;
 
+function getReportCatFilter(){
+	var filter = window.localStorage.getItem('reportCatFilter');
+	if(filter == undefined) {
+		filter = "287";
+	}
+	return parseInt(filter);
+}
+
+function setReportCatFilter(reportCatFilter){
+	window.localStorage.setItem('reportCatFilter', reportCatFilter);
+	return reportCatFilter;
+}
+
 $(document).ready(function(){	
 	$(document.body).addClass('lng'+ getAppLang());
 	loadingDialog = $("#loadingReport");
-
+	pdfCatFiter = getReportCatFilter();
 	$.ajaxSetup({
 			type: 'POST',
 			timeout: 5000,
 			error: function(xhr) {
-				alert(tr('Please check internet is not connection'));
+				alert(tr('Please check internet connection'));
+				hideReportGeneratingWindow();
 			}
 	});
 	$('#loadingReport').circleProgress({
@@ -177,6 +191,7 @@ $(document).ready(function(){
 var showData = [];
 
 function reLoadData(){
+	getReportCatFilter(pdfCatFiter);
 	appLang = getAppLang();
 	
 	showReportGeneratingWindow();
@@ -3208,7 +3223,7 @@ function genInvestmentsFacts_AR(){
 						text:[
 							
 							{
-								text:reverseWords(tr('into the UAE') + (reportData.inflowFDI.length > 0 ? " ("+reportData.inflowFDI[0].period+")":"")),
+								text:changeChars(reverseWords(tr('into the UAE') + (reportData.inflowFDI.length > 0 ? " ("+reportData.inflowFDI[0].period+")":""))),
 								style:'IFHaderSmall',
 							},
 							reverseWords(tr('Inward FDI Stock Value')),
@@ -3339,7 +3354,7 @@ function genInvestmentsFacts_AR(){
 					],
 					[ 
 					  {
-						text:reverseWords(tr("registered in the UAE") + " (2015)"),
+						text:changeChars(reverseWords(tr("registered in the UAE") + " (2015)")),
 						style:'ACTTitleSmall',
 					  },
 					  
@@ -3364,7 +3379,7 @@ function genInvestmentsFacts_AR(){
 					],
 					[ 
 					  {
-						text:reverseWords(tr("registered in the UAE") + " (2015)"),
+						text:changeChars(reverseWords(tr("registered in the UAE") + " (2015)")),
 						style:'ACTTitleSmall',
 					  },
 					  
@@ -3389,7 +3404,7 @@ function genInvestmentsFacts_AR(){
 					],
 					[ 
 					  {
-						text:reverseWords(tr("registered in the UAE") + " (2015)"),
+						text:changeChars(reverseWords(tr("registered in the UAE") + " (2015)")),
 						style:'ACTTitleSmall',
 					  },
 					  
@@ -3449,7 +3464,7 @@ function genInvestmentsFacts_AR(){
 						text:[
 							
 							{
-								text:reverseWords(tr('from the UAE') + (reportData.inflowFDI.length > 0 ? " ("+reportData.outflowFDI[0].period+")":"")),
+								text:changeChars(reverseWords(tr('from the UAE') + (reportData.outflowFDI.length > 0 ? " ("+reportData.outflowFDI[0].period+")":""))),
 								style:'IFHaderSmall',
 							},
 							reverseWords(tr('Outward FDI Stock Value')),
@@ -3481,7 +3496,7 @@ function genInvestmentsFacts_AR(){
 								style:'IFHaderValueSmall',
 							},
 							" ",
-							(reportData.inflowFDI.length > 0?setValuesFormats(reportData.outflowFDI[0].value):"0"),
+							(reportData.outflowFDI.length > 0?setValuesFormats(reportData.outflowFDI[0].value):"0"),
 						],
 						style:'IFHaderValue',
 					  },
@@ -4703,9 +4718,9 @@ function genPDFReport(){
 					setTimeout(function(){
 						if(pdfCatFiter & 2) {genTradeVolume();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 						setTimeout(function(){
-							if(pdfCatFiter & 4)  {genTradeBalance();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+							if(pdfCatFiter & 24)  {genTradeBalance();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 							setTimeout(function(){
-								if(pdfCatFiter & 24) {genTradeItems();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+								if(pdfCatFiter & 4) {genTradeItems();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 								setTimeout(function(){
 									if(pdfCatFiter & 256) {genInvestmentsFacts();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 									setTimeout(function(){
@@ -4715,8 +4730,6 @@ function genPDFReport(){
 											setTimeout(function(){
 												if(pdfCatFiter & 128) {genCommitteess();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 												setTimeout(function(){
-													if(pdfCatFiter & 128) {genCommitteess();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
-													setTimeout(function(){
 														try{
 													
 															pdfOutput = pdf.output();
@@ -4747,7 +4760,7 @@ function genPDFReport(){
 																		 
 																		 writer.write(buffer);
 																		 //alert(tr('Report saved to ' + path + filename));
-																		 currentProgess += 20;setLoadingProgress(currentProgess/maxReportProgress);
+																		 currentProgess += 5;setLoadingProgress(currentProgess/maxReportProgress);
 																		 hideReportGeneratingWindow();
 																		 cordova.plugins.fileOpener2.open(
 																			path + filename, // You can also use a Cordova-style file uri: cdvfile://localhost/persistent/Download/starwars.pdf
@@ -4773,16 +4786,15 @@ function genPDFReport(){
 															pdf.save(pdfName);
 														}
 														pageIndex = 0;
-													},100);
-												},100);
-											},100);
-										},100);
-									},100);
-								},100);
-							},100);
-						},100);
-					},100);
-				},100);
+													},300);
+											},300);
+										},300);
+									},300);
+								},300);
+							},300);
+						},300);
+					},300);
+				},300);
 				
 			}else{
 				
@@ -5048,17 +5060,17 @@ function genPDFReport(){
 					setTimeout(function(){
 						if(pdfCatFiter & 2) {genTradeVolume_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 						setTimeout(function(){
-							if(pdfCatFiter & 4)  {genTradeBalance_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+							if(pdfCatFiter & 24)  {genTradeBalance_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 							setTimeout(function(){
-								if(pdfCatFiter & 24) {genTradeItems_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+								if(pdfCatFiter & 4) {genTradeItems_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 								setTimeout(function(){
-									if(pdfCatFiter & 32) {genInvestmentsFacts_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+									if(pdfCatFiter & 256) {genInvestmentsFacts_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 									setTimeout(function(){
-										if(pdfCatFiter & 64) {genAgreements_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+										if(pdfCatFiter & 32) {genAgreements_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 										setTimeout(function(){
-											if(pdfCatFiter & 128) {genVisits_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+											if(pdfCatFiter & 64) {genVisits_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 											setTimeout(function(){
-												if(pdfCatFiter & 256) {genCommitteess_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
+												if(pdfCatFiter & 128) {genCommitteess_AR();currentProgess += 10;setLoadingProgress(currentProgess/maxReportProgress);}
 												setTimeout(function(){
 													pdfMake.createPdf(docDefinition).getBuffer(function(buff) {
 														// turn buffer into blob
@@ -5087,7 +5099,7 @@ function genPDFReport(){
 																		 
 																		 writer.write(pdfOutput);
 																		 //alert(tr('Report saved to ' + path + filename));
-																		 currentProgess += 20;setLoadingProgress(currentProgess/maxReportProgress);
+																		 currentProgess += 5;setLoadingProgress(currentProgess/maxReportProgress);
 																		 hideReportGeneratingWindow();
 																		 cordova.plugins.fileOpener2.open(
 																			path + filename, 
@@ -5114,15 +5126,15 @@ function genPDFReport(){
 														}
 													});
 													pageIndex = 0;
-												}, 100);
-											}, 100);
-										}, 100);
-									}, 100);
-								}, 100);
-							}, 100);
-						}, 100);
-					}, 100);
-				}, 100);	
+												}, 300);
+											}, 300);
+										}, 300);
+									}, 300);
+								}, 300);
+							}, 300);
+						}, 300);
+					}, 300);
+				}, 300);	
 			}
 		}else{
 			setTimeout(genPDFReport, 500);
@@ -5135,6 +5147,7 @@ function genPDFReport(){
 function showReportGeneratingWindow(){
 	setLoadingProgress(0);
 	$('input[type=button].reportBtn').prop('disabled', true);
+	$('img.reportBtn').off();
 	$('input[type=button].reportBtn').val(tr('Please wait'));
 	$('#reportFiters').css('visibility', 'hidden');
 	$('#loadingReport').show();
@@ -5147,12 +5160,15 @@ function hideReportGeneratingWindow(){
 	$('#reportFiters').css('visibility', 'visible');
 	setLoadingProgress(0);
 	$('input[type=button].reportBtn').prop('disabled', false);
+	$('img.reportBtn').click(function(){
+		reLoadData();genPDFReport();
+	});
 	$('input[type=button].reportBtn').val(tr('Export PDF Report'));	
 }
 
 function setLoadingProgress(value){	
 	$('#loadingReport').circleProgress({
-		value: value,
+		value: value>1?1:value,
 		size: $('#loadingReport').width(),
 		startAngle:-Math.PI/2,
 		animation:false,
