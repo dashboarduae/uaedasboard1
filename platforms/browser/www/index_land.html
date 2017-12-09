@@ -273,39 +273,22 @@ width: 34vw;
 }
 
 #reportBtn{
-background: #ea3324;
+    background: #b68a35;
     display: block;
     color: #fff;
-    font-size: 2.5vw;
+    font-size: 1.7vw;
     padding: 0em 1em;
-    height: 2em;
-    width: 21vw;
-    float: left;
-    margin: 2vw 4vw 4vw 3vw;
-    line-height: 2em;
+    width: 34vw;
+    margin: 0 auto;
+    line-height: 1.7em;
     text-decoration: none;
     text-align: center;
 }
 
-img.reportBtn{
-	float: left;
-    margin: 0vw 0 2vw 7vw;
-    width: 7vw;
-}
 
-body.lngAR #reportBtn,
-body.lngAR img.reportBtn {
-    direction: rtl;
-	float:right;
-}
-
-
-body.lngAR #reportBtn{
-       margin: 2.5vw 2vw 4vw 4vw;
-}
-
-body.lngAR img.reportBtn{
-	margin: 0vw 8vw 2vw 0;
+#reportBtnWrapper{
+       background: #e0e0e0;
+	       margin: 3vw 0 0 0;
 }
 </style>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -447,19 +430,16 @@ body.lngAR img.reportBtn{
 </div>
 
 </div>
-<a href="pdf.html"> <img class="reportBtn" src="img/pdf/pdfIcon.png" ></a>
+<div id="reportBtnWrapper">
 <a id="reportBtn" href="pdf.html" class="btn  btn-block reportBtn" ><script>document.write(tr('Export PDF Report'));</script></a>
+</div>
+</div>
 
+<div style='clear:both'></div>
 <div id='hor_text_cont_div'>
 <p><script>document.write(tr('An interactive Dashboard Which includes information on UAE Non-Oil Foreign Trade, Agreements and investment exchange between UAE and other countries around the world'));</script></p>
 </div>
 
-
-
-
-</div>
-
-<div style='clear:both'></div>
 
 
 		<script>

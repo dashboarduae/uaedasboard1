@@ -301,30 +301,4 @@ body.lngAR #loadingReport .prValue{
 	
 }
 
-body.lngAR input[type=button].reportBtn{
-	background:#ea3324;color:#fff;
-	font-size: 5vw;
-    padding: .3em 1em;
-	height: 2em;
-	width: 60vw;
-    float: right;
-	margin: 4vw  3vw 0 0;
-}
 
-body.lngAR img.reportBtn {
-	float:right;
-	margin: 0vw  8vw 2vw 0;
-	width: 13vw;
-}
-
-@media all and (orientation:landscape) {
-body.lngAR input[type=button].reportBtn{
-	font-size: 2.5vw;
-	    margin: 2.5vw 2vw 0 0;
-    width: 33vw;}
-
-body.lngAR img.reportBtn {
-    margin: 0vw 25vw 3.5vw 0;
-    width: 8vw;
-}
-}

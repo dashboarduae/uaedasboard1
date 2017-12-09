@@ -256,40 +256,23 @@ width:65vw;    font-size: 3vw;
 
 
 #reportBtn{
-    background: #ea3324;
+    background: #b68a35;
     display: block;
     color: #fff;
-    font-size: 5vw;
+    font-size: 3.5vw;
     padding: 0em 1em;
-    height: 2em;
-    width: 57vw;
-    float: left;
-    margin: 4vw 4vw 4vw 3vw;
-    line-height: 2em;
+    width: 53vw;
+    margin: 0 auto;
+    line-height: 1.7em;
     text-decoration: none;
     text-align: center;
 }
 
-img.reportBtn{
-	float:left;
-	margin: 0vw 0 2vw 8vw;
-	width: 13vw;
+
+#reportBtnWrapper{
+       background: #e0e0e0;
 }
 
-body.lngAR #reportBtn,
-body.lngAR img.reportBtn {
-    direction: rtl;
-	float:right;
-}
-
-
-body.lngAR #reportBtn{
-    margin: 4vw 3vw 4vw 4vw;
-}
-
-body.lngAR img.reportBtn{
-	margin: 0vw 8vw 2vw 0;
-}
 </style>
 		<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
@@ -422,8 +405,8 @@ body.lngAR img.reportBtn{
 </ul>
 <div style='clear:both'></div>
 </div>				
-					<a href="pdf.html"> <img class="reportBtn" src="img/pdf/pdfIcon.png" ></a>
-					<a id="reportBtn" href="pdf.html" class="btn  btn-block reportBtn" ><script>document.write(tr('Export PDF Report'));</script></a>
+					
+					<div id="reportBtnWrapper"><a id="reportBtn" href="pdf.html" class="btn  btn-block reportBtn" ><script>document.write(tr('Export PDF Report'));</script></a></div>
 
 <div id='text_cont_div'>
 <p><script>document.write(tr('An interactive Dashboard Which includes information on UAE Non-Oil Foreign Trade, Agreements and investment exchange between UAE and other countries around the world'));</script></p>
